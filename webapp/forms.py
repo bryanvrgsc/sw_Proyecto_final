@@ -8,10 +8,13 @@ from flask_wtf.file import FileField, FileAllowed
 from wtforms.fields.html5 import DateField, EmailField, TelField
 
 class Login(FlaskForm):
-
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Log in')
 
+
+class Buscar(FlaskForm):
+    value = StringField('value', validators=[DataRequired()])
+    submit = SubmitField('Buscar')
     

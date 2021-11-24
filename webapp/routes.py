@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, session, url_for, flash, Markup
 from webapp import app, db, bcrypt
-from webapp.forms import  Login
+from webapp.forms import  Login, Buscar
 from webapp.models import *
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets
@@ -70,33 +70,57 @@ def menu():
         return redirect(url_for("home"))
 
 
-@app.route("/buscador/<elemento>")
+@app.route("/buscador/<elemento>", methods=["GET", "POST"])
 def buscador(elemento):
     if current_user.is_authenticated:
+        form = Buscar()
         table_items = []
         table_header = []
-         # Revisar que tabla buscar:
-        if elemento == "laboratorista":
-            table_items = Laboratorista.query.all()
-            table_header = Laboratorista.__table__.columns.keys()
-        elif elemento == "clientes":
-            table_items = Cliente.query.all()
-            table_header = Cliente.__table__.columns.keys()
-        elif elemento == "equipo":
-            table_items = EquipoLab.query.all()
-            table_header = EquipoLab.__table__.columns.keys()
-        elif elemento == "certificados":
-            table_items = Certificado.query.all()
-            table_header = Certificado.__table__.columns.keys()
-        elif elemento == "registro":
-            table_items = Inspeccion.query.all()
-            table_header = Inspeccion.__table__.columns.keys()
+
+        if form.validate_on_submit():
+            # Revisar que tabla buscar:
+            print(form.value.data)
+            # if elemento == "laboratorista" and current_user.role == 'admin':
+            #     table_items = Laboratorista.query.filter_by(username=form.value.data)
+            #     table_header = Laboratorista.__table__.columns.keys()
+            # elif elemento == "clientes":
+            #     table_items = Cliente.query.filter_by(rfc=form.value.data)
+            #     table_header = Cliente.__table__.columns.keys()
+            # elif elemento == "equipo":
+            #     table_items = EquipoLab.query.filter_by(clave=form.value.data)
+            #     table_header = EquipoLab.__table__.columns.keys()
+            # elif elemento == "certificados":
+            #     table_items = Certificado.query.filter_by(ncertificado=form.value.data)
+            #     table_header = Certificado.__table__.columns.keys()
+            # elif elemento == "registro":
+            #     table_items = Inspeccion.query.filter_by(idi=form.value.data)
+            #     table_header = Inspeccion.__table__.columns.keys()
+            # else:
+            #     flash("Ruta no valida", "info")
+            #     return redirect(url_for('menu'))
         else:
-            flash("Ruta no valida", "info")
-            return redirect(url_for('home'))
+            # Revisar que tabla buscar:
+            if elemento == "laboratorista" and current_user.role == 'admin':
+                table_items = Laboratorista.query.all()
+                table_header = Laboratorista.__table__.columns.keys()
+            elif elemento == "clientes":
+                table_items = Cliente.query.all()
+                table_header = Cliente.__table__.columns.keys()
+            elif elemento == "equipo":
+                table_items = EquipoLab.query.all()
+                table_header = EquipoLab.__table__.columns.keys()
+            elif elemento == "certificados":
+                table_items = Certificado.query.all()
+                table_header = Certificado.__table__.columns.keys()
+            elif elemento == "registro":
+                table_items = Inspeccion.query.all()
+                table_header = Inspeccion.__table__.columns.keys()
+            else:
+                flash("Ruta no valida", "info")
+                return redirect(url_for('menu'))
         
 
-        return render_template("buscador.html", elemento=str(elemento).capitalize(), table_items=table_items, table_header=table_header)
+        return render_template("buscador.html", elemento=str(elemento).capitalize(), table_items=table_items, table_header=table_header, form=form)
     else:
         return redirect(url_for("home"))
 

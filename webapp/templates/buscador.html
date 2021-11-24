@@ -2,11 +2,12 @@
 
 {% block content %}
     <div class="search-wrapper wrapper" >
-        <h3 class="tipo-busqueda">{{elemento}}</h3>
+        <h3 class="tipo-busqueda">{{elemento}}: </h3>
         <form class="search-form" >
+          
             <div class="input-group">
-                <input type="text" name="value" class="round-input form-control">
-                <button class="btn btn-outline-primary" class="round-input" type="submit">Buscar</button>
+                {{ form.value(class="round-input form-control", placeholder="Buscar") }}
+                {{ form.submit(class="btn btn-outline-primary round-input") }}
               </div>
         </form>
 
