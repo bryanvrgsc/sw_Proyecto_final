@@ -1,25 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu - Laboratorio</title>
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
-    <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+{% extends 'layout.html'%}
 
-</head>
-<body>
+{% block content %}
     <div class="title-wrapper wrapper d-flex justify-content-center" >
-        <h1>Administración de Laboratorio</h1>
+        <h1>Laboratorio</h1>
     </div>
 
     <div class="d-flex justify-content-around">
 
-        <a class="menu-item_wrapper shadow-lg">
+        <a href="{{ url_for('buscador', elemento='clientes') }}"  class="menu-item_wrapper shadow-lg">
             <div class="menu-image-wrapper" >
-                <img th:src="@{/img/menu_icons/g_clientes.png}" alt="">
+                <img src="{{ url_for('static', filename='img/menu_icons/g_clientes.png') }}" alt="">
             </div>
             <div class="text-center menu-title">
                 <h3>
@@ -27,10 +17,10 @@
                 </h3>
             </div>
         </a>
-
-        <a class="menu-item_wrapper shadow-lg">
+        
+        <a href="{{ url_for('buscador', elemento='equipo') }}?elemento=equipo" class="menu-item_wrapper shadow-lg">
             <div class="menu-image-wrapper" >
-                <img th:src="@{/img/menu_icons/equipo_lab.png}" alt="">
+                <img src="{{ url_for('static', filename='img/menu_icons/equipo_lab.png') }}" alt="">
             </div>
             <div class="text-center menu-title">
                 <h3>
@@ -38,9 +28,9 @@
                 </h3>
             </div>
         </a>
-        <a class="menu-item_wrapper shadow-lg">
+        <a href="{{ url_for('buscador') }}?elemento=certificados" class="menu-item_wrapper shadow-lg">
             <div class="menu-image-wrapper" >
-                <img th:src="@{/img/menu_icons/emision_certificado.png}" alt="">
+                <img src="{{ url_for('static', filename='img/menu_icons/emision_certificado.png') }}" alt="">
             </div>
             <div class="text-center menu-title">
                 <h3>
@@ -48,9 +38,9 @@
                 </h3>
             </div>
         </a>
-        <a class="menu-item_wrapper shadow-lg">
+        <a href="{{ url_for('buscador') }}?elemento=inspeccion" class="menu-item_wrapper shadow-lg">
             <div class="menu-image-wrapper" >
-                <img th:src="@{/img/menu_icons/registro_inspeccion.png}" alt="">
+                <img src="{{ url_for('static', filename='img/menu_icons/registro_inspeccion.png') }}" alt="">
             </div>
             <div class="text-center menu-title">
                 <h3>
@@ -58,9 +48,14 @@
                 </h3>
             </div>
         </a>
+
     </div>
+
+    
+    {# Menu para Administracion#}
+    {% if user_type == 1 %}
     <div class="d-flex justify-content-around">
-        <a class="small menu-item_wrapper shadow-lg">
+        <a href="{{ url_for('buscador', elemento='laboratoristas') }}" class="small menu-item_wrapper shadow-lg">
             <div class="small-title text-center d-flex align-items-center justify-content-around">
                 <h3>
                     Gestion de Laboratoristas
@@ -68,5 +63,6 @@
             </div>
         </a>
     </div>
-</body>
-</html>
+    {% endif %}
+
+    {% endblock %}

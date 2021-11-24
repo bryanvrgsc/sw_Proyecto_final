@@ -47,7 +47,11 @@ def utility_processor():
 def home():
     form = Login()
     if request.method == 'POST':
-        return redirect(url_for('menu', user=form.username.data))
+        if form.username.data == 'admin':
+            user = 1
+        if form.username.data == 'regular':
+            user = 0
+        return redirect(url_for('menu', user=user))
 
     
     return render_template("login.html", title="Login", form=form)
@@ -56,4 +60,16 @@ def home():
 
 @app.route("/menu/<user>")
 def menu(user):
-    return f"Hola {user}"
+    user =int(user)
+    return render_template("menu.html", user_type=user)
+
+
+@app.route("/buscador/<elemento>")
+def buscador(elemento):
+
+    return elemento
+
+
+
+
+
