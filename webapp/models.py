@@ -52,7 +52,7 @@ class EquipoLab(db.Model):
 
 
     def __repr__(self):
-        return f"Program('{self.p_name}','{self.start_date}','{self.end_date}')"
+        return f"Equipo('{self.clave}','{self.marca}','{self.modelo}')"
 
 
 class Cliente(db.Model):
@@ -75,13 +75,13 @@ class Cliente(db.Model):
     
 
     def __repr__(self):
-        return f"Schedule('{self.program_id}','{self.start}','{self.end}')"
+        return f"Cliente('{self.idc}','{self.rfc}','{self.nombre}')"
 
 
 class Orden(db.Model):
     norden = db.Column(db.Integer, primary_key=True, nullable=False)
     cantidad_solicitada = db.Column(db.Float(), nullable=False) #! Real
-    idc = db.Column(db.Integer, nullable=False)
+    # idc = db.Column(db.Integer, nullable=False)
     fecha_creada = db.Column(db.DateTime(), nullable=False)
     precio = db.Column(db.Float(), nullable=False) #! Real
 
@@ -93,7 +93,7 @@ class Orden(db.Model):
 
 
     def __repr__(self):
-        return f"Location('{self.name}','{self.location}')"
+        return f"Orden('{self.norden}','{self.fecha_creada}')"
 
 
 class Lote(db.Model):
@@ -103,7 +103,7 @@ class Lote(db.Model):
     inspecciones = db.relationship("Inspeccion", backref="lote")
 
     def __repr__(self):
-        return f"Coach('{self.d_name}','{self.user}','{self.mail}')"
+        return f"Lote('{self.idlote}','{self.cantidad}')"
 
 class Inspeccion(db.Model):
     idi = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -125,7 +125,7 @@ class Inspeccion(db.Model):
 
 
     def __repr__(self):
-        return f"payments('{self.date}','{self.amount}','{self.user_id}','{self.program_id}')"
+        return f"Inspeccion('{self.idi}','{self.absorcion}','{self.estabilidad}','{self.qnumber}')"
 
 class Certificado(db.Model):
     ncertificado = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -147,4 +147,4 @@ class Certificado(db.Model):
     idi = db.Column(db.Integer, db.ForeignKey("inspeccion.idi"))
     
     def __repr__(self):
-        return f"payments('{self.date}','{self.amount}','{self.user_id}','{self.program_id}')"
+        return f"Certificado('{self.ncertificado}','{self.norden}','{self.factura}','{self.cant_total}')"
