@@ -3,9 +3,10 @@ from sqlalchemy.orm import backref, defaultload, lazyload
 from webapp import db, login_manager
 from flask_login import UserMixin
 
+
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return Laboratorista.query.get(int(user_id))
 
 class Laboratorista(db.Model, UserMixin):
     idl = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -14,20 +15,25 @@ class Laboratorista(db.Model, UserMixin):
     active = db.Column(db.Boolean, nullable=False) #! Boolean
     role = db.Column(db.String(20), nullable=False)
 
-    # Relation to payment
-    payment = db.relationship("Payments", backref="user")
+    # Relacion a muchos
+    certificados = db.relationship("Certificado", backref="laboratorista")
+    EquipoLab = db.relationship("EquipoLab", backref="laboratorista")
+
+
+    def get_id(self):
+           return (self.idl)
 
 
     def __repr__(self):
-        return f"User('{self.username}','{self.f_name}','{self.l_name}','{self.mail}','{self.b_date}')"
+        return f"Laboratorista('{self.idl}','{self.username}','{self.active}','{self.role}')"
 
 class EquipoLab(db.Model):
     clave = db.Column(db.Integer, primary_key=True, nullable=False)
     marca = db.Column(db.String(30), nullable=False)
-    idl = db.Column(db.Integer, nullable=False, db.ForeignKey('laboratorista.idl')) #!ForeignKey
     modelo = db.Column(db.String(30), nullable=False)
     DescripcionL = db.Column(db.String(100), nullable=False)
-    DescripcionC = marca = db.Column(db.String(20), nullable=False)
+    DescripcionC = db.Column(db.String(20), nullable=False)
+    marca = db.Column(db.String(20), nullable=False)
     serie = db.Column(db.Integer, nullable=False)
     proveedor = db.Column(db.String(50), nullable=False)
     fecha_adquisicion = db.Column(db.DateTime, nullable=False) #! Date
@@ -40,21 +46,9 @@ class EquipoLab(db.Model):
     lim_superior = db.Column(db.Integer, nullable= False)
     especificacion = db.Column(db.String(100), nullable=False)
 
+    #!ForeignKey
+    idl = db.Column(db.Integer, db.ForeignKey('laboratorista.idl'))  
 
-    # Relation to User
-    users = db.relationship("User", backref="program")
-
-    # Relation to Payments
-    payments = db.relationship("Payments", backref="program")
-
-    # Foreign Key for Location
-    location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
-
-    # Relation to Payments
-    schedules = db.relationship("Schedule", backref="program")
-
-    # Foreign Key for Location
-    coach_id = db.Column(db.Integer, db.ForeignKey("directive.id"))
 
 
     def __repr__(self):
@@ -74,11 +68,11 @@ class Cliente(db.Model):
     clave_factor = db.Column(db.Integer, nullable=False)
     medida = db.Column(db.Integer, nullable=False)
 
-    # Foreign Key Location
-    location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
+    # Relacion a muchos
+    ordenes = db.relationship("Orden", backref="cliente")
+    certificados = db.relationship("Certificado", backref="cliente")
 
-    # Foreign Key Program
-    program_id = db.Column(db.Integer, db.ForeignKey("program.id"))
+    
 
     def __repr__(self):
         return f"Schedule('{self.program_id}','{self.start}','{self.end}')"
@@ -91,11 +85,12 @@ class Orden(db.Model):
     fecha_creada = db.Column(db.DateTime(), nullable=False)
     precio = db.Column(db.Float(), nullable=False) #! Real
 
-    # Schedule relationship
-    schedules = db.relationship("Schedule", backref="event_location")
+    # Llaves foraneas
+    idc = db.Column(db.Integer, db.ForeignKey("cliente.idc"))
 
-    # Program relationship
-    programs = db.relationship("Program", backref="program_location")
+    # Relacion uno a uno
+    certificados = db.relationship("Certificado", backref="orden")
+
 
     def __repr__(self):
         return f"Location('{self.name}','{self.location}')"
@@ -104,11 +99,8 @@ class Orden(db.Model):
 class Lote(db.Model):
     idlote = db.Column(db.Integer, primary_key=True, nullable=False)
     cantidad = db.Column(db.Float(), nullable=False) #! Real
-    
 
-    # Program relationship
-    programs = db.relationship("Program", backref="Coach")
-
+    inspecciones = db.relationship("Inspeccion", backref="lote")
 
     def __repr__(self):
         return f"Coach('{self.d_name}','{self.user}','{self.mail}')"
@@ -116,7 +108,6 @@ class Lote(db.Model):
 class Inspeccion(db.Model):
     idi = db.Column(db.Integer, primary_key=True, nullable=False)
     absorcion = db.Column(db.Float(), nullable=False) # ! Real 
-    idlote = db.Column(db.Integer(), nullable=False)
     tiempo_desarrollo = db.Column(db.Float(), nullable=False) # !Real
     estabilidad = db.Column(db.Float(), nullable=False) #! Real
     reblandecimiento = db.Column(db.Float(), nullable=False) #! Real
@@ -127,11 +118,11 @@ class Inspeccion(db.Model):
     indice_elasticidad = db.Column(db.Float(), nullable=False) #! Real
     fuerza_panadera = db.Column(db.Float(), nullable=False) #! Real
 
-    # Foreign Key User
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
-    # Foreign Key Program
-    program_id = db.Column(db.Integer, db.ForeignKey("program.id"))
+    certificados = db.relationship("Certificado", backref="inspeccion")
+    idLote = db.Column(db.Integer, db.ForeignKey("lote.idlote"))
+
+
 
     def __repr__(self):
         return f"payments('{self.date}','{self.amount}','{self.user_id}','{self.program_id}')"
@@ -142,12 +133,18 @@ class Certificado(db.Model):
     norden = db.Column(db.Integer(), nullable=False)
     cant_total = db.Column(db.Float(), nullable=False) #!Real
     factura = db.Column(db.Integer, nullable=False)
-    fecha_envio = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    fecha_caducidad = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    idc = db.Column(db.Integer(), nullable=False) #! fk
-    idi = db.Column(db.Integer(), nullable=False) #! fk
-    idl = db.Column(db.Integer(), nullable=False) #! fk
-    idlote = db.Column(db.Integer(), nullable=False) #! fk
+    fecha_envio = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    fecha_caducidad = db.Column(db.DateTime, nullable=False, default=datetime.now())
+
+    # Llaves foraneas
+    idc = db.Column(db.Integer, db.ForeignKey("cliente.idc"))
+    idl = db.Column(db.Integer, db.ForeignKey("laboratorista.idl"))
+
+    # Relacion uno a uno orden
+    norden = db.Column(db.Integer, db.ForeignKey("orden.norden"))
+
+     # Relacion uno a uno inspeccion
+    idi = db.Column(db.Integer, db.ForeignKey("inspeccion.idi"))
     
     def __repr__(self):
         return f"payments('{self.date}','{self.amount}','{self.user_id}','{self.program_id}')"

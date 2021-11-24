@@ -63,7 +63,7 @@ a.menu-item_wrapper:hover{
 }
 .menu-item_wrapper{
     height: 300px;
-    width: 20%;
+    /* width: 20%; */
     padding: 20px;
     border-radius: 25px;
 }
@@ -138,4 +138,15 @@ a.menu-item_wrapper:hover{
 
 input:focus::placeholder {
     color: transparent;
+  }
+
+
+  .floatting-message{
+
+    position: fixed !important;
+    bottom: 0;
+    margin-bottom: 10px;
+    width: 50%;
+    margin-left: 45%;
+  
   }

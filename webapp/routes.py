@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, session, url_for, flash, Markup
-from webapp import app #, db, bcrypt
+from webapp import app, db, bcrypt
 from webapp.forms import  Login
-# from webapp.models import *
+from webapp.models import *
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets
 import os
@@ -42,33 +42,76 @@ def utility_processor():
     return dict(current_year=current_year)
 
 
+menu = {
+        "titulo": "Gestión de Clientes",
+        "logo": "g_clientes.png"
+    }
+
 @app.route('/', methods=["GET","POST"])
 @app.route("/home", methods=["GET","POST"])
 def home():
     form = Login()
-    if request.method == 'POST':
-        if form.username.data == 'admin':
-            user = 1
-        if form.username.data == 'regular':
-            user = 0
-        return redirect(url_for('menu', user=user))
+    if form.validate_on_submit():
+        user = Laboratorista.query.filter_by(username= form.username.data).first()
+        if user:
+            if bcrypt.check_password_hash(user.password, form.password.data):
+                login_user(user, remember=form.remember.data)
+                next_page = request.args.get('next')
+                return redirect(next_page) if next_page else redirect(url_for('menu'))
+            else:
+                flash("Incorrect Password.","danger")
+        else:
+            flash("Login Unsuccesful. Please check your credentials.","danger")
 
-    
-    return render_template("login.html", title="Login", form=form)
+    return render_template("login.html", form=form)
 
 
-
-@app.route("/menu/<user>")
-def menu(user):
-    user =int(user)
-    return render_template("menu.html", user_type=user)
+@app.route("/menu")
+def menu():
+    if current_user.is_authenticated:
+        user_type = current_user.role
+        return render_template("menu.html", user_type=user_type, menu_items=menu)
+    else:
+        return redirect(url_for("home"))
 
 
 @app.route("/buscador/<elemento>")
 def buscador(elemento):
+    if current_user.is_authenticated:
+        return render_template("buscador.html", elemento=str(elemento).capitalize())
+    else:
+        return redirect(url_for("home"))
 
-    return elemento
 
+@app.route("/logout")
+def logout():
+    if current_user.is_authenticated:
+        logout_user()
+    return redirect(url_for('home'))
+
+
+# Acciones de tabla
+@app.route("/Eliminar/<elemento>/<valor_id>")
+def Eliminar(elemento,valor_id):
+    if current_user.is_authenticated:
+        print(valor_id)
+        return redirect(url_for('buscador', elemento))
+    else:
+        return redirect(url_for("home"))
+
+
+# @app.route("/logout")
+# def logout():
+#     if current_user.is_authenticated:
+        
+#     return redirect(url_for('buscador', elemento))
+
+# @app.route("/logout")
+# def logout():
+#     if current_user.is_authenticated:
+#         l
+#     return redirect(url_for('buscador', elemento))
+    
 
 
 
