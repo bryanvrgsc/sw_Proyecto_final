@@ -112,9 +112,9 @@ def tableDisplayAll(elemento, form):
 
 
 
-@app.route('/', methods=["GET","POST"])
-@app.route("/home", methods=["GET","POST"])
-def home():
+@app.route('/login', methods=["GET","POST"])
+@app.route("/login", methods=["GET","POST"])
+def login():
     form = Login()
     if form.validate_on_submit():
         user = Laboratorista.query.filter_by(username= form.username.data).first()
@@ -131,16 +131,19 @@ def home():
     return render_template("login.html", form=form)
 
 
-@app.route("/menu")
+@app.route("/home", methods=["GET","POST"])
+@app.route("/", methods=["GET","POST"])
+@login_required
 def menu():
-    if current_user.is_authenticated:
-        user_type = current_user.role
-        return render_template("menu.html", user_type=user_type, menu_items=menu)
-    else:
-        return redirect(url_for("home"))
+    # if current_user.is_authenticated:
+    user_type = current_user.role
+    return render_template("menu.html", user_type=user_type, menu_items=menu)
+    # else:
+    #     return redirect(url_for("home"))
 
 
 @app.route("/buscador/<elemento>", methods=["GET", "POST"])
+@login_required
 def buscador(elemento):
     if current_user.is_authenticated:
         form = Buscar()
@@ -163,14 +166,16 @@ def buscador(elemento):
 
 
 @app.route("/logout")
+@login_required
 def logout():
     if current_user.is_authenticated:
         logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('login'))
 
 
 # Acciones de tabla
 @app.route("/Eliminar/<elemento>/<valor_id>")
+@login_required
 def Eliminar(elemento,valor_id):
     if current_user.is_authenticated:
 
