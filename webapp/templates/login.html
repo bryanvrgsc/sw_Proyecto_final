@@ -1,0 +1,48 @@
+{% extends 'layout.html'%}
+
+{% block content %}
+    
+    <div class="wrapper d-flex justify-content-center align-items-center">
+
+        <div class="login_wrapper shadow-lg">
+            <form method="post">
+                {{ form.hidden_tag() }}
+
+            <div class="text-center">
+                <h1>Login</h1>
+            </div>
+
+
+            {% if form.username.errors %}
+                {{ form.username(class="form-control login-input is-invalid", placeholder="Username") }}
+
+                <div class="invalid-feedback">
+                    {% for error in form.username.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.username(class="form-control login-input", placeholder="Username") }}
+            {% endif %}
+
+
+
+            {% if form.password.errors %}
+                {{ form.password(class="form-control login-input is-invalid", placeholder="Password") }}
+
+                <div class="invalid-feedback">
+                    {% for error in form.password.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.password(class="form-control login-input", placeholder="Password") }}
+            {% endif %}
+                <div class="d-flex submit-space justify-content-center form-actions" >
+                    <input class="btn btn-primary" type="submit" value="submit">
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
