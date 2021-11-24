@@ -33,13 +33,83 @@ def save_file(form_file, folder_name):
         form_file.save(picture_path)
 
     return file_name
-
-
 @app.context_processor
 def utility_processor():
     def current_year():
         return datetime.today().year
     return dict(current_year=current_year)
+def tableDisplay(elemento, form):
+    r = dict()
+    if elemento == "laboratorista" and current_user.role == 'admin':
+        r = {
+        'table_items': Laboratorista.query.filter_by(username=form.value.data),
+        'search_item' : 'username',
+        'table_header' : Laboratorista.__table__.columns.keys()
+        }
+    elif elemento == "clientes":
+        r = {
+        'table_items': Cliente.query.filter_by(rfc=form.value.data),
+        'search_item' : 'rfc',
+        'table_header' : Cliente.__table__.columns.keys()
+        }
+    elif elemento == "equipo":
+        r = {
+        'table_items': EquipoLab.query.filter_by(clave=form.value.data),
+        'search_item' : 'clave',
+        'table_header' : EquipoLab.__table__.columns.keys()
+        }
+    elif elemento == "certificados":
+        r = {
+        'table_items': Certificado.query.filter_by(ncertificado=form.value.data),
+        'search_item' : 'N Certificado',
+        'table_header' : Certificado.__table__.columns.keys()
+        }
+    elif elemento == "registro":
+        r = {
+        'table_items': Inspeccion.query.filter_by(idi=form.value.data),
+        'search_item' : 'Idi',
+        'table_header' : Inspeccion.__table__.columns.keys()
+        }
+    else:
+       r = {'error message' : 'Ruta no Valida', 'type':'info'}
+    return r
+def tableDisplayAll(elemento, form):
+    r = dict()
+    if elemento == "laboratorista" and current_user.role == 'admin':
+        r = {
+        'table_items': Laboratorista.query.all(),
+        'search_item' : 'username',
+        'table_header' : Laboratorista.__table__.columns.keys()
+        }
+    elif elemento == "clientes":
+        r = {
+        'table_items': Cliente.query.all(),
+        'search_item' : 'rfc',
+        'table_header' : Cliente.__table__.columns.keys()
+        }
+    elif elemento == "equipo":
+        r = {
+        'table_items': EquipoLab.query.all(),
+        'search_item' : 'clave',
+        'table_header' : EquipoLab.__table__.columns.keys()
+        }
+    elif elemento == "certificados":
+        r = {
+        'table_items': Certificado.query.all(),
+        'search_item' : 'N Certificado',
+        'table_header' : Certificado.__table__.columns.keys()
+        }
+    elif elemento == "registro":
+        r = {
+        'table_items': Inspeccion.query.all(),
+        'search_item' : 'Idi',
+        'table_header' : Inspeccion.__table__.columns.keys()
+        }
+    else:
+       r = {'error message' : 'Ruta no Valida', 'type':'info'}
+    
+    return r
+
 
 
 @app.route('/', methods=["GET","POST"])
@@ -79,48 +149,15 @@ def buscador(elemento):
 
         if form.validate_on_submit():
             # Revisar que tabla buscar:
-            print(form.value.data)
-            # if elemento == "laboratorista" and current_user.role == 'admin':
-            #     table_items = Laboratorista.query.filter_by(username=form.value.data)
-            #     table_header = Laboratorista.__table__.columns.keys()
-            # elif elemento == "clientes":
-            #     table_items = Cliente.query.filter_by(rfc=form.value.data)
-            #     table_header = Cliente.__table__.columns.keys()
-            # elif elemento == "equipo":
-            #     table_items = EquipoLab.query.filter_by(clave=form.value.data)
-            #     table_header = EquipoLab.__table__.columns.keys()
-            # elif elemento == "certificados":
-            #     table_items = Certificado.query.filter_by(ncertificado=form.value.data)
-            #     table_header = Certificado.__table__.columns.keys()
-            # elif elemento == "registro":
-            #     table_items = Inspeccion.query.filter_by(idi=form.value.data)
-            #     table_header = Inspeccion.__table__.columns.keys()
-            # else:
-            #     flash("Ruta no valida", "info")
-            #     return redirect(url_for('menu'))
+            table = tableDisplay(elemento, form)
         else:
-            # Revisar que tabla buscar:
-            if elemento == "laboratorista" and current_user.role == 'admin':
-                table_items = Laboratorista.query.all()
-                table_header = Laboratorista.__table__.columns.keys()
-            elif elemento == "clientes":
-                table_items = Cliente.query.all()
-                table_header = Cliente.__table__.columns.keys()
-            elif elemento == "equipo":
-                table_items = EquipoLab.query.all()
-                table_header = EquipoLab.__table__.columns.keys()
-            elif elemento == "certificados":
-                table_items = Certificado.query.all()
-                table_header = Certificado.__table__.columns.keys()
-            elif elemento == "registro":
-                table_items = Inspeccion.query.all()
-                table_header = Inspeccion.__table__.columns.keys()
-            else:
-                flash("Ruta no valida", "info")
-                return redirect(url_for('menu'))
+            table = tableDisplayAll(elemento, form)
         
-
-        return render_template("buscador.html", elemento=str(elemento).capitalize(), table_items=table_items, table_header=table_header, form=form)
+        if 'error message' in table:
+            flash(table['error message'], table['type'])
+            return redirect(url_for('menu'))
+        
+        return render_template("buscador.html", elemento=str(elemento).capitalize(), table_items=table['table_items'], table_header=table['table_header'], search_item = table['search_item'],form=form)
     else:
         return redirect(url_for("home"))
 

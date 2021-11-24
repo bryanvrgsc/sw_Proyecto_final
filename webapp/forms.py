@@ -17,4 +17,6 @@ class Login(FlaskForm):
 class Buscar(FlaskForm):
     value = StringField('value', validators=[DataRequired()])
     submit = SubmitField('Buscar')
+
+# class RegiseterLab(FlaskForm):
     

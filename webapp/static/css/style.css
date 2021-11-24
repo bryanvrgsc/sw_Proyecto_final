@@ -48,6 +48,12 @@ a.menu-item_wrapper:hover{
     height: 30%;
     padding-top: 20px;
 }
+.title-wrapper h1{
+    width: 20%;
+    display: inline-block;
+    margin-left: 200px;
+}
+
 .menu-image-wrapper{
     width: 100%;
     height: 70%;
