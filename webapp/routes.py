@@ -1,12 +1,14 @@
+from re import search
 from flask import render_template, request, redirect, session, url_for, flash, Markup
 from webapp import app, db, bcrypt
-from webapp.forms import  Login, Buscar
+from webapp.forms import  *
 from webapp.models import *
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets
 import os
 from PIL import Image
 from datetime import datetime
+from sqlalchemy.inspection import inspect
 
 # Formatear Imagen para guardarse
 def save_file(form_file, folder_name):
@@ -110,7 +112,22 @@ def tableDisplayAll(elemento, form):
     
     return r
 
-
+def Tabla(elemento):
+    
+    if elemento == "laboratorista" and current_user.role == 'admin':
+        return {'clase' : Laboratorista(), 'search_item' : 'username'}
+    elif elemento == "clientes":
+        return {'clase' : Cliente(), 'search_item' : 'rfc'}
+    elif elemento == "equipo":
+        return {'clase' : EquipoLab(),'search_item' : 'clave'}
+    elif elemento == "certificados":
+        return {'clase' : Certificado, 'search_item' : 'ncertificado'}
+    elif elemento == "registro":
+        return {'clase' : Inspeccion(),' search_item' : 'idi'}
+    else:
+       r = {'error message' : 'Ruta no Valida', 'type':'info'}
+    
+    return r
 
 @app.route('/login', methods=["GET","POST"])
 @app.route("/login", methods=["GET","POST"])
@@ -142,13 +159,17 @@ def menu():
     #     return redirect(url_for("home"))
 
 
+
 @app.route("/buscador/<elemento>", methods=["GET", "POST"])
 @login_required
 def buscador(elemento):
     if current_user.is_authenticated:
         form = Buscar()
-        table_items = []
-        table_header = []
+        modalForm = {
+            'laboratorista' : RegiseterLab(),
+            'clientes' : RegisterCliente()
+        }
+        
 
         if form.validate_on_submit():
             # Revisar que tabla buscar:
@@ -160,9 +181,16 @@ def buscador(elemento):
             flash(table['error message'], table['type'])
             return redirect(url_for('menu'))
         
-        return render_template("buscador.html", elemento=str(elemento).capitalize(), table_items=table['table_items'], table_header=table['table_header'], search_item = table['search_item'],form=form)
+        return render_template("buscador.html", 
+        elemento=str(elemento).capitalize(), 
+        table_items=table['table_items'], 
+        table_header=table['table_header'], 
+        search_item = table['search_item'],
+        # Formularios a usar
+        form=form, 
+        modalForm=modalForm[elemento])
     else:
-        return redirect(url_for("home"))
+        return redirect(url_for("menu"))
 
 
 @app.route("/logout")
@@ -174,29 +202,29 @@ def logout():
 
 
 # Acciones de tabla
-@app.route("/Eliminar/<elemento>/<valor_id>")
+@app.route("/eliminar/<elemento>/<valor_id>")
 @login_required
-def Eliminar(elemento,valor_id):
-    if current_user.is_authenticated:
+def eliminar(elemento,valor_id):
 
-        return redirect(url_for('buscador', elemento))
-    else:
-        return redirect(url_for("home"))
+    elemento = str(elemento).lower()
+    table = Tabla(elemento)['clase']
+    search_item = Tabla(elemento)['search_item']
 
 
-# @app.route("/logout")
-# def logout():
-#     if current_user.is_authenticated:
-        
-#     return redirect(url_for('buscador', elemento))
+    flash("Eliminar: " +str(valor_id) + search_item, 'info')
 
-# @app.route("/logout")
-# def logout():
-#     if current_user.is_authenticated:
-#         l
-#     return redirect(url_for('buscador', elemento))
+    return redirect(url_for('buscador', elemento=elemento))
+
+@app.route("/seleccionar/<elemento>/<valor_id>")
+@login_required
+def seleccionar(elemento,valor_id):
+    elemento = str(elemento).lower()
+    flash("Seleccionar: " +str(valor_id), 'info')
+    table = Tabla(elemento)
+    id = inspect(table).primary_key[0].name
+    valor = table.query.filter_by()
     
-
+    return redirect(url_for('buscador', elemento=elemento))
 
 # Creacion de certificado
 @app.route("/creacion-certificado")
@@ -206,3 +234,9 @@ def creacion_certificado():
 
 
 
+@app.route("/registrar/<elemento>", methods=["GET", "POST"])
+def registrar(elemento):
+
+    
+
+    return elemento
