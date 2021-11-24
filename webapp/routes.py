@@ -114,5 +114,11 @@ def Eliminar(elemento,valor_id):
     
 
 
+# Creacion de certificado
+@app.route("/creacion-certificado")
+def creacion_certificado():
+    if current_user.is_authenticated:
+        pass
+
 
 
