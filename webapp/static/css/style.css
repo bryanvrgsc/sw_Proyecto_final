@@ -140,8 +140,7 @@ input:focus::placeholder {
     color: transparent;
   }
 
-
-  .floatting-message{
+.floatting-message{
 
     position: fixed !important;
     bottom: 0;
@@ -149,4 +148,28 @@ input:focus::placeholder {
     width: 50%;
     margin-left: 45%;
   
-  }
+}
+
+
+.icon_wrapper{
+    border-radius: 10px;
+    justify-content: center;
+    width: 35px;
+    height: auto;
+}
+.table-icon{
+    width: 100%;
+    height: auto;
+
+    padding: 5px;
+    
+
+
+
+
+}
+
+.icon_wrapper:hover{
+    background-color: white;
+}
+

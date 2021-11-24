@@ -20,34 +20,41 @@
         <table class="table table-striped">
             <thead class="thead-dark">
               <tr>
-                <th scope="col"> ID  </th>
-                <th scope="col"> Valor 1  </th>
-                <th scope="col"> Valor 2  </th>
-                <th scope="col"> Valor 3  </th>
-                <th scope="col"> Valor 4  </th>
+                {% for header in table_header %}
+                  {% if header != 'password' %}
+                  <th scope="col"> {{ header | capitalize}}  </th>
+                  {% endif %}
+                {% endfor %}
                 <th scope="col"> Opciones  </th>
               </tr>
             </thead>
 
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td> Valor de Tablo asignado </td>
-                <td> Valor de Tablo asignado </td>
-                <td> Valor de Tablo asignado </td>
-                <td> Valor de Tablo asignado </td>
-                <td> 
-                  <div class="d-flex justify-content-around"></div>
-                    <a href="{{ url_for('Eliminar', elemento=elemento,valor=id) }}" class="btn btn-danger">Eliminar</a>
-                    <a href="#" class="btn btn-primary">Editar</a>
-                    <a href="#" class="btn btn-primary">Seleccionar</a>
-                </div>
-                </td>
-              </tr>
+              {% for item in table_items %}
+                <tr>
+                  {% for header in table_header %}
+                    {% if header != 'password' %}
+                      <td> {{item[header]}} </td>
+                    {% endif %}
+                  {% endfor %}
+                  <td> 
+                    <div class="d-flex justify-content-around">
+                      <a class="icon_wrapper" href="{{ url_for('Eliminar', elemento=elemento, valor_id=1) }}">
+                        <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/remove.png' ) }}">
+                      </a>
+                      <a class="icon_wrapper" href="#" >
+                        <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/editing.png' ) }}">
+                      </a>
+                      <a class="icon_wrapper" href="#" >
+                        <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/select.png' ) }}">
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+
             </tbody>
           </table>
     </div>
-    
         
-  
 {% endblock %}

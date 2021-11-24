@@ -42,11 +42,6 @@ def utility_processor():
     return dict(current_year=current_year)
 
 
-menu = {
-        "titulo": "Gestión de Clientes",
-        "logo": "g_clientes.png"
-    }
-
 @app.route('/', methods=["GET","POST"])
 @app.route("/home", methods=["GET","POST"])
 def home():
@@ -59,9 +54,9 @@ def home():
                 next_page = request.args.get('next')
                 return redirect(next_page) if next_page else redirect(url_for('menu'))
             else:
-                flash("Incorrect Password.","danger")
+                flash("Contraseña Incorrecta.","danger")
         else:
-            flash("Login Unsuccesful. Please check your credentials.","danger")
+            flash("Login invalido, Revisa tus credenciales","danger")
 
     return render_template("login.html", form=form)
 
@@ -78,7 +73,30 @@ def menu():
 @app.route("/buscador/<elemento>")
 def buscador(elemento):
     if current_user.is_authenticated:
-        return render_template("buscador.html", elemento=str(elemento).capitalize())
+        table_items = []
+        table_header = []
+         # Revisar que tabla buscar:
+        if elemento == "laboratorista":
+            table_items = Laboratorista.query.all()
+            table_header = Laboratorista.__table__.columns.keys()
+        elif elemento == "clientes":
+            table_items = Cliente.query.all()
+            table_header = Cliente.__table__.columns.keys()
+        elif elemento == "equipo":
+            table_items = EquipoLab.query.all()
+            table_header = EquipoLab.__table__.columns.keys()
+        elif elemento == "certificados":
+            table_items = Certificado.query.all()
+            table_header = Certificado.__table__.columns.keys()
+        elif elemento == "registro":
+            table_items = Inspeccion.query.all()
+            table_header = Inspeccion.__table__.columns.keys()
+        else:
+            flash("Ruta no valida", "info")
+            return redirect(url_for('home'))
+        
+
+        return render_template("buscador.html", elemento=str(elemento).capitalize(), table_items=table_items, table_header=table_header)
     else:
         return redirect(url_for("home"))
 
@@ -94,7 +112,7 @@ def logout():
 @app.route("/Eliminar/<elemento>/<valor_id>")
 def Eliminar(elemento,valor_id):
     if current_user.is_authenticated:
-        print(valor_id)
+
         return redirect(url_for('buscador', elemento))
     else:
         return redirect(url_for("home"))
