@@ -1,7 +1,7 @@
 from re import search
 import re
-from flask import render_template, request, redirect, session, url_for, flash, Markup
-from webapp import app, db, bcrypt
+from flask import render_template, request, redirect, session, url_for, flash, Markup, Response
+from webapp import app, db, bcrypt, APP_ROOT, Download_PATH, Download_FOLDER
 from webapp.forms import  *
 from webapp.models import *
 from flask_login import login_user, current_user, logout_user, login_required
@@ -10,6 +10,7 @@ import os
 from PIL import Image
 from datetime import datetime
 from sqlalchemy.inspection import inspect
+import pdfkit, os, uuid
 
 def TableValues(elemento):
 
@@ -125,11 +126,47 @@ def eliminar(elemento,value_id):
 @app.route("/seleccionar/<elemento>/<value_id>")
 @login_required
 def seleccionar(elemento,value_id):
-
     return redirect(url_for('buscador', elemento=elemento))
 
-# Creacion de certificado
-@app.route("/creacion-certificado")
-def creacion_certificado():
-    if current_user.is_authenticated:
-        pass
+
+
+
+# # Creacion de certificado
+# @app.route("/creacion-certificado")
+# def creacion_certificado():
+#     # /Users/cesarromanzuniga/Desktop/template.html 
+#     file_path = request.args.get('file_path')
+
+#     return redirect(url_for('wkhtmltopdfurl', file_path={'path':r'Users/cesarromanzuniga/Desktop/template.html'}))
+
+
+
+''' -------------------------------------------------
+wkhtmltopdf pdf creator
+ -------------------------------------------------'''
+
+@app.route("/api/createPDF/<elemento>/<value_id>")
+def creacion_certificado(elemento,value_id):
+    table = TableValues(str(elemento).lower())
+    kwargs = {table['table_header'][0]: value_id}
+    value = table['model'].query.filter_by(**kwargs).one()
+    template = render_template('pdf_templates/certificado.html', value=value)
+    
+    try:
+        filename = str(uuid.uuid4()) + '.pdf'
+        config = pdfkit.configuration(wkhtmltopdf=Download_FOLDER)
+        pdfkit.from_string(template, filename, configuration=config)
+        pdfDownload = open(filename, 'rb').read()
+        os.remove(filename)
+        return Response(
+            pdfDownload,
+            mimetype="application/pdf",
+            headers={
+                "Content-disposition": "attachment; filename=" + filename,
+                "Content-type": "application/force-download"
+            }
+        )
+    except ValueError:
+        print("Oops! ")
+
+
