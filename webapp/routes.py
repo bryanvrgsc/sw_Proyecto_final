@@ -85,8 +85,6 @@ def buscador(elemento):
     if 'error message' in table:
         flash(table['error message'], table['type'])
         return redirect(url_for('menu'))
-
-    print("Debug:", table)
     
     return render_template("buscador.html", 
     elemento=str(elemento).capitalize(), 
