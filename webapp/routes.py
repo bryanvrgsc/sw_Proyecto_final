@@ -22,7 +22,7 @@ def TableValues(elemento):
     elif elemento == "certificados":
         return {'model' : Certificado, 'search_item' : 'ncertificado', 'table_header' : Certificado.__table__.columns.keys() }
     elif elemento == "registro":
-        return {'model' : Inspeccion(),' search_item' : 'idi', 'table_header' : Inspeccion.__table__.columns.keys() }
+        return {'model' : Inspeccion(),'search_item' : 'idi', 'table_header' : Inspeccion.__table__.columns.keys() }
     else:
         return {'error message' : 'Query Invalido', 'type':'alert'}
 
@@ -62,7 +62,9 @@ def buscador(elemento):
     modalForm = {
             'laboratorista' : RegiseterLab(),
             'clientes' : RegisterCliente(),
-            'equipo': RegiseterEquipo()
+            'equipo': RegiseterEquipo(),
+            'certificados': RegiseterEquipo(),
+            'registro': RegiseterEquipo()
     }
 
     # Agregar Valor a la base de datos
@@ -83,6 +85,8 @@ def buscador(elemento):
     if 'error message' in table:
         flash(table['error message'], table['type'])
         return redirect(url_for('menu'))
+
+    print("Debug:", table)
     
     return render_template("buscador.html", 
     elemento=str(elemento).capitalize(), 
