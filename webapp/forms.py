@@ -36,10 +36,10 @@ class RegiseterEquipo(FlaskForm):
     marca = StringField('Marca', validators=[DataRequired()])
     serie = IntegerField('Serie', validators=[DataRequired()])
     proveedor = StringField('Proveedor', validators=[DataRequired()])
-    fecha_adquisicion = DateField("Fecha de Adquisición", alidators=[DataRequired()], default=datetime.now())
+    fecha_adquisicion = DateField("Fecha de Adquisición", validators=[DataRequired()], default=datetime.now())
     garantia = StringField('Garantía', validators=[DataRequired()])
     ubicacion = StringField('Ubicación', validators=[DataRequired()])
-    mantenimiento = DateField("Mantenimiento", alidators=[DataRequired()], default=datetime.now())
+    mantenimiento = DateField("Mantenimiento", validators=[DataRequired()], default=datetime.now())
     factor_analisis = IntegerField('Factor de Análisis', validators=[DataRequired()])
     medida_factor = IntegerField('Medida Factor', validators=[DataRequired()])
     lim_inferior = IntegerField('Límite Inferior', validators=[DataRequired()])
@@ -63,7 +63,7 @@ class RegisterCliente(FlaskForm):
 class RegisterOrden(FlaskForm):
     norden = IntegerField('Número de Orden', validators=[DataRequired()])
     cantidad_solicitada = DecimalField('Cantidad Solicitada', validators=[DataRequired()])
-    fecha_creada = DateField("Fecha Creada", alidators=[DataRequired()], default=datetime.now())
+    fecha_creada = DateField("Fecha Creada", validators=[DataRequired()], default=datetime.now())
     precio = DecimalField(' Precio', validators=[DataRequired()])
     # idc =  FORANEA
     # certificados = FORANEA
@@ -94,8 +94,8 @@ class RegisteCertificado(FlaskForm):
     norden = IntegerField('Número de Orden', validators=[DataRequired()])
     cant_total = DecimalField('Cantidad Total', validators=[DataRequired()])
     factura = IntegerField('Factura', validators=[DataRequired()])
-    fecha_envio = DateField("Fecha de Envío", alidators=[DataRequired()], default=datetime.now())
-    fecha_caducidad = DateField("Fecha de Caducidad", alidators=[DataRequired()], default=datetime.now())
+    fecha_envio = DateField("Fecha de Envío", validators=[DataRequired()], default=datetime.now())
+    fecha_caducidad = DateField("Fecha de Caducidad", validators=[DataRequired()], default=datetime.now())
     # idc = 
     # idl = 
     # norden = 
