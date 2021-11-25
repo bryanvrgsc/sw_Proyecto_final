@@ -135,9 +135,12 @@ def eliminar(elemento,value_id):
 @app.route("/seleccionar/<elemento>/<value_id>")
 @login_required
 def seleccionar(elemento,value_id):
-    tabla = TableValues('certificados')
+    elemento = str(elemento).lower()
+    tabla = TableValues(elemento)
     value = tabla['model'].query.get(value_id)
-    return render_template('pdf_templates/certificado.html', value=value)
+    print(value)
+    return render_template(f"info_templates/{elemento}.html", value=value)
+    # render_template('pdf_templates/certificado.html', value=value)
 
 
 ''' -------------------------------------------------
@@ -145,7 +148,7 @@ wkhtmltopdf pdf creator
  -------------------------------------------------'''
 
 @app.route("/api/createPDF/<elemento>/<value_id>")
-
+@login_required
 def creacion_certificado(elemento,value_id):
     table = TableValues(str(elemento).lower())
     kwargs = {table['table_header'][0]: value_id}
