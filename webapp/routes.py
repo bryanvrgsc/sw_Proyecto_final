@@ -11,126 +11,22 @@ from PIL import Image
 from datetime import datetime
 from sqlalchemy.inspection import inspect
 
-# Formatear Imagen para guardarse
-def save_file(form_file, folder_name):
-    random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(form_file.filename)
-    file_name = random_hex + f_ext
-    picture_path = os.path.join(app.root_path, "static" , folder_name, file_name)
-
-    # Delete Existing File
-    if current_user.is_authenticated:
-        if folder_name == "HeadShots":
-            if current_user.picture != "default-profile.jpg":
-                os.remove(os.path.join(app.root_path, "static" , folder_name, current_user.picture))
-        if folder_name == "b_certificate":
-            if current_user.b_certificate != None:
-                os.remove(os.path.join(app.root_path, "static" , folder_name, current_user.b_certificate))
-    # Save new picture
-    if f_ext != '.pdf':
-        output_size= (125,125)
-        i=Image.open(form_file)
-        i.thumbnail(output_size)
-        i.save(picture_path)
-    else:
-        form_file.save(picture_path)
-
-    return file_name
-@app.context_processor
-def utility_processor():
-    def current_year():
-        return datetime.today().year
-    return dict(current_year=current_year)
-def tableDisplay(elemento, form):
-    r = dict()
-    if elemento == "laboratorista" and current_user.role == 'admin':
-        r = {
-        'table_items': Laboratorista.query.filter_by(username=form.value.data),
-        'search_item' : 'username',
-        'table_header' : Laboratorista.__table__.columns.keys()
-        }
-    elif elemento == "clientes":
-        r = {
-        'table_items': Cliente.query.filter_by(rfc=form.value.data),
-        'search_item' : 'rfc',
-        'table_header' : Cliente.__table__.columns.keys()
-        }
-    elif elemento == "equipo":
-        r = {
-        'table_items': EquipoLab.query.filter_by(clave=form.value.data),
-        'search_item' : 'clave',
-        'table_header' : EquipoLab.__table__.columns.keys()
-        }
-    elif elemento == "certificados":
-        r = {
-        'table_items': Certificado.query.filter_by(ncertificado=form.value.data),
-        'search_item' : 'N Certificado',
-        'table_header' : Certificado.__table__.columns.keys()
-        }
-    elif elemento == "registro":
-        r = {
-        'table_items': Inspeccion.query.filter_by(idi=form.value.data),
-        'search_item' : 'Idi',
-        'table_header' : Inspeccion.__table__.columns.keys()
-        }
-    else:
-       r = {'error message' : 'Ruta no Valida', 'type':'info'}
-    return r
-def tableDisplayAll(elemento, form):
-    r = dict()
-    if elemento == "laboratorista" and current_user.role == 'admin':
-        r = {
-        'table_items': Laboratorista.query.all(),
-        'search_item' : 'username',
-        'table_header' : Laboratorista.__table__.columns.keys()
-        }
-    elif elemento == "clientes":
-        r = {
-        'table_items': Cliente.query.all(),
-        'search_item' : 'rfc',
-        'table_header' : Cliente.__table__.columns.keys()
-        }
-    elif elemento == "equipo":
-        r = {
-        'table_items': EquipoLab.query.all(),
-        'search_item' : 'clave',
-        'table_header' : EquipoLab.__table__.columns.keys()
-        }
-    elif elemento == "certificados":
-        r = {
-        'table_items': Certificado.query.all(),
-        'search_item' : 'N Certificado',
-        'table_header' : Certificado.__table__.columns.keys()
-        }
-    elif elemento == "registro":
-        r = {
-        'table_items': Inspeccion.query.all(),
-        'search_item' : 'Idi',
-        'table_header' : Inspeccion.__table__.columns.keys()
-        }
-    else:
-       r = {'error message' : 'Ruta no Valida', 'type':'info'}
-    
-    return r
 def TableValues(elemento):
 
     if elemento == "laboratorista" and current_user.role == 'admin':
-        return {'query_result' : Laboratorista(), 'search_item' : 'username', 'table_header' : Laboratorista.__table__.columns.keys()}
+        return {'model' : Laboratorista(), 'search_item' : 'username', 'table_header' : Laboratorista.__table__.columns.keys()}
     elif elemento == "clientes":
-        return {'query_result' : Cliente(), 'search_item' : 'rfc', 'table_header' : Cliente.__table__.columns.keys() }
+        return {'model' : Cliente(), 'search_item' : 'rfc', 'table_header' : Cliente.__table__.columns.keys() }
     elif elemento == "equipo":
-        return {'query_result' : EquipoLab(),'search_item' : 'clave', 'table_header' : EquipoLab.__table__.columns.keys() }
+        return {'model' : EquipoLab(),'search_item' : 'clave', 'table_header' : EquipoLab.__table__.columns.keys() }
     elif elemento == "certificados":
-        return {'query_result' : Certificado, 'search_item' : 'ncertificado', 'table_header' : Certificado.__table__.columns.keys() }
+        return {'model' : Certificado, 'search_item' : 'ncertificado', 'table_header' : Certificado.__table__.columns.keys() }
     elif elemento == "registro":
-        return {'query_result' : Inspeccion(),' search_item' : 'idi', 'table_header' : Inspeccion.__table__.columns.keys() }
+        return {'model' : Inspeccion(),' search_item' : 'idi', 'table_header' : Inspeccion.__table__.columns.keys() }
     else:
         return {'error message' : 'Query Invalido', 'type':'alert'}
 
-    
-    
 
-@app.route('/login', methods=["GET","POST"])
 @app.route("/login", methods=["GET","POST"])
 def login():
     form = Login()
@@ -162,32 +58,39 @@ def menu():
 @app.route("/buscador/<elemento>", methods=["GET", "POST"])
 @login_required
 def buscador(elemento):
-    form = Buscar()
-    modalForm = {
-            'laboratorista' : RegiseterLab(),
-            'clientes' : RegisterCliente()
-    }
-    if modalForm[elemento].validate_on_submit():
-        pass
+    search_form = Buscar()
+    # modalForm = {
+    #         'laboratorista' : RegiseterLab(),
+    #         'clientes' : RegisterCliente()
+    # }
+    modalForm = RegisterCliente()
+    # Agregar Valor a la base de datos
+    if modalForm.validate_on_submit():
+        flash("Se envio el fomrulario", "info")
+    
+    print(search_form.validate_on_submit())
+
+    # Filtar con busqueda
+    table = TableValues(elemento)
+    if search_form.validate_on_submit():
+        kwargs = {table['search_item']: search_form.value.data}    
+        table_items = table['model'].query.filter_by(**kwargs)
     else:
-        if form.validate_on_submit():
-            # Revisar que tabla buscar:
-            table = tableDisplay(elemento, form)
-        else:
-            table = tableDisplayAll(elemento, form)
-        
-        if 'error message' in table:
-            flash(table['error message'], table['type'])
-            return redirect(url_for('menu'))
-        
-        return render_template("buscador.html", 
-        elemento=str(elemento).capitalize(), 
-        table_items=table['table_items'], 
-        table_header=table['table_header'], 
-        search_item = table['search_item'],
-        # Formularios a usar
-        form=form, 
-        modalForm=modalForm[elemento])
+        table_items = table['model'].query.all()
+
+    
+    if 'error message' in table:
+        flash(table['error message'], table['type'])
+        return redirect(url_for('menu'))
+    
+    return render_template("buscador.html", 
+    elemento=str(elemento).capitalize(), 
+    table_items=table_items, 
+    table_header=table['table_header'], 
+    search_item = table['search_item'].upper(),
+    # Formularios a usar
+    form=search_form, 
+    modalForm=modalForm)
 
 
 
@@ -207,11 +110,11 @@ def logout():
 def eliminar(elemento,value_id):
     
     elemento = str(elemento).lower()
-    table = TableValues(elemento)['query_result']
+    table = TableValues(elemento)['model']
     result = table.query.get(value_id)
     db.session.delete(result)
     db.session.commit()
-    flash(f"El conepto con ID: {value_id} fue eliminado ", 'info')
+    flash(f"El conepto con ID: {value_id} fue eliminado ", 'warning')
 
     return redirect(url_for('buscador', elemento=elemento))
 

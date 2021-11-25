@@ -12,7 +12,8 @@
                 <div class="modal-body">
                     
                         {{ modalForm.hidden_tag() }}
-                        {% for field in modalForm if field.widget.input_type != 'hidden' %}
+                        {{ modalForm.csrf_token }}
+                        {% for field in modalForm if field.widget.input_type != 'hidden' and field.widget.input_type != 'submit'%}
 
                         {{ field.label(class="col-form-label") }}
                         {% if field.errors %}
@@ -32,7 +33,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <input type="submit" class="btn btn-primary" value="Registrar"> 
+                    {{ modalForm.submit(class="btn btn-primary") }}
                 </div>
             </form>
           </div>

@@ -22,7 +22,8 @@ class RegiseterLab(FlaskForm):
     password = PasswordField('Contraseña', validators=[DataRequired()])
     active = BooleanField('Usuario activo', validators=[DataRequired()]) #! Boolean
     role = StringField('Rol', validators=[DataRequired()])
-
+    submit = SubmitField('Registrar')
+    
 class RegisterCliente(FlaskForm):
     rfc = StringField('RFC', validators=[DataRequired()])
     nombre = StringField('Nombre', validators=[DataRequired()])
@@ -34,3 +35,4 @@ class RegisterCliente(FlaskForm):
     lim_superior = DecimalField('Limite Superior')
     clave_factor = DecimalField('Clave Factor')
     medida = DecimalField('Medida')
+    submit = SubmitField('Registrar')
