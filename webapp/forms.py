@@ -20,6 +20,7 @@ class Buscar(FlaskForm):
 class RegiseterLab(FlaskForm):
     username = StringField('Usuario', validators=[DataRequired()])
     password = PasswordField('Contraseña', validators=[DataRequired()])
+    comfirm_password = PasswordField('Confirmar Contraseña', validators=[DataRequired()])
     active = BooleanField('Usuario activo', validators=[DataRequired()]) #! Boolean
     role = StringField('Rol', validators=[DataRequired()])
     submit = SubmitField('Registrar')
@@ -35,4 +36,11 @@ class RegisterCliente(FlaskForm):
     lim_superior = DecimalField('Limite Superior')
     clave_factor = DecimalField('Clave Factor')
     medida = DecimalField('Medida')
+    submit = SubmitField('Registrar')
+
+class RegiseterEquipo(FlaskForm):
+    clave = StringField('Clave', validators=[DataRequired()])
+    marca = PasswordField('Marca', validators=[DataRequired()])
+    modelo = BooleanField('Modelo', validators=[DataRequired()]) #! Boolean
+    DescripcionC = StringField('Descripcion Corta', validators=[DataRequired()])
     submit = SubmitField('Registrar')

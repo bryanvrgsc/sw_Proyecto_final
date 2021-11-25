@@ -59,13 +59,14 @@ def menu():
 @login_required
 def buscador(elemento):
     search_form = Buscar()
-    # modalForm = {
-    #         'laboratorista' : RegiseterLab(),
-    #         'clientes' : RegisterCliente()
-    # }
-    modalForm = RegisterCliente()
+    modalForm = {
+            'laboratorista' : RegiseterLab(),
+            'clientes' : RegisterCliente(),
+            'equipo': RegiseterEquipo()
+    }
+
     # Agregar Valor a la base de datos
-    if modalForm.validate_on_submit():
+    if modalForm[elemento].validate_on_submit():
         flash("Se envio el fomrulario", "info")
     
     print(search_form.validate_on_submit())
@@ -90,7 +91,7 @@ def buscador(elemento):
     search_item = table['search_item'].upper(),
     # Formularios a usar
     form=search_form, 
-    modalForm=modalForm)
+    modalForm=modalForm[elemento])
 
 
 
