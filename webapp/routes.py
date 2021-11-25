@@ -1,4 +1,5 @@
 from re import search
+import re
 from flask import render_template, request, redirect, session, url_for, flash, Markup
 from webapp import app, db, bcrypt
 from webapp.forms import  *
@@ -111,23 +112,23 @@ def tableDisplayAll(elemento, form):
        r = {'error message' : 'Ruta no Valida', 'type':'info'}
     
     return r
+def TableValues(elemento):
 
-def Tabla(elemento):
-    
     if elemento == "laboratorista" and current_user.role == 'admin':
-        return {'clase' : Laboratorista(), 'search_item' : 'username'}
+        return {'query_result' : Laboratorista(), 'search_item' : 'username', 'table_header' : Laboratorista.__table__.columns.keys()}
     elif elemento == "clientes":
-        return {'clase' : Cliente(), 'search_item' : 'rfc'}
+        return {'query_result' : Cliente(), 'search_item' : 'rfc', 'table_header' : Cliente.__table__.columns.keys() }
     elif elemento == "equipo":
-        return {'clase' : EquipoLab(),'search_item' : 'clave'}
+        return {'query_result' : EquipoLab(),'search_item' : 'clave', 'table_header' : EquipoLab.__table__.columns.keys() }
     elif elemento == "certificados":
-        return {'clase' : Certificado, 'search_item' : 'ncertificado'}
+        return {'query_result' : Certificado, 'search_item' : 'ncertificado', 'table_header' : Certificado.__table__.columns.keys() }
     elif elemento == "registro":
-        return {'clase' : Inspeccion(),' search_item' : 'idi'}
+        return {'query_result' : Inspeccion(),' search_item' : 'idi', 'table_header' : Inspeccion.__table__.columns.keys() }
     else:
-       r = {'error message' : 'Ruta no Valida', 'type':'info'}
+        return {'error message' : 'Query Invalido', 'type':'alert'}
+
     
-    return r
+    
 
 @app.route('/login', methods=["GET","POST"])
 @app.route("/login", methods=["GET","POST"])
@@ -151,26 +152,24 @@ def login():
 @app.route("/home", methods=["GET","POST"])
 @app.route("/", methods=["GET","POST"])
 @login_required
-def menu():
-    # if current_user.is_authenticated:
+def menu():    
     user_type = current_user.role
     return render_template("menu.html", user_type=user_type, menu_items=menu)
-    # else:
-    #     return redirect(url_for("home"))
+
 
 
 
 @app.route("/buscador/<elemento>", methods=["GET", "POST"])
 @login_required
 def buscador(elemento):
-    if current_user.is_authenticated:
-        form = Buscar()
-        modalForm = {
+    form = Buscar()
+    modalForm = {
             'laboratorista' : RegiseterLab(),
             'clientes' : RegisterCliente()
-        }
-        
-
+    }
+    if modalForm[elemento].validate_on_submit():
+        pass
+    else:
         if form.validate_on_submit():
             # Revisar que tabla buscar:
             table = tableDisplay(elemento, form)
@@ -189,8 +188,7 @@ def buscador(elemento):
         # Formularios a usar
         form=form, 
         modalForm=modalForm[elemento])
-    else:
-        return redirect(url_for("menu"))
+
 
 
 @app.route("/logout")
@@ -202,28 +200,26 @@ def logout():
 
 
 # Acciones de tabla
-@app.route("/eliminar/<elemento>/<valor_id>")
+
+# ELIMINAR REGISTRO
+@app.route("/eliminar/<elemento>/<value_id>")
 @login_required
-def eliminar(elemento,valor_id):
-
+def eliminar(elemento,value_id):
+    
     elemento = str(elemento).lower()
-    table = Tabla(elemento)['clase']
-    search_item = Tabla(elemento)['search_item']
-
-
-    flash("Eliminar: " +str(valor_id) + search_item, 'info')
+    table = TableValues(elemento)['query_result']
+    result = table.query.get(value_id)
+    db.session.delete(result)
+    db.session.commit()
+    flash(f"El conepto con ID: {value_id} fue eliminado ", 'info')
 
     return redirect(url_for('buscador', elemento=elemento))
 
-@app.route("/seleccionar/<elemento>/<valor_id>")
+
+@app.route("/seleccionar/<elemento>/<value_id>")
 @login_required
-def seleccionar(elemento,valor_id):
-    elemento = str(elemento).lower()
-    flash("Seleccionar: " +str(valor_id), 'info')
-    table = Tabla(elemento)
-    id = inspect(table).primary_key[0].name
-    valor = table.query.filter_by()
-    
+def seleccionar(elemento,value_id):
+
     return redirect(url_for('buscador', elemento=elemento))
 
 # Creacion de certificado
@@ -231,12 +227,3 @@ def seleccionar(elemento,valor_id):
 def creacion_certificado():
     if current_user.is_authenticated:
         pass
-
-
-
-@app.route("/registrar/<elemento>", methods=["GET", "POST"])
-def registrar(elemento):
-
-    
-
-    return elemento

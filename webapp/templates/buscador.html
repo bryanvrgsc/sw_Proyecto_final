@@ -56,14 +56,14 @@
                   {% endfor %}
                   <td> 
                     <div class="d-flex justify-content-around">
-                      <a class="icon_wrapper" href="{{ url_for('eliminar', elemento=elemento, valor_id=item[table_header[0]]) }}">
-                        <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/remove.png' ) }}">
-                      </a>
+                      <button type="button" class="icon_wrapper" data-toggle="modal" data-target="#DeleteModal" data-whatever="{{ item[table_header[0]] }}">
+                        <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/remove.png' ) }}" >
+                      </button>
                       <button type="button" class="icon_wrapper" data-toggle="modal" data-target="#exampleModal" data-whatever="{{ item }}"> 
                         <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/editing.png' ) }}">
                       </button>
 
-                      <a class="icon_wrapper" href="{{ url_for('seleccionar', elemento=elemento, valor_id=item[table_header[0]]) }}" >
+                      <a class="icon_wrapper" href="{{ url_for('seleccionar', elemento=elemento, value_id=item[table_header[0]]) }}" >
                         <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/select.png' ) }}">
                       </a>
                     </div>
