@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField
-from wtforms.fields.core import DecimalField
+from sqlalchemy.orm import defaultload
+from wtforms import StringField, PasswordField, BooleanField, IntegerField, DecimalField
+from datetime import datetime
+from wtforms.fields.core import DateField, DecimalField
 from wtforms.fields.simple import SubmitField
 from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError
 from wtforms.fields.html5 import  TelField
@@ -24,7 +26,27 @@ class RegiseterLab(FlaskForm):
     active = BooleanField('Usuario activo', validators=[DataRequired()]) #! Boolean
     role = StringField('Rol', validators=[DataRequired()])
     submit = SubmitField('Registrar')
-    
+
+class RegiseterEquipo(FlaskForm):
+    clave = IntegerField('Clave', validators=[DataRequired()])
+    marca = StringField('Marca', validators=[DataRequired()])
+    modelo = StringField('Modelo', validators=[DataRequired()]) #! Boolean
+    DescripcionL = StringField('Descripcion Larga', validators=[DataRequired()])
+    DescripcionC = StringField('Descripcion Corta', validators=[DataRequired()])
+    marca = StringField('Marca', validators=[DataRequired()])
+    serie = IntegerField('Serie', validators=[DataRequired()])
+    proveedor = StringField('Proveedor', validators=[DataRequired()])
+    fecha_adquisicion = DateField("Fecha de Adquisición", alidators=[DataRequired()], default=datetime.now())
+    garantia = StringField('Garantía', validators=[DataRequired()])
+    ubicacion = StringField('Ubicación', validators=[DataRequired()])
+    mantenimiento = DateField("Mantenimiento", alidators=[DataRequired()], default=datetime.now())
+    factor_analisis = IntegerField('Factor de Análisis', validators=[DataRequired()])
+    medida_factor = IntegerField('Medida Factor', validators=[DataRequired()])
+    lim_inferior = IntegerField('Límite Inferior', validators=[DataRequired()])
+    lim_superior = IntegerField('Límite Inferior', validators=[DataRequired()])
+    especificacion = IntegerField('Límite Inferior', validators=[DataRequired()])
+    submit = SubmitField('Registrar')
+
 class RegisterCliente(FlaskForm):
     rfc = StringField('RFC', validators=[DataRequired()])
     nombre = StringField('Nombre', validators=[DataRequired()])
@@ -38,9 +60,43 @@ class RegisterCliente(FlaskForm):
     medida = DecimalField('Medida')
     submit = SubmitField('Registrar')
 
-class RegiseterEquipo(FlaskForm):
-    clave = StringField('Clave', validators=[DataRequired()])
-    marca = PasswordField('Marca', validators=[DataRequired()])
-    modelo = BooleanField('Modelo', validators=[DataRequired()]) #! Boolean
-    DescripcionC = StringField('Descripcion Corta', validators=[DataRequired()])
-    submit = SubmitField('Registrar')
+class RegisterOrden(FlaskForm):
+    norden = IntegerField('Número de Orden', validators=[DataRequired()])
+    cantidad_solicitada = DecimalField('Cantidad Solicitada', validators=[DataRequired()])
+    fecha_creada = DateField("Fecha Creada", alidators=[DataRequired()], default=datetime.now())
+    precio = DecimalField(' Precio', validators=[DataRequired()])
+    # idc =  FORANEA
+    # certificados = FORANEA
+
+class RegisterLote(FlaskForm):
+    idlote = IntegerField('ID Lote', validators=[DataRequired()])
+    cantidad = DecimalField('Cantidad', validators=[DataRequired()])
+    # inspecciones = FORANEA
+
+class RegisterInspeccion(FlaskForm):
+    idi = IntegerField('ID Inspección', validators=[DataRequired()])
+    absorcion = DecimalField('Absorción', validators=[DataRequired()])
+    tiempo_desarrollo = DecimalField('Tiempo Desarrollo', validators=[DataRequired()])
+    estabilidad = DecimalField('Estabilidad', validators=[DataRequired()])
+    reblandecimiento = DecimalField('Reblandecimiento', validators=[DataRequired()])
+    qnumber = IntegerField('QNumber', validators=[DataRequired()])
+    tenacidad = DecimalField('Tenacidad', validators=[DataRequired()])
+    extensibilidad = DecimalField('Extensibilidad', validators=[DataRequired()])
+    configuracion_curva = DecimalField('Configuración Curva', validators=[DataRequired()])
+    indice_elasticidad = DecimalField('Índice Elasticidad', validators=[DataRequired()])
+    fuerza_panadera = DecimalField('Fuerza Panadera', validators=[DataRequired()])
+    # certificados = FORANEA
+    # idLote = FORANEA
+
+class RegisteCertificado(FlaskForm):
+    ncertificado = IntegerField('Número de Certificado', validators=[DataRequired()])
+    cantidad_solicitada = DecimalField('Cantidad Solicitada', validators=[DataRequired()])
+    norden = IntegerField('Número de Orden', validators=[DataRequired()])
+    cant_total = DecimalField('Cantidad Total', validators=[DataRequired()])
+    factura = IntegerField('Factura', validators=[DataRequired()])
+    fecha_envio = DateField("Fecha de Envío", alidators=[DataRequired()], default=datetime.now())
+    fecha_caducidad = DateField("Fecha de Caducidad", alidators=[DataRequired()], default=datetime.now())
+    # idc = 
+    # idl = 
+    # norden = 
+    # idi = 
