@@ -1,17 +1,18 @@
-<div style="width:800px; height:600px; padding:20px; text-align:center; border: 10px solid #787878">
+
+  <div style="width:800px; height:600px; padding:20px; text-align:center; border: 10px solid #787878">
     <div style="width:750px; height:550px; padding:20px; text-align:center; border: 5px solid #787878">
-           <span style="font-size:50px; font-weight:bold">Certificate of Completion</span>
+           <span style="font-size:50px; font-weight:bold">Certificado de Inspeccion</span>
            <br><br>
-           <span style="font-size:25px"><i>This is to certify that</i></span>
+           <span style="font-size:25px"><i>Este Certifica a:</i></span>
            <br><br>
-           <span style="font-size:30px"><b>$student.getFullName()</b></span><br/><br/>
-           <span style="font-size:25px"><i>has completed the course</i></span> <br/><br/>
-           <span style="font-size:30px">$course.getName()</span> <br/><br/>
-           <span style="font-size:20px">with score of <b>$grade.getPoints()%</b></span> <br/><br/><br/><br/>
-           <span style="font-size:25px"><i>dated</i></span><br>
-            Fecha
-          <span style="font-size:30px">$dt</span>
+           <span style="font-size:30px"><b>{{ value.cliente.nombre }} {{ value.cliente.apellido }}</b></span><br/><br/>
+           <span style="font-size:25px"><i>Con la inspeccion valida numero:</i></span> <br/><br/>
+           <span style="font-size:30px">{{value.inspeccion.idi}}</span> <br/><br/><span style="font-size:25px"><i>Con numero de orden:</i></span> <br/><br/>
+           <span style="font-size:30px">{{value.norden}}</span> <br/><br/>
+           <span style="font-size:20px">Otorgada por: <b>{{ value.laboratorista.username }}</b></span> <br/><br/><br/><br/>
+           <span style="font-size:25px"><i>Con fecha de envio de: {{ value.fecha_envio.strftime('%Y/%m/%d') }}</i></span><br>
+           <span style="font-size:25px"><i>Caducidad: {{ value.fecha_caducidad.strftime('%Y/%m/%d') }}</i></span><br>
+            
     </div>
     </div>
 
-    {{ value }}

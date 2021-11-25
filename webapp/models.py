@@ -29,13 +29,12 @@ class Laboratorista(db.Model, UserMixin):
 
 class EquipoLab(db.Model):
     clave = db.Column(db.Integer, primary_key=True, nullable=False)
-    marca = db.Column(db.String(30), nullable=False)
-    modelo = db.Column(db.String(30), nullable=False)
-    DescripcionL = db.Column(db.String(100), nullable=False)
-    DescripcionC = db.Column(db.String(20), nullable=False)
     marca = db.Column(db.String(20), nullable=False)
+    modelo = db.Column(db.String(30), nullable=False)
     serie = db.Column(db.Integer, nullable=False)
     proveedor = db.Column(db.String(50), nullable=False)
+    DescripcionC = db.Column(db.String(20), nullable=False)
+    DescripcionL = db.Column(db.String(100), nullable=False)
     fecha_adquisicion = db.Column(db.DateTime, nullable=False) #! Date
     garantia = db.Column(db.String(20), nullable=False)
     ubicacion = db.Column(db.String(50), nullable=False)
@@ -99,7 +98,6 @@ class Orden(db.Model):
 class Lote(db.Model):
     idlote = db.Column(db.Integer, primary_key=True, nullable=False)
     cantidad = db.Column(db.Float(), nullable=False) #! Real
-
     inspecciones = db.relationship("Inspeccion", backref="lote")
 
     def __repr__(self):

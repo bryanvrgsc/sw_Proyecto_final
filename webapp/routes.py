@@ -15,15 +15,15 @@ import pdfkit, os, uuid
 def TableValues(elemento):
 
     if elemento == "laboratorista" and current_user.role == 'admin':
-        return {'model' : Laboratorista(), 'search_item' : 'username', 'table_header' : Laboratorista.__table__.columns.keys()}
+        return {'model' : Laboratorista(), 'search_item' : 'username', 'table_header' : Laboratorista.__table__.columns.keys(), 'breakpoint': None}
     elif elemento == "clientes":
-        return {'model' : Cliente(), 'search_item' : 'rfc', 'table_header' : Cliente.__table__.columns.keys() }
+        return {'model' : Cliente(), 'search_item' : 'rfc', 'table_header' : Cliente.__table__.columns.keys() , 'breakpoint': 'factor_analisis'}
     elif elemento == "equipo":
-        return {'model' : EquipoLab(),'search_item' : 'clave', 'table_header' : EquipoLab.__table__.columns.keys() }
+        return {'model' : EquipoLab(),'search_item' : 'clave', 'table_header' : EquipoLab.__table__.columns.keys() , 'breakpoint': 'DescripcionL'}
     elif elemento == "certificados":
-        return {'model' : Certificado, 'search_item' : 'ncertificado', 'table_header' : Certificado.__table__.columns.keys() }
-    elif elemento == "registro":
-        return {'model' : Inspeccion(),'search_item' : 'idi', 'table_header' : Inspeccion.__table__.columns.keys() }
+        return {'model' : Certificado(), 'search_item' : 'ncertificado', 'table_header' : Certificado.__table__.columns.keys() , 'breakpoint': 'idc'}
+    elif elemento == "inspeccion":
+        return {'model' : Inspeccion(),'search_item' : 'idi', 'table_header' : Inspeccion.__table__.columns.keys() , 'breakpoint': 'tenacidad'}
     else:
         return {'error message' : 'Query Invalido', 'type':'alert'}
 
@@ -63,19 +63,27 @@ def buscador(elemento):
     modalForm = {
             'laboratorista' : RegiseterLab(),
             'clientes' : RegisterCliente(),
-            'equipo': RegiseterEquipo(),
-            'certificados': RegiseterEquipo(),
-            'registro': RegiseterEquipo()
+            'equipo': RegisterEquipo(),
+            'certificados': RegisterEquipo(),
+            'inspeccion': RegisterEquipo()
     }
 
     # Agregar Valor a la base de datos
     if modalForm[elemento].validate_on_submit():
         flash("Se envio el fomrulario", "info")
     
-    print(search_form.validate_on_submit())
+
+
+    # Largo de Table Header
+    table = TableValues(elemento)
+
+    table_header = table['table_header']
+    if table['breakpoint']:
+        index = table_header.index(table['breakpoint'])
+        table_header = table_header[0:index]
 
     # Filtar con busqueda
-    table = TableValues(elemento)
+   
     if search_form.validate_on_submit():
         kwargs = {table['search_item']: search_form.value.data}    
         table_items = table['model'].query.filter_by(**kwargs)
@@ -90,7 +98,7 @@ def buscador(elemento):
     return render_template("buscador.html", 
     elemento=str(elemento).capitalize(), 
     table_items=table_items, 
-    table_header=table['table_header'], 
+    table_header=table_header, 
     search_item = table['search_item'].upper(),
     # Formularios a usar
     form=search_form, 
@@ -118,7 +126,8 @@ def eliminar(elemento,value_id):
     result = table.query.get(value_id)
     db.session.delete(result)
     db.session.commit()
-    flash(f"El conepto con ID: {value_id} fue eliminado ", 'warning')
+    flash(f'{elemento, value_id}','info')
+    # flash(f"El conepto con ID: {value_id} fue eliminado ", 'warning')
 
     return redirect(url_for('buscador', elemento=elemento))
 
@@ -126,19 +135,9 @@ def eliminar(elemento,value_id):
 @app.route("/seleccionar/<elemento>/<value_id>")
 @login_required
 def seleccionar(elemento,value_id):
-    return redirect(url_for('buscador', elemento=elemento))
-
-
-
-
-# # Creacion de certificado
-# @app.route("/creacion-certificado")
-# def creacion_certificado():
-#     # /Users/cesarromanzuniga/Desktop/template.html 
-#     file_path = request.args.get('file_path')
-
-#     return redirect(url_for('wkhtmltopdfurl', file_path={'path':r'Users/cesarromanzuniga/Desktop/template.html'}))
-
+    tabla = TableValues('certificados')
+    value = tabla['model'].query.get(value_id)
+    return render_template('pdf_templates/certificado.html', value=value)
 
 
 ''' -------------------------------------------------
@@ -146,6 +145,7 @@ wkhtmltopdf pdf creator
  -------------------------------------------------'''
 
 @app.route("/api/createPDF/<elemento>/<value_id>")
+
 def creacion_certificado(elemento,value_id):
     table = TableValues(str(elemento).lower())
     kwargs = {table['table_header'][0]: value_id}
@@ -170,3 +170,11 @@ def creacion_certificado(elemento,value_id):
         print("Oops! ")
 
 
+# Ruta para editar el template de de los certificados para el pdf
+# @app.route("/edicion-template/<value_id>")
+# def edicion_template(value_id):
+#     tabla = TableValues('certificados')
+
+#     value = tabla['model'].query.get(value_id)
+
+#     return render_template('pdf_templates/certificado.html', value=value)

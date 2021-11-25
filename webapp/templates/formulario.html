@@ -12,7 +12,6 @@
                 <div class="modal-body">
                     
                         {{ modalForm.hidden_tag() }}
-                        {{ modalForm.csrf_token }}
                         {% for field in modalForm if field.widget.input_type != 'hidden' and field.widget.input_type != 'submit'%}
 
                         {{ field.label(class="col-form-label") }}
@@ -84,7 +83,6 @@
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
         let url = "{{ url_for('eliminar', elemento=elemento, value_id='recipient') }}"
-
         modal.find('.btn-danger').attr("href", url.replace("recipient", recipient))
       })
   </script>

@@ -17,7 +17,7 @@ class Login(FlaskForm):
 
 class Buscar(FlaskForm):
     value = StringField('value')
-    submit = SubmitField('Buscar')
+    search = SubmitField('Buscar')
 
 class RegiseterLab(FlaskForm):
     username = StringField('Usuario', validators=[DataRequired()])
@@ -27,7 +27,7 @@ class RegiseterLab(FlaskForm):
     role = StringField('Rol', validators=[DataRequired()])
     submit = SubmitField('Registrar')
 
-class RegiseterEquipo(FlaskForm):
+class RegisterEquipo(FlaskForm):
     clave = IntegerField('Clave', validators=[DataRequired()])
     marca = StringField('Marca', validators=[DataRequired()])
     modelo = StringField('Modelo', validators=[DataRequired()]) #! Boolean

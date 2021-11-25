@@ -17,9 +17,7 @@
                 {% else %}
                 {{ form.value(class="round-input form-control", placeholder=search_item) }}
                 {% endif %}
-
-                
-                {{ form.submit(class="btn btn-outline-primary round-input") }}
+                {{ form.search(class="btn btn-outline-primary round-input") }}
               </div>
         </form>
 
@@ -63,7 +61,7 @@
                         <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/editing.png' ) }}">
                       </button>
 
-                      <a class="icon_wrapper" href="{{ url_for('seleccionar', elemento=elemento, value_id=item[table_header[0]]) }}" >
+                      <a class="icon_wrapper" target="_blank" href="{{ url_for('seleccionar', elemento=elemento, value_id=item[table_header[0]]) }}" >
                         <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/select.png' ) }}">
                       </a>
                       {% if elemento == 'certificados' |capitalize %}
