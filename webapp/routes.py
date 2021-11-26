@@ -126,8 +126,8 @@ def eliminar(elemento,value_id):
     result = table.query.get(value_id)
     db.session.delete(result)
     db.session.commit()
-    flash(f'{elemento, value_id}','info')
-    # flash(f"El conepto con ID: {value_id} fue eliminado ", 'warning')
+    # flash(f'{elemento, value_id}','info')
+    flash(f"El coneptxo con ID: {value_id} fue eliminado ", 'warning')
 
     return redirect(url_for('buscador', elemento=elemento))
 
@@ -139,7 +139,9 @@ def seleccionar(elemento,value_id):
     tabla = TableValues(elemento)
     value = tabla['model'].query.get(value_id)
     print(value)
-    return render_template(f"info_templates/{elemento}.html", value=value)
+    return render_template(f"info_templates/{elemento}.html",
+     value=value,
+     table_header=tabla["table_header"])
     # render_template('pdf_templates/certificado.html', value=value)
 
 

@@ -1,12 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    {{value}}
-</body>
-</html>
+{% extends 'info_templates/layout.html' %}
+
+{% block style %}
+
+{% endblock %}
+{% block content %}
+        <div class="header">
+                <div class="header-left">
+                        <h1>{{ value.nombre }} {{ value.apellido }}</h1>
+                        <p>Numero de Contacto: <a class="tel" href="tel:{{value.contacto}}" > {{ value.ncontacto }}</a></p>
+
+                </div>
+                <div class="header-right">
+                        <table class="table-header">
+                                <tbody>
+                                        <tr>
+                                                <th>Domicilio: </th>
+                                                <td>{{ value.domicilio }}</td>
+                                        </tr>
+                                        <tr>
+                                                <th>RFC: </th>
+                                                <td>{{ value.rfc }}</td>
+                                        </tr>
+                                </tbody>
+                        </table>
+
+                </div>
+                <hr>
+        </div>
+        <h2>Caracteristicas Especificas</h2>
+                <table class="">
+                        <tbody>
+                                <tr>
+                                        <th>Factor de Analisis: </th>
+                                        <td>{{ value.factor_analisis }}</td>
+                                </tr>
+                        </tbody>
+                </table>
+
+        <div>
+
+        </div>
+        <hr>
+        <div>
+                <h2>Ordenes de {{ value.nombre }} {{ value.apellido }}</h2>
+                <table class="ordenes">
+                        <thead>
+                                <tr>
+                                        <th>Numero de Orden</th>
+                                        <th>Cantidad Solicitada</th>
+                                        <th>Fecha de Creacion</th>
+                                        <th>Precio</th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                                {% for orden in value.ordenes %}
+                                <tr>
+                                        <td>{{orden.norden}}</td>
+                                        <td>{{orden.cantidad_solicitada}}</td>
+                                        <td>{{orden.fecha_creada}} </td>
+                                        <td>{{orden.precio}}</td>
+                                </tr>
+                                {% endfor %}
+                        </tbody>
+                </table>
+                
+        </div>
+        <hr>
+        <div>
+                <h2>Certificados</h2>
+                <table class="ordenes">
+                        <thead>
+                                <tr>
+                                        <th>Numero de Certificado</th>
+                                        <th>Cantidad Solicitada</th>
+                                        <th>Factura</th>
+                                        <th>Fecha de Envio</th>
+                                        <th>Fecha de Caducidad</th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                                {% for orden in value.certificados %}
+                                <tr>
+                                        <td>{{orden.ncertificado}}</td>
+                                        <td>{{orden.cantidad_solicitada}}</td>
+                                        <td>{{orden.factura}}</td>
+                                        <td>{{orden.fecha_envio}} </td>
+                                        <td>{{orden.fecha_caducidad}}</td>
+                                </tr>
+                                {% endfor %}
+                        </tbody>
+                </table>
+        </div>
+
+{% endblock %}

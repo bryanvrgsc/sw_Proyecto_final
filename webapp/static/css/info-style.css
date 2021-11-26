@@ -1,0 +1,41 @@
+html{
+    height: 100%;
+}
+
+body{
+    height: 100%;
+    padding-top: 100px;
+    background-color: antiquewhite !important;
+}
+.content{
+    padding: 50px;
+    width: 80%;
+    margin-left: 10%;
+    background-color: white;
+    padding-bottom: 100px;
+    margin-bottom: 100px;
+}
+.header{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.header-left{
+    display: inline-block;
+    width: 50%;
+}
+
+.header-right{
+    width: 50%;
+    float: right;
+    display: inline;
+}
+
+.table-header{
+    width: 70%;
+    float: right;
+}
+
+.ordenes{
+    width: 100%;
+}

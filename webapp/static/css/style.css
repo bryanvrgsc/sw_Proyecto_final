@@ -15,6 +15,7 @@ a.menu-item_wrapper{
 a.menu-item_wrapper:hover{
     text-decoration: none;
     color: black;
+    background-color: rgb(240, 238, 238);
 }
 
 /* Login Page */

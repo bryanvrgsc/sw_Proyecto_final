@@ -80,7 +80,6 @@ class Cliente(db.Model):
 class Orden(db.Model):
     norden = db.Column(db.Integer, primary_key=True, nullable=False)
     cantidad_solicitada = db.Column(db.Float(), nullable=False) #! Real
-    # idc = db.Column(db.Integer, nullable=False)
     fecha_creada = db.Column(db.DateTime(), nullable=False)
     precio = db.Column(db.Float(), nullable=False) #! Real
 
