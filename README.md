@@ -20,10 +20,10 @@ pip3 -r requirements.txt
 create
 ```
 
-## Creación de la base de datos
+## Puedes correr el proyecto con el comando
 
 ```sh
-create
+python3 run.py
 ```
 
 
