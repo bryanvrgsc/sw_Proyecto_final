@@ -19,3 +19,12 @@ pip3 -r requirements.txt
 ```sh
 create
 ```
+
+## Creación de la base de datos
+
+```sh
+create
+```
+
+
+![alt text](https://postimg.cc/Xr0sZP0S)
