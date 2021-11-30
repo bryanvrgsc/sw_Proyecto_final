@@ -5,7 +5,7 @@ Crea una carpeta vacía en donde estará en VENV que vamos a crear, junto a la c
 ```sh
 mkdir ProyectoFinal_SW
 cd ProyectoFinal_SW
-
+pyton3 -m venv venv
 ```
 
 ## Instalación de las dependencias
