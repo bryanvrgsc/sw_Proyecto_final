@@ -27,7 +27,6 @@ class RegiseterLab(FlaskForm):
     submit = SubmitField('Registrar')
 
 class RegisterEquipo(FlaskForm):
-    
     marca = StringField('Marca', validators=[DataRequired()])
     modelo = StringField('Modelo', validators=[DataRequired()]) #! Boolean
     DescripcionL = StringField('Descripcion Larga', validators=[DataRequired()])
@@ -42,7 +41,7 @@ class RegisterEquipo(FlaskForm):
     factor_analisis = IntegerField('Factor de Análisis', validators=[DataRequired()])
     medida_factor = IntegerField('Medida Factor', validators=[DataRequired()])
     lim_inferior = IntegerField('Límite Inferior', validators=[DataRequired()])
-    lim_superior = IntegerField('Límite Inferior', validators=[DataRequired()])
+    lim_superior = IntegerField('Límite Superior', validators=[DataRequired()])
     especificacion = IntegerField('Límite Inferior', validators=[DataRequired()])
     submit = SubmitField('Registrar')
 
@@ -60,10 +59,7 @@ class RegisterCliente(FlaskForm):
     submit = SubmitField('Registrar')
 
 class RegisterOrden(FlaskForm):
-<<<<<<< HEAD
-=======
-    
->>>>>>> refs/remotes/origin/main
+
     cantidad_solicitada = DecimalField('Cantidad Solicitada', validators=[DataRequired()])
     fecha_creada = DateField("Fecha Creada", validators=[DataRequired()], default=datetime.now())
     precio = DecimalField(' Precio', validators=[DataRequired()])
@@ -71,18 +67,12 @@ class RegisterOrden(FlaskForm):
     # certificados = FORANEA
 
 class RegisterLote(FlaskForm):
-<<<<<<< HEAD
-=======
 
->>>>>>> refs/remotes/origin/main
     cantidad = DecimalField('Cantidad', validators=[DataRequired()])
     # inspecciones = FORANEA
 
 class RegisterInspeccion(FlaskForm):
-<<<<<<< HEAD
-=======
-   
->>>>>>> refs/remotes/origin/main
+
     absorcion = DecimalField('Absorción', validators=[DataRequired()])
     tiempo_desarrollo = DecimalField('Tiempo Desarrollo', validators=[DataRequired()])
     estabilidad = DecimalField('Estabilidad', validators=[DataRequired()])
