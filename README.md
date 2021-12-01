@@ -11,7 +11,7 @@ pyton3 -m venv venv
 ## Instalación de las dependencias
 
 ```sh
-pip3 -r requirements.txt
+pip3 -r install requirements.txt
 ```
 
 ## Creación de la base de datos
