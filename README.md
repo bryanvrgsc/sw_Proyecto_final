@@ -22,6 +22,7 @@ python3
 >>> from webapp.models import Laboratorista, EquipoLab, Farinografo, Alveografo, Cliente, Orden, Lote, Inspeccion, Certificado
 >>> db.create_all()
 ```
+Si clonaste este repositorio, no es necesario crear la base de datos, a menos que hayas modificado alguna tabla de la dbs (class del documento models.py)
 
 ## Puedes correr el proyecto con el comando
 
