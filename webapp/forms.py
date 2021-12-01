@@ -8,6 +8,7 @@ from wtforms.form import Form
 from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError
 from wtforms.fields.html5 import  TelField, DateField
 from wtforms.widgets.html5 import NumberInput
+from webapp.models import *
 
 class Login(FlaskForm):
     username = StringField('Usuario', validators=[DataRequired()])
@@ -18,6 +19,8 @@ class Login(FlaskForm):
 class Buscar(Form):
     value = StringField('value')
     search = SubmitField('Buscar')
+
+# [(table.id, table.name) for table in table.query.filter_by(filtro).all()]
 
 
 class RegisterFarinografo(Form):
@@ -78,9 +81,9 @@ class RegisterCliente(FlaskForm):
     apellido = StringField('Apellido', validators=[DataRequired()])
     domicilio = StringField('Domicilio', validators=[DataRequired()])
     ncontacto = TelField('Número de contacto', validators=[DataRequired()])
-    n_orden = SelectField("Número de Orden", validators=[DataRequired()])
+    n_orden = SelectField("Número de Orden", validators=[DataRequired()], choices=[table.norden for table in Orden.query.all()])
     personalizado_far = BooleanField('Farinografo Personalizado', validators=[DataRequired()]) #! Boolean
-    personalizado_alv = BooleanField('Alveografo Personalizado', validators=[DataRequired()]) #! Boolean
+    personalizado_alv = BooleanField('Alveografo Personalizado', validators=[DataRequired()]) #! Booleanls
 
     alveografo = FormField(RegisterAlveografo)
     farinografo = FormField(RegisterFarinografo)
@@ -103,6 +106,7 @@ class RegisterLote(FlaskForm):
     submit = SubmitField('Registrar')
 
 class RegisterInspeccion(FlaskForm):
+    lote = SelectField("Lote", choices=[(table.idlote,table.idlote) for table in Lote.query.all()])
     id_inspeccion = StringField("ID de Inspeccion", validators=[DataRequired()])
     absorcion = DecimalField('Absorción', validators=[DataRequired()])
     tiempo_desarrollo = DecimalField('Tiempo Desarrollo', validators=[DataRequired()])
@@ -114,10 +118,10 @@ class RegisterInspeccion(FlaskForm):
     configuracion_curva = DecimalField('Configuración Curva', validators=[DataRequired()])
     indice_elasticidad = DecimalField('Índice Elasticidad', validators=[DataRequired()])
     fuerza_panadera = DecimalField('Fuerza Panadera', validators=[DataRequired()])
-    lote = SelectField("Lote")
 
-    equipo_alv = SelectField("Equipo Utilizado")
-    equipo_far = SelectField("Equipo Utilizado")
+
+    equipo_alv = SelectField("Equipo Utilizado", choices=[(table.clave, table.marca) for table in EquipoLab.query.filter(EquipoLab.id_alv!="Null").all()])
+    equipo_far = SelectField("Equipo Utilizado", choices=[(table.clave, table.marca) for table in EquipoLab.query.filter(EquipoLab.id_far!= "Null").all()])
 
 
 
