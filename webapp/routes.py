@@ -19,9 +19,9 @@ def TableValues(elemento):
     elif elemento == "clientes":
         return {'uncalled': Cliente,'model' : Cliente(), 'search_item' : 'rfc', 'table_header' : Cliente.__table__.columns.keys() , 'breakpoint': 'personalizado_far'}
     elif elemento == "equipo":
-        return {'uncalled': EquipoLab,'model' : EquipoLab(),'search_item' : 'clave', 'table_header' : EquipoLab.__table__.columns.keys() , 'breakpoint': 'DescripcionL'}
+        return {'uncalled': EquipoLab,'model' : EquipoLab(),'search_item' : 'clave', 'table_header' : EquipoLab.__table__.columns.keys() , 'breakpoint': 'descripcionl'}
     elif elemento == "certificados":
-        return {'uncalled': Certificado,'model' : Certificado(), 'search_item' : 'ncertificado', 'table_header' : Certificado.__table__.columns.keys() , 'breakpoint': 'idc'}
+        return {'uncalled': Certificado,'model' : Certificado(), 'search_item' : 'ncertificado', 'table_header' : Certificado.__table__.columns.keys() , 'breakpoint': 'ncertificado'}
     elif elemento == "inspeccion":
         return {'uncalled': Inspeccion,'model' : Inspeccion(),'search_item' : 'idi', 'table_header' : Inspeccion.__table__.columns.keys() , 'breakpoint': None}
     else:
@@ -106,6 +106,7 @@ def formulario(elemento):
         table = TableValues(elemento)
         
         object_items = dict()
+        
 
         for field in modalForm[elemento]:
             if field.widget.input_type != 'hidden' and field.widget.input_type != 'submit':

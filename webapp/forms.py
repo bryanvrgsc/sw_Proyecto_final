@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from sqlalchemy.orm import defaultload
-from wtforms import StringField, PasswordField, BooleanField, IntegerField, DecimalField, TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, IntegerField, DecimalField, TextAreaField, SelectField
 from datetime import datetime
-from wtforms.fields.core import SelectField
+# from wtforms.fields.core import SelectField
 from wtforms.fields.simple import SubmitField
 from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError
 from wtforms.fields.html5 import  TelField, DateField
@@ -31,13 +31,11 @@ class RegiseterLab(FlaskForm):
 class RegisterEquipo(FlaskForm):
     marca = StringField('Marca', validators=[DataRequired()])
     modelo = StringField('Modelo', validators=[DataRequired()])
-    DescripcionL = TextAreaField('Descripcion Larga', validators=[DataRequired(), Length(max=100)])
-    DescripcionC = StringField('Descripcion Corta', validators=[DataRequired()])
     marca = StringField('Marca', validators=[DataRequired()])
     serie = IntegerField('Serie', validators=[DataRequired()])
     proveedor = StringField('Proveedor', validators=[DataRequired()])
     fecha_adquisicion = DateField("Fecha de Adquisición", validators=[DataRequired()], default=datetime.now())
-    garantia = StringField('Garantía', validators=[DataRequired()])
+    garantia = DateField("Fecha de Adquisición", validators=[DataRequired()], default=datetime.now())
     ubicacion = StringField('Ubicación', validators=[DataRequired()])
     mantenimiento = DateField("Mantenimiento", validators=[DataRequired()], default=datetime.now())
     descripcionc = StringField('Descripcion Corta', validators=[DataRequired()])
