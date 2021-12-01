@@ -28,8 +28,11 @@ def TableValues(elemento):
         return {'error message' : 'Query Invalido', 'type':'alert'}
 
 
-@app.route("/login", methods=["GET","POST"])
+@app.route("/", methods=["GET","POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('menu'))
+        
     form = Login()
     if form.validate_on_submit():
         user = Laboratorista.query.filter_by(username= form.username.data).first()
@@ -45,8 +48,8 @@ def login():
 
     return render_template("login.html", form=form)
 
-@app.route("/home", methods=["GET","POST"])
-@app.route("/", methods=["GET","POST"])
+
+@app.route("/menu", methods=["GET","POST"])
 @login_required
 def menu():    
     user_type = current_user.role

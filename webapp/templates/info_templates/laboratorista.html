@@ -4,7 +4,82 @@
 
 {% endblock %}
 {% block content %}
+<div class="header">
+        <div class="header-left">
+                <h1>{{ value.username }}</h1>
 
-        {{ value}}
+        </div>
+        <div class="header-right">
+                <table class="table-header">
+                        <tbody>
+                                <tr>
+                                        <th>Activo: </th>
+                                        {% if value.active == true %}
+                                        <td>&#9989;</td>
+                                        {% else %}
+                                        <td>&#128308;</td>
+                                        {% endif %}
+                                </tr>
+                                <tr>
+                                        <th>Tipo de usuario: </th>
+                                        <td>{{ value.role }}</td>
+                                </tr>
+                        </tbody>
+                </table>
+
+        </div>
+</div>
+<hr>
+<div>
+        <h2>Equipos de Laboratorio </h2>
+        <table class="ordenes">
+                <thead>
+                        <tr>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                                <th>Serie</th>
+                                <th>Proveedor</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        {% for orden in value.ordenes %}
+                        <tr>
+                                <td>{{orden.calve}}</td>
+                                <td>{{orden.modelo}}</td>
+                                <td>{{orden.serie}} </td>
+                                <td>{{orden.proveedor}}</td>
+                        </tr>
+                        {% endfor %}
+                </tbody>
+        </table>
+        
+</div>
+<hr>
+<div>
+        <h2>Certificados</h2>
+        <table class="ordenes">
+                <thead>
+                        <tr>
+                                <th>Numero de Certificado</th>
+                                
+                                <th>Cantidad Solicitada</th>
+                                <th>Factura</th>
+                                <th>Fecha de Envio</th>
+                                <th>Fecha de Caducidad</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        {% for orden in value.certificados %}
+                        <tr>
+                                <td>{{orden.ncertificado}}</td>
+                                <td>{{orden.cantidad_solicitada}}</td>
+                                <td>{{orden.factura}}</td>
+                                <td>{{orden.fecha_envio}} </td>
+                                <td>{{orden.fecha_caducidad}}</td>
+                        </tr>
+                        {% endfor %}
+                </tbody>
+        </table>
+</div>
 
 {% endblock %}
