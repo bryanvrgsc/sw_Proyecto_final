@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from sqlalchemy.orm import defaultload
-from wtforms import StringField, PasswordField, BooleanField, IntegerField, DecimalField
+from wtforms import StringField, PasswordField, BooleanField, IntegerField, DecimalField, TextAreaField
 from datetime import datetime
 from wtforms.fields.simple import SubmitField
 from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError
@@ -30,16 +30,15 @@ class RegiseterLab(FlaskForm):
 class RegisterEquipo(FlaskForm):
     marca = StringField('Marca', validators=[DataRequired()])
     modelo = StringField('Modelo', validators=[DataRequired()]) #! Boolean
-    DescripcionL = StringField('Descripcion Larga', validators=[DataRequired()])
-    DescripcionC = StringField('Descripcion Corta', validators=[DataRequired()])
-    marca = StringField('Marca', validators=[DataRequired()])
     serie = IntegerField('Serie', validators=[DataRequired()])
     proveedor = StringField('Proveedor', validators=[DataRequired()])
     fecha_adquisicion = DateField("Fecha de Adquisición", validators=[DataRequired()], default=datetime.now())
     garantia = StringField('Garantía', validators=[DataRequired()])
     ubicacion = StringField('Ubicación', validators=[DataRequired()])
     mantenimiento = DateField("Mantenimiento", validators=[DataRequired()], default=datetime.now())
-    
+    descripcionc = StringField('Descripcion Corta', validators=[DataRequired()])
+    descripcionl = TextAreaField('Descripcion Larga', validators=[DataRequired(),Length(max=200)])
+
     submit = SubmitField('Registrar')
 
 class RegisterFarinografo(FlaskForm):
@@ -58,6 +57,7 @@ class RegisterFarinografo(FlaskForm):
     estabilidad = IntegerField('Estabilidad', validators=[DataRequired()])
     tiempo_desarrollo = IntegerField('Tiempo de desarrollo', validators=[DataRequired()]) 
     qnumber = IntegerField('Qnumber', validators=[DataRequired()])
+    submit = SubmitField('Registrar')
 
 class RegisterAlveografo(FlaskForm):
     tenacidad = IntegerField('Tenacidad ', validators=[DataRequired()])
@@ -90,7 +90,6 @@ class RegisterLote(FlaskForm):
     # inspecciones = FORANEA
 
 class RegisterInspeccion(FlaskForm):
-
     absorcion = DecimalField('Absorción', validators=[DataRequired()])
     tiempo_desarrollo = DecimalField('Tiempo Desarrollo', validators=[DataRequired()])
     estabilidad = DecimalField('Estabilidad', validators=[DataRequired()])
@@ -101,13 +100,13 @@ class RegisterInspeccion(FlaskForm):
     configuracion_curva = DecimalField('Configuración Curva', validators=[DataRequired()])
     indice_elasticidad = DecimalField('Índice Elasticidad', validators=[DataRequired()])
     fuerza_panadera = DecimalField('Fuerza Panadera', validators=[DataRequired()])
+
     # certificados = FORANEA
     # idLote = FORANEA
     submit = SubmitField('Registrar')
 
 class RegisterCertificado(FlaskForm):
     cantidad_solicitada = DecimalField('Cantidad Solicitada', validators=[DataRequired()])
-    norden = IntegerField('Número de Orden', validators=[DataRequired()])
     cant_total = DecimalField('Cantidad Total', validators=[DataRequired()])
     factura = IntegerField('Factura', validators=[DataRequired()])
     fecha_envio = DateField("Fecha de Envío", validators=[DataRequired()], default=datetime.now())
