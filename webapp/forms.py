@@ -103,8 +103,9 @@ class RegisterInspeccion(FlaskForm):
     fuerza_panadera = DecimalField('Fuerza Panadera', validators=[DataRequired()])
     # certificados = FORANEA
     # idLote = FORANEA
+    submit = SubmitField('Registrar')
 
-class RegisteCertificado(FlaskForm):
+class RegisterCertificado(FlaskForm):
     cantidad_solicitada = DecimalField('Cantidad Solicitada', validators=[DataRequired()])
     norden = IntegerField('Número de Orden', validators=[DataRequired()])
     cant_total = DecimalField('Cantidad Total', validators=[DataRequired()])
@@ -115,3 +116,5 @@ class RegisteCertificado(FlaskForm):
     # idl = 
     # norden = 
     # idi = 
+    submit = SubmitField('Registrar')
+

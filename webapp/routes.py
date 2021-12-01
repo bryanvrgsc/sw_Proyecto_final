@@ -94,8 +94,8 @@ def formulario(elemento):
         'laboratorista' : RegiseterLab(),
         'clientes' : RegisterCliente(),
         'equipo': RegisterEquipo(),
-        'certificados': RegisterEquipo(),
-        'inspeccion': RegisterEquipo()
+        'certificados': RegisterCertificado(),
+        'inspeccion': RegisterInspeccion()
     }
     if modalForm[elemento].validate_on_submit():
         flash("Funciona", "info")
