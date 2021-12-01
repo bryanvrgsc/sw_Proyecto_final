@@ -87,7 +87,7 @@ def buscador(elemento):
     form=search_form)
 
 @app.route("/register/<elemento>", methods=["GET", "POST"])
-@login_required
+# @login_required
 def formulario(elemento):
     elemento = elemento.lower()
     modalForm = {

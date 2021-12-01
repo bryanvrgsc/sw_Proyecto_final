@@ -5,25 +5,47 @@
   <form method="POST" class="w-50">
               {{ modalForm.hidden_tag() }}
               {% for field in modalForm if field.widget.input_type != 'hidden' and field.widget.input_type != 'submit'%}
+              {% if field.widget.input_type == 'checkbox' %}
 
-              {{ field.label(class="col-form-label") }}
-              {% if field.errors %}
+                {% set label = "form-check-input" %}
+                {% set label_title = "form-check-label" %}
+                {% set div_class = "form-check mt-3" %}
               
-                  {{ field(class="form-control is-invalid") }}
-
-                  <div class="invalid-feedback">
-                      {% for error in field.errors %}
-                          <span>{{ error }}</span>
-                      {% endfor %}
-                  </div>
               {% else %}
-                  {{ field(class="") }}
+
+              {% set label = "form-control" %}
+              {% set label_title = "col-form-label" %}
+              {% set div_class = "form-group" %}
+
               {% endif %}
 
+
+              <div class="{{ div_class}}">
+                {{ field.label(class=""+ label_title) }}
+                {% if field.errors %}
+                
+                    {{ field(class="is-invalid" + label) }}
+  
+                    <div class="invalid-feedback">
+                        {% for error in field.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ field(class=""+label) }}
+                {% endif %}
+              </div>
+ 
+
               {% endfor %}
+
+
+
               <div class="right-button d-flex align-items-center mt-5">
                 {{ modalForm.submit(class="btn btn-primary") }}
               </div>
+
+
   </form>
 </div>
 
