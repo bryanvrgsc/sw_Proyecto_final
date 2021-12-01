@@ -1,0 +1,62 @@
+{% from "formularios/_renderFields.html" import render_field%}
+{% extends 'layout.html'%}
+
+{% block content %}
+<div class="w-100 d-flex justify-content-center mb-5">
+  <form method="POST" class="w-50">
+
+    {{ form.hidden_tag() }}
+        
+    {{ render_field(form.rfc, "form-group", "col-form-label", "form-control") }}
+    {{ render_field(form.nombre, "form-group", "col-form-label", "form-control") }}
+    {{ render_field(form.apellido, "form-group", "col-form-label", "form-control") }}
+    {{ render_field(form.domicilio, "form-group", "col-form-label", "form-control") }}
+    {{ render_field(form.ncontacto, "form-group", "col-form-label", "form-control") }}
+    {{ render_field(form.n_orden, "form-group", "col-form-label", "form-select") }}
+    {{ render_field(form.personalizado_far, "form-check mt-3", "form-check-label", "form-check-input","doStuffF()") }}
+    <div id="alveografo">
+        <h3>Alveografo</h3>
+        {% for field in form.alveografo if field.widget.input_type != 'hidden' %}
+            {{ render_field(field, "form-group", "col-form-label", "form-control") }}
+        {% endfor %}    
+
+    </div>
+
+    {{ render_field(form.personalizado_alv, "form-check mt-3", "form-check-label", "form-check-input","doStuffA()") }}
+    <div id="farinografo">
+        <h3>Farinografo</h3>
+        {% for field in form.farinografo if field.widget.input_type != 'hidden' %}
+            {{ render_field(field, "form-group", "col-form-label", "form-control") }}
+        {% endfor %}        
+    </div>
+
+    <div class="right-button d-flex align-items-center mt-5">
+    {{ form.submit(class="btn btn-primary") }}
+    </div>
+
+  </form>
+</div>
+
+<script>
+    function doStuffF(){
+      var checked = document.getElementById('personalizado_far').checked
+      if (checked){
+        document.getElementById('farinografo').style.display = "block";
+      } else {
+        document.getElementById('farinografo').style.display = "none"
+      }
+    }
+    doStuffF()
+    function doStuffA(){
+        var checked = document.getElementById('personalizado_alv').checked
+        if (checked){
+          document.getElementById('alveografo').style.display = "block";
+        } else {
+          document.getElementById('alveografo').style.display = "none"
+        }
+      }
+      doStuffA()
+</script>
+
+{% endblock %}
+

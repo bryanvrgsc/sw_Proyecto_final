@@ -1,0 +1,47 @@
+{% from "formularios/_renderFields.html" import render_field%}
+{% extends 'layout.html'%}
+
+{% block content %}
+<div class="w-100 d-flex justify-content-center mb-5">
+  <form method="POST" class="w-50">
+        {{ form.hidden_tag() }}
+
+        {{render_field(form.id_inspeccion, "form-group", "col-form-label", "form-control" )}}
+        {{render_field(form.absorcion, "form-group", "col-form-label", "form-control" )}}
+        {{render_field(form.tiempo_desarrollo, "form-group", "col-form-label", "form-control" )}}
+        {{render_field(form.estabilidad, "form-group", "col-form-label", "form-control" )}}
+        {{render_field(form.reblandecimiento, "form-group", "col-form-label", "form-control" )}}
+        {{render_field(form.qnumber, "form-group", "col-form-label", "form-control" )}}
+        {{render_field(form.tenacidad, "form-group", "col-form-label", "form-control" )}}
+        {{render_field(form.extensibilidad, "form-group", "col-form-label", "form-control" )}}
+        {{render_field(form.configuracion_curva, "form-group", "col-form-label", "form-control" )}}
+        {{render_field(form.indice_elasticidad, "form-group", "col-form-label", "form-control" )}}
+        {{render_field(form.fuerza_panadera, "form-group", "col-form-label", "form-control" )}}
+        {{render_field(form.lote, "form-group", "col-form-label", "form-select" )}}
+        
+
+        <div class="mt-5 alveografo">
+            <h3>Alveografo</h3>
+            {{render_field(form.equipo_alv, "form-group", "col-form-label", "form-select" )}}
+            {% for field in form.alveografo if field.widget.input_type != 'hidden' %}
+                {{ render_field(field, "form-group", "col-form-label", "form-control") }}
+            {% endfor %}    
+        </div>
+        
+        <div class="mt-5 farinografo">
+            <h3>Farinografo</h3>
+            {{render_field(form.equipo_far, "form-group", "col-form-label", "form-select" )}}
+            {% for field in form.farinografo if field.widget.input_type != 'hidden' %}
+                {{ render_field(field, "form-group", "col-form-label", "form-control") }}
+            {% endfor %}        
+        </div>
+
+        <div class="right-button d-flex align-items-center mt-5">
+        {{ form.submit(class="btn btn-primary") }}
+        </div>
+
+
+  </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% from "formularios/_renderFields.html" import render_field%}
+{% extends 'layout.html'%}
+
+{% block content %}
+<div class="w-100 d-flex justify-content-center mb-5">
+  <form method="POST" class="w-50">
+        {{ form.hidden_tag() }}
+        
+    {{render_field(form.cantidad_solicitada, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.cant_total, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.factura, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.fecha_envio, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.fecha_caducidad, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.inspeccion, "form-group", "col-form-label", "form-select" )}}
+        
+
+        <div class="right-button d-flex align-items-center mt-5">
+        {{ form.submit(class="btn btn-primary") }}
+        </div>
+
+
+  </form>
+</div>
+
+{% endblock %}

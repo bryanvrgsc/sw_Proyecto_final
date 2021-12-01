@@ -1,0 +1,16 @@
+{% macro render_field(field, div_class,label_class, input_class, function = "")%}
+
+<div class="{{ div_class }}">
+    {{ field.label(class="required " + label_class) }}
+    {{ field(class="" + input_class, onchange=""+function)|safe }}
+
+    <!-- Errores -->
+    <div class="invalid-feedback">
+    {% for error in field.errors %}
+        <span>{{ error }}</span>
+    {% endfor %}
+    </div>
+
+  </div>
+
+{% endmacro%}

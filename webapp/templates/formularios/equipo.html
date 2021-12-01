@@ -1,0 +1,73 @@
+{% from "formularios/_renderFields.html" import render_field%}
+{% extends 'layout.html'%}
+
+{% block content %}
+<div class="w-100 d-flex justify-content-center mb-5">
+  <form method="POST" class="w-50">
+    {{ form.hidden_tag() }}
+
+    {{render_field(form.marca, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.modelo, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.marca, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.serie, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.proveedor, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.fecha_adquisicion, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.garantia, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.ubicacion, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.mantenimiento, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.descripcionc, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.descripcionl, "form-group", "col-form-label", "form-control" )}}
+
+    <div class="form-check mt-3">
+        <input class="form-check-input" onclick="doStuff()" value="arinografo" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+        <label class="form-check-label" for="flexRadioDefault1">
+          Arinografo
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" onclick="doStuff()" value="farinografo" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+        <label class="form-check-label" for="flexRadioDefault2">
+          Farinografo
+        </label>
+      </div>
+
+    <div id="alveografo" class="mt-5">
+        <h3>Alveografo</h3>
+        {% for field in form.alveografo if field.widget.input_type != 'hidden' %}
+            {{ render_field(field, "form-group", "col-form-label", "form-control") }}
+        {% endfor %}    
+
+    </div>
+    <div id="farinografo" class="mt-5">
+        <h3>Farinografo</h3>
+        {% for field in form.farinografo if field.widget.input_type != 'hidden' %}
+            {{ render_field(field, "form-group", "col-form-label", "form-control") }}
+        {% endfor %}        
+    </div>
+
+    <div class="right-button d-flex align-items-center mt-5">
+    {{ form.submit(class="btn btn-primary") }}
+    </div>
+
+
+  </form>
+</div>
+
+<script>
+    function doStuff(){
+        var value = document.querySelector('input[name="flexRadioDefault"]:checked').value;
+        
+        if(value == "arinografo"){
+            document.getElementById("alveografo").style.display = "block";
+            document.getElementById("farinografo").style.display = "none";
+        }
+        else if(value == "farinografo"){
+            document.getElementById("farinografo").style.display = "block";
+            document.getElementById("alveografo").style.display = "none";
+        }
+
+      }
+      doStuff()
+</script>
+
+{% endblock %}

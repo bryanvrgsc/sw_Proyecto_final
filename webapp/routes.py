@@ -122,7 +122,7 @@ def formulario(elemento):
         # db.session.add(doc)
         # db.session.commit()
 
-    return render_template("formulario.html", elemento=elemento, modalForm=modalForm[elemento])
+    return render_template(f"formularios/{elemento}.html", elemento=elemento, form=modalForm[elemento])
 
 
 # Log Out

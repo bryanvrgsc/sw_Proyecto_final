@@ -208,3 +208,12 @@ input:focus::placeholder {
     height: 99%;
 
 }
+
+#farinografo, #alveografo{
+    display: none;
+}
+
+.required::after{
+    content:"*";
+    color:#ff0000
+}
