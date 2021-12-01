@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from sqlalchemy.orm import defaultload
 from wtforms import StringField, PasswordField, BooleanField, IntegerField, DecimalField, TextAreaField
 from datetime import datetime
+from wtforms.fields.core import SelectField
 from wtforms.fields.simple import SubmitField
 from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError
 from wtforms.fields.html5 import  TelField, DateField
@@ -22,7 +23,7 @@ class RegiseterLab(FlaskForm):
     username = StringField('Usuario', validators=[DataRequired()])
     password = PasswordField('Contraseña', validators=[DataRequired()])
     comfirm_password = PasswordField('Confirmar Contraseña', validators=[DataRequired()])
-    role = StringField('Rol', validators=[DataRequired()])
+    role = SelectField('Rol', validators=[DataRequired()],choices=[('admin', 'Administrador'), ('user', 'Usuario')])
     active = BooleanField('Usuario activo', validators=[DataRequired()]) #! Boolean
     submit = SubmitField('Registrar')
 
@@ -40,7 +41,7 @@ class RegisterEquipo(FlaskForm):
     ubicacion = StringField('Ubicación', validators=[DataRequired()])
     mantenimiento = DateField("Mantenimiento", validators=[DataRequired()], default=datetime.now())
     descripcionc = StringField('Descripcion Corta', validators=[DataRequired()])
-    descripcionl = TextAreaField('Descripcion Larga', validators=[DataRequired(),Length(max=200)])
+    descripcionl = TextAreaField('Descripcion Larga', validators=[DataRequired(),Length(max=100)])
 
     submit = SubmitField('Registrar')
 
