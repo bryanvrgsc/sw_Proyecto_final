@@ -14,10 +14,13 @@ pyton3 -m venv venv
 pip3 -r install requirements.txt
 ```
 
-## Creación de la base de datos
-
+## Creación de la base de datos, en python
+Comentar del archivo ___init___.py la linea 26: # from webapp import routes
 ```sh
-create
+python3
+>>> from webapp import db
+>>> from webapp.models import Laboratorista, EquipoLab, Farinografo, Alveografo, Cliente, Orden, Lote, Inspeccion, Certificado
+>>> db.create_all()
 ```
 
 ## Puedes correr el proyecto con el comando
