@@ -104,7 +104,7 @@ class RegisterInspeccion(FlaskForm):
     # certificados = FORANEA
     # idLote = FORANEA
 
-class RegisteCertificado(FlaskForm):
+class RegisterCertificado(FlaskForm):
     cantidad_solicitada = DecimalField('Cantidad Solicitada', validators=[DataRequired()])
     norden = IntegerField('Número de Orden', validators=[DataRequired()])
     cant_total = DecimalField('Cantidad Total', validators=[DataRequired()])
