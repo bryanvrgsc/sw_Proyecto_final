@@ -39,10 +39,11 @@ a.menu-item_wrapper:hover{
     height: 90%;
 }
 .login_wrapper{
-    height: 350px;
+    height: 450px;
     width: 350px;
     padding: 50px;
     border-radius: 25px;
+    background-color: white;
 }
 .login-input{
     text-align: center;
@@ -195,5 +196,15 @@ input:focus::placeholder {
 }
 
 .menu-wrapper{
-    margin-top: 200px;
+    margin-top: 5%;
+}
+
+.login-logo{
+    height: 100px;
+    margin-bottom: 1px;
+}
+
+.login-logo img{
+    height: 99%;
+
 }

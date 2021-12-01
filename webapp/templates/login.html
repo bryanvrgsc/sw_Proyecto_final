@@ -1,5 +1,16 @@
 {% extends 'layout.html'%}
 
+{% block style%}
+<style>
+    body{
+        background-image: url("../static/img/harina-background.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+
+{% endblock %}
+
 {% block content %}
     
     <div class="wrapper d-flex justify-content-center align-items-center">
@@ -8,8 +19,8 @@
             <form method="POST" >
                 {{ form.hidden_tag() }}
 
-            <div class="text-center">
-                <h1>Login</h1>
+            <div class="text-center login-logo">
+                <img src="{{ url_for('static', filename='img/logo_here.png') }}">
             </div>
 
 
