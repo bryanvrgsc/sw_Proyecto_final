@@ -16,7 +16,7 @@ class Login(FlaskForm):
     remember = BooleanField('Recordarme')
     submit = SubmitField('Log in')
 
-class Buscar(Form):
+class Buscar(FlaskForm):
     value = StringField('value')
     search = SubmitField('Buscar')
 
