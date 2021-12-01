@@ -36,7 +36,7 @@ class EquipoLab(db.Model):
     serie = db.Column(db.Integer, nullable=False)
     proveedor = db.Column(db.String(50), nullable=False)
     fecha_adquisicion = db.Column(db.DateTime, nullable=False) 
-    garantia = db.Column(db.String(20), nullable=False)
+    garantia = db.Column(db.DateTime, nullable=False)
     ubicacion = db.Column(db.String(50), nullable=False)
     mantenimiento = db.Column(db.DateTime, nullable=False) 
     descripcionc = db.Column(db.String(20), nullable=False)
