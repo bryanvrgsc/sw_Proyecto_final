@@ -29,7 +29,10 @@ class RegiseterLab(FlaskForm):
 
 class RegisterEquipo(FlaskForm):
     marca = StringField('Marca', validators=[DataRequired()])
-    modelo = StringField('Modelo', validators=[DataRequired()]) #! Boolean
+    modelo = StringField('Modelo', validators=[DataRequired()])
+    DescripcionL = TextAreaField('Descripcion Larga', validators=[DataRequired(), Length(max=100)])
+    DescripcionC = StringField('Descripcion Corta', validators=[DataRequired()])
+    marca = StringField('Marca', validators=[DataRequired()])
     serie = IntegerField('Serie', validators=[DataRequired()])
     proveedor = StringField('Proveedor', validators=[DataRequired()])
     fecha_adquisicion = DateField("Fecha de Adquisición", validators=[DataRequired()], default=datetime.now())
@@ -83,11 +86,13 @@ class RegisterOrden(FlaskForm):
     precio = DecimalField(' Precio', validators=[DataRequired()])
     # idc =  FORANEA
     # certificados = FORANEA
+    submit = SubmitField('Registrar')
 
 class RegisterLote(FlaskForm):
 
     cantidad = DecimalField('Cantidad', validators=[DataRequired()])
     # inspecciones = FORANEA
+    submit = SubmitField('Registrar')
 
 class RegisterInspeccion(FlaskForm):
     absorcion = DecimalField('Absorción', validators=[DataRequired()])
