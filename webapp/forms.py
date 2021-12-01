@@ -15,8 +15,12 @@ class Login(FlaskForm):
     remember = BooleanField('Recordarme')
     submit = SubmitField('Log in')
 
+<<<<<<< HEAD
 
 class Buscar(Form):
+=======
+class Buscar(FlaskForm):
+>>>>>>> 805d8c2 (funciones)
     value = StringField('value')
     search = SubmitField('Buscar')
 
@@ -57,7 +61,6 @@ class RegiseterLab(FlaskForm):
 class RegisterEquipo(FlaskForm):
     marca = StringField('Marca', validators=[DataRequired()])
     modelo = StringField('Modelo', validators=[DataRequired()])
-    marca = StringField('Marca', validators=[DataRequired()])
     serie = IntegerField('Serie', validators=[DataRequired()])
     proveedor = StringField('Proveedor', validators=[DataRequired()])
     fecha_adquisicion = DateField("Fecha de Adquisición", validators=[DataRequired()], default=datetime.now())
