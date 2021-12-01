@@ -4,7 +4,9 @@
 <div class="w-100 d-flex justify-content-center mb-5">
   <form method="POST" class="w-50">
               {{ modalForm.hidden_tag() }}
+              
               {% for field in modalForm if field.widget.input_type != 'hidden' and field.widget.input_type != 'submit'%}
+              {{field.widget }}
               {% if field.widget.input_type == 'checkbox' %}
 
                 {% set label = "form-check-input" %}
@@ -13,10 +15,17 @@
               
               {% else %}
 
-              {% set label = "form-control" %}
-              {% set label_title = "col-form-label" %}
-              {% set div_class = "form-group" %}
+                {% if field == 'select' %}
+                {% set label = "selectpicker" %}
 
+
+                {% else %}
+
+                  {% set label = "form-control" %}
+                  {% set label_title = "col-form-label" %}
+                  {% set div_class = "form-group" %}
+
+                {% endif %}
               {% endif %}
 
 
