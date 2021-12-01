@@ -1,4 +1,4 @@
- from datetime import datetime
+from datetime import datetime
 from sqlalchemy.orm import backref, column_property, defaultload, lazyload
 from webapp import db, login_manager
 from flask_login import UserMixin
@@ -12,7 +12,7 @@ class Laboratorista(db.Model, UserMixin):
     idl = db.Column(db.Integer, primary_key=True, nullable=False)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(20), nullable=False)
-    active = db.Column(db.Boolean, nullable=False) #! Boolean
+    active = db.Column(db.Boolean, nullable=False) 
     role = db.Column(db.String(20), nullable=False)
 
     # Relacion a muchos
@@ -35,14 +35,16 @@ class EquipoLab(db.Model):
     proveedor = db.Column(db.String(50), nullable=False)
     DescripcionC = db.Column(db.String(20), nullable=False)
     DescripcionL = db.Column(db.String(100), nullable=False)
-    fecha_adquisicion = db.Column(db.DateTime, nullable=False) #! Date
+    fecha_adquisicion = db.Column(db.DateTime, nullable=False) 
     garantia = db.Column(db.String(20), nullable=False)
     ubicacion = db.Column(db.String(50), nullable=False)
-    mantenimiento = db.Column(db.DateTime, nullable=False) #! Date
+    mantenimiento = db.Column(db.DateTime, nullable=False) 
 
 
-    #!ForeignKey
-    idl = db.Column(db.Integer, db.ForeignKey('laboratorista.idl'))  
+    # ! Llaves foraneas
+    idl = db.Column(db.Integer, db.ForeignKey('laboratorista.idl'))
+    id_far = db.Column(db.Integer, db.ForeignKey("farinografo.id_far"))
+    id_alv = db.Column(db.Integer, db.ForeignKey("alveografo.id_alv"))  
 
 
     def __repr__(self):
@@ -134,9 +136,9 @@ class Cliente(db.Model):
     personalizado_far = db.Column(db.Boolean, nullable=False)
     personalizado_alv = db.Column(db.Boolean, nullable=False)
 
-    # Llaves foraneas
+    # ! Llaves foraneas
     id_far = db.Column(db.Integer, db.ForeignKey("farinografo.id_far"))
-    id_alv = db.Column(db.Integer, db.ForeignKey("alveogrado.id_alv"))
+    id_alv = db.Column(db.Integer, db.ForeignKey("alveografo.id_alv"))
 
     # Relacion a muchos
     
@@ -155,7 +157,7 @@ class Orden(db.Model):
     fecha_creada = db.Column(db.DateTime(), nullable=False)
     precio = db.Column(db.Float(), nullable=False) 
 
-    # Llaves foraneas
+    # ! Llaves foraneas
     idc = db.Column(db.Integer, db.ForeignKey("cliente.idc"))
 
     # Relacion uno a uno
@@ -180,9 +182,9 @@ class Inspeccion(db.Model):
     certificados = db.relationship("Certificado", backref="inspeccion")
     idLote = db.Column(db.Integer, db.ForeignKey("lote.idlote"))
 
-    # Llaves foraneas
+    # ! Llaves foraneas
     id_far = db.Column(db.Integer, db.ForeignKey("farinografo.id_far"))
-    id_alv = db.Column(db.Integer, db.ForeignKey("alveogrado.id_alv"))
+    id_alv = db.Column(db.Integer, db.ForeignKey("alveografo.id_alv"))
 
     def __repr__(self):
         return f"Inspeccion('{self.idi}','{self.absorcion}','{self.estabilidad}','{self.qnumber}')"
@@ -196,7 +198,7 @@ class Certificado(db.Model):
     fecha_envio = db.Column(db.DateTime, nullable=False, default=datetime.now())
     fecha_caducidad = db.Column(db.DateTime, nullable=False, default=datetime.now())
 
-    # Llaves foraneas
+    # ! Llaves foraneas
     idc = db.Column(db.Integer, db.ForeignKey("cliente.idc"))
     idl = db.Column(db.Integer, db.ForeignKey("laboratorista.idl"))
 

@@ -61,7 +61,6 @@ class RegisterCliente(FlaskForm):
     submit = SubmitField('Registrar')
 
 class RegisterOrden(FlaskForm):
-    norden = IntegerField('Número de Orden', validators=[DataRequired()])
     cantidad_solicitada = DecimalField('Cantidad Solicitada', validators=[DataRequired()])
     fecha_creada = DateField("Fecha Creada", validators=[DataRequired()], default=datetime.now())
     precio = DecimalField(' Precio', validators=[DataRequired()])
@@ -69,12 +68,10 @@ class RegisterOrden(FlaskForm):
     # certificados = FORANEA
 
 class RegisterLote(FlaskForm):
-    idlote = IntegerField('ID Lote', validators=[DataRequired()])
     cantidad = DecimalField('Cantidad', validators=[DataRequired()])
     # inspecciones = FORANEA
 
 class RegisterInspeccion(FlaskForm):
-    idi = IntegerField('ID Inspección', validators=[DataRequired()])
     absorcion = DecimalField('Absorción', validators=[DataRequired()])
     tiempo_desarrollo = DecimalField('Tiempo Desarrollo', validators=[DataRequired()])
     estabilidad = DecimalField('Estabilidad', validators=[DataRequired()])
@@ -89,7 +86,6 @@ class RegisterInspeccion(FlaskForm):
     # idLote = FORANEA
 
 class RegisteCertificado(FlaskForm):
-    ncertificado = IntegerField('Número de Certificado', validators=[DataRequired()])
     cantidad_solicitada = DecimalField('Cantidad Solicitada', validators=[DataRequired()])
     norden = IntegerField('Número de Orden', validators=[DataRequired()])
     cant_total = DecimalField('Cantidad Total', validators=[DataRequired()])
