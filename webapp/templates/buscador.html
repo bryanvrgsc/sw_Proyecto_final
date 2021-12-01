@@ -23,9 +23,10 @@
 
         <div class="right-button">
           <a href="{{ url_for('menu') }}" class="btn btn-primary mx-5"> Regresar al Menu</a>
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" > 
-              Nuevo {{ elemento }}
-            </button>
+
+            <a href="{{ url_for('formulario', elemento = elemento) }}" class="btn btn-success" >
+              Registro de {{ elemento }}
+            </a>
 
         </div>
     </div>
@@ -57,9 +58,9 @@
                       <button type="button" class="icon_wrapper" data-toggle="modal" data-target="#DeleteModal" data-whatever="{{ item[table_header[0]] }}">
                         <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/remove.png' ) }}" >
                       </button>
-                      <button type="button" class="icon_wrapper" data-toggle="modal" data-target="#exampleModal" data-whatever="{{ item }}"> 
+                      <a href="{{ url_for('formulario', elemento = elemento) }}" type="button" class="icon_wrapper"> 
                         <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/editing.png' ) }}">
-                      </button>
+                      </a>
 
                       <a class="icon_wrapper" target="_blank" href="{{ url_for('seleccionar', elemento=elemento, value_id=item[table_header[0]]) }}" >
                         <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/select.png' ) }}">
@@ -78,9 +79,36 @@
           </table>
     </div>
 
-    
-    
 
-    {% include "formulario.html" %}
+      <!-- Delete Modal -->
+  <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="DeleteModalLabel"> Estas seguro de Querer Eliminar el Elemento</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <a class="btn btn-danger" href="">Eliminar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $('#DeleteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        let url = "{{ url_for('eliminar', elemento=elemento, value_id='recipient') }}"
+        modal.find('.btn-danger').attr("href", url.replace("recipient", recipient))
+      })
+  </script>
+    
         
 {% endblock %}

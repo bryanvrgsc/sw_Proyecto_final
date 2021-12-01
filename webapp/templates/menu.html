@@ -1,75 +1,70 @@
 {% extends 'layout.html'%}
 
 {% block content %}
-    <div class="title-wrapper" >
-        <h1>Laboratorio</h1>
 
-        <div class="right-button">
-            <a href="{{ url_for('logout') }}" class="btn btn-danger"> Logout</a>
-        </div>
+    <div class="menu-wrapper">
         
-    </div>
-    
-
-    <div class="d-flex justify-content-around">
+            <div class="d-flex justify-content-around">
+                
+                <a href="{{ url_for('buscador', elemento='clientes') }}"  class="menu-item_wrapper shadow-lg">
+                    <div class="menu-image-wrapper" >
+                        <img src="{{ url_for('static', filename='img/menu_icons/g_clientes.png') }}" alt="">
+                    </div>
+                    <div class="text-center menu-title">
+                        <h3>
+                            Gestión de Clientes
+                        </h3>
+                    </div>
+                </a>
+                
+                <a href="{{ url_for('buscador', elemento='equipo') }}" class="menu-item_wrapper shadow-lg">
+                    <div class="menu-image-wrapper" >
+                        <img src="{{ url_for('static', filename='img/menu_icons/equipo_lab.png') }}" alt="">
+                    </div>
+                    <div class="text-center menu-title">
+                        <h3>
+                            Equipo de Laboratorio
+                        </h3>
+                    </div>
+                </a>
+                <a href="{{ url_for('buscador', elemento='inspeccion') }}" class="menu-item_wrapper shadow-lg">
+                    <div class="menu-image-wrapper" >
+                        <img src="{{ url_for('static', filename='img/menu_icons/registro_inspeccion.png') }}" alt="">
+                    </div>
+                    <div class="text-center menu-title">
+                        <h3>
+                            Registro de Inspeccion
+                        </h3>
+                    </div>
+                </a>
+                <a href="{{ url_for('buscador', elemento='certificados') }}" class="menu-item_wrapper shadow-lg">
+                    <div class="menu-image-wrapper">
+                        <img src="{{ url_for('static', filename='img/menu_icons/emision_certificado.png') }}" alt="">
+                    </div>
+                    <div class="text-center menu-title">
+                        <h3>
+                            Emisión de certificados
+                        </h3>
+                    </div>
+                </a>
         
-        <a href="{{ url_for('buscador', elemento='clientes') }}"  class="menu-item_wrapper shadow-lg">
-            <div class="menu-image-wrapper" >
-                <img src="{{ url_for('static', filename='img/menu_icons/g_clientes.png') }}" alt="">
             </div>
-            <div class="text-center menu-title">
-                <h3>
-                    Gestión de Clientes
-                </h3>
+            
+            {# Menu para Administracion#}
+            {% if user_type == "admin" %}
+            <div class="d-flex justify-content-around">
+                <a href="{{ url_for('buscador', elemento='laboratorista') }}" class="small menu-item_wrapper shadow-lg">
+                    <div class="small-title text-center d-flex align-items-center justify-content-around">
+                        <h3>
+                            Gestion de Laboratoristas
+                        </h3>
+                    </div>
+                </a>
             </div>
-        </a>
-        
-        <a href="{{ url_for('buscador', elemento='equipo') }}" class="menu-item_wrapper shadow-lg">
-            <div class="menu-image-wrapper" >
-                <img src="{{ url_for('static', filename='img/menu_icons/equipo_lab.png') }}" alt="">
-            </div>
-            <div class="text-center menu-title">
-                <h3>
-                    Equipo de Laboratorio
-                </h3>
-            </div>
-        </a>
-        <a href="{{ url_for('buscador', elemento='inspeccion') }}" class="menu-item_wrapper shadow-lg">
-            <div class="menu-image-wrapper" >
-                <img src="{{ url_for('static', filename='img/menu_icons/registro_inspeccion.png') }}" alt="">
-            </div>
-            <div class="text-center menu-title">
-                <h3>
-                    Registro de Inspeccion
-                </h3>
-            </div>
-        </a>
-        <a href="{{ url_for('buscador', elemento='certificados') }}" class="menu-item_wrapper shadow-lg">
-            <div class="menu-image-wrapper">
-                <img src="{{ url_for('static', filename='img/menu_icons/emision_certificado.png') }}" alt="">
-            </div>
-            <div class="text-center menu-title">
-                <h3>
-                    Emisión de certificados
-                </h3>
-            </div>
-        </a>
+            {% endif %}
 
     </div>
-    
 
-    
-    {# Menu para Administracion#}
-    {% if user_type == "admin" %}
-    <div class="d-flex justify-content-around">
-        <a href="{{ url_for('buscador', elemento='laboratorista') }}" class="small menu-item_wrapper shadow-lg">
-            <div class="small-title text-center d-flex align-items-center justify-content-around">
-                <h3>
-                    Gestion de Laboratoristas
-                </h3>
-            </div>
-        </a>
-    </div>
-    {% endif %}
+
 
     {% endblock %}

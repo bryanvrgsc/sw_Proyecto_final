@@ -15,15 +15,15 @@ import pdfkit, os, uuid
 def TableValues(elemento):
 
     if elemento == "laboratorista" and current_user.role == 'admin':
-        return {'model' : Laboratorista(), 'search_item' : 'username', 'table_header' : Laboratorista.__table__.columns.keys(), 'breakpoint': None}
+        return {'uncalled': Laboratorista,'model' : Laboratorista(), 'search_item' : 'username', 'table_header' : Laboratorista.__table__.columns.keys(), 'breakpoint': None}
     elif elemento == "clientes":
-        return {'model' : Cliente(), 'search_item' : 'rfc', 'table_header' : Cliente.__table__.columns.keys() , 'breakpoint': 'factor_analisis'}
+        return {'uncalled': Cliente,'model' : Cliente(), 'search_item' : 'rfc', 'table_header' : Cliente.__table__.columns.keys() , 'breakpoint': 'factor_analisis'}
     elif elemento == "equipo":
-        return {'model' : EquipoLab(),'search_item' : 'clave', 'table_header' : EquipoLab.__table__.columns.keys() , 'breakpoint': 'DescripcionL'}
+        return {'uncalled': EquipoLab,'model' : EquipoLab(),'search_item' : 'clave', 'table_header' : EquipoLab.__table__.columns.keys() , 'breakpoint': 'DescripcionL'}
     elif elemento == "certificados":
-        return {'model' : Certificado(), 'search_item' : 'ncertificado', 'table_header' : Certificado.__table__.columns.keys() , 'breakpoint': 'idc'}
+        return {'uncalled': Certificado,'model' : Certificado(), 'search_item' : 'ncertificado', 'table_header' : Certificado.__table__.columns.keys() , 'breakpoint': 'idc'}
     elif elemento == "inspeccion":
-        return {'model' : Inspeccion(),'search_item' : 'idi', 'table_header' : Inspeccion.__table__.columns.keys() , 'breakpoint': 'tenacidad'}
+        return {'uncalled': Inspeccion,'model' : Inspeccion(),'search_item' : 'idi', 'table_header' : Inspeccion.__table__.columns.keys() , 'breakpoint': 'tenacidad'}
     else:
         return {'error message' : 'Query Invalido', 'type':'alert'}
 
@@ -45,7 +45,6 @@ def login():
 
     return render_template("login.html", form=form)
 
-
 @app.route("/home", methods=["GET","POST"])
 @app.route("/", methods=["GET","POST"])
 @login_required
@@ -53,26 +52,10 @@ def menu():
     user_type = current_user.role
     return render_template("menu.html", user_type=user_type, menu_items=menu)
 
-
-
-
 @app.route("/buscador/<elemento>", methods=["GET", "POST"])
 @login_required
 def buscador(elemento):
     search_form = Buscar()
-    modalForm = {
-            'laboratorista' : RegiseterLab(),
-            'clientes' : RegisterCliente(),
-            'equipo': RegisterEquipo(),
-            'certificados': RegisterEquipo(),
-            'inspeccion': RegisterEquipo()
-    }
-
-    # Agregar Valor a la base de datos
-    if modalForm[elemento].validate_on_submit():
-        flash("Se envio el fomrulario", "info")
-    
-
 
     # Largo de Table Header
     table = TableValues(elemento)
@@ -101,11 +84,39 @@ def buscador(elemento):
     table_header=table_header, 
     search_item = table['search_item'].upper(),
     # Formularios a usar
-    form=search_form, 
-    modalForm=modalForm[elemento])
+    form=search_form)
+
+@app.route("/register/<elemento>", methods=["GET", "POST"])
+# @login_required
+def formulario(elemento):
+    elemento = elemento.lower()
+    modalForm = {
+        'laboratorista' : RegiseterLab(),
+        'clientes' : RegisterCliente(),
+        'equipo': RegisterEquipo(),
+        'certificados': RegisterEquipo(),
+        'inspeccion': RegisterEquipo()
+    }
+    if modalForm[elemento].validate_on_submit():
+        flash("Funciona", "info")
+
+        table = TableValues(elemento)
+        
+        object_items = dict()
+
+        for field in modalForm[elemento]:
+            if field.widget.input_type != 'hidden' and field.widget.input_type != 'submit':
+                
+                object_items[field.name] =  field.data
+
+        doc = table['uncalled'](**object_items)
+        db.session.add(doc)
+        db.session.commit()
+
+    return render_template("formulario.html", elemento=elemento, modalForm=modalForm[elemento])
 
 
-
+# Log Out
 @app.route("/logout")
 @login_required
 def logout():
@@ -130,7 +141,6 @@ def eliminar(elemento,value_id):
     flash(f"El coneptxo con ID: {value_id} fue eliminado ", 'warning')
 
     return redirect(url_for('buscador', elemento=elemento))
-
 
 @app.route("/seleccionar/<elemento>/<value_id>")
 @login_required
