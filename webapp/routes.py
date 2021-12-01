@@ -117,9 +117,9 @@ def formulario(elemento):
                         object_items[field.name] =  field.data
                     
         print(object_items)
-        doc = table['uncalled'](**object_items)
-        db.session.add(doc)
-        db.session.commit()
+        # doc = table['uncalled'](**object_items)
+        # db.session.add(doc)
+        # db.session.commit()
 
     return render_template("formulario.html", elemento=elemento, modalForm=modalForm[elemento])
 
