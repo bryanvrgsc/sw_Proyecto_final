@@ -22,9 +22,10 @@ class RegiseterLab(FlaskForm):
     username = StringField('Usuario', validators=[DataRequired()])
     password = PasswordField('Contraseña', validators=[DataRequired()])
     comfirm_password = PasswordField('Confirmar Contraseña', validators=[DataRequired()])
-    active = BooleanField('Usuario activo', validators=[DataRequired()]) #! Boolean
     role = StringField('Rol', validators=[DataRequired()])
+    active = BooleanField('Usuario activo', validators=[DataRequired()]) #! Boolean
     submit = SubmitField('Registrar')
+
 
 class RegisterEquipo(FlaskForm):
     marca = StringField('Marca', validators=[DataRequired()])
@@ -38,24 +39,41 @@ class RegisterEquipo(FlaskForm):
     garantia = StringField('Garantía', validators=[DataRequired()])
     ubicacion = StringField('Ubicación', validators=[DataRequired()])
     mantenimiento = DateField("Mantenimiento", validators=[DataRequired()], default=datetime.now())
-    factor_analisis = IntegerField('Factor de Análisis', validators=[DataRequired()])
-    medida_factor = IntegerField('Medida Factor', validators=[DataRequired()])
-    lim_inferior = IntegerField('Límite Inferior', validators=[DataRequired()])
-    lim_superior = IntegerField('Límite Superior', validators=[DataRequired()])
-    especificacion = IntegerField('Límite Inferior', validators=[DataRequired()])
+    
     submit = SubmitField('Registrar')
 
+class RegisterFarinografo(FlaskForm):
+    absorcion_agua = IntegerField('Absorcion de Agua', validators=[DataRequired()])
+    tolerancia_ub = IntegerField('Tolerancia', validators=[DataRequired()])
+    elasticidad = IntegerField('Elasticidad', validators=[DataRequired()])
+    viscodidad = IntegerField('Viscodidad', validators=[DataRequired()])
+    act_enzimatica = IntegerField('Enzimatica', validators=[DataRequired()])
+    trigo_germinado = IntegerField('Trigo Germinado', validators=[DataRequired()])
+    tiempo_amasado = IntegerField('Tiempo de Amasado', validators=[DataRequired()])
+    cantidad_gluten = IntegerField('Cantidad del Gluten', validators=[DataRequired()])
+    calidad_gluten = IntegerField('Calidad del Gluten', validators=[DataRequired()])
+    indoneidad = IntegerField('Indoneidad', validators=[DataRequired()])
+    dureza = IntegerField('Dureza', validators=[DataRequired()])
+    reblandecimiento = IntegerField('Reblancedimiento', validators=[DataRequired()]) 
+    estabilidad = IntegerField('Estabilidad', validators=[DataRequired()])
+    tiempo_desarrollo = IntegerField('Tiempo de desarrollo', validators=[DataRequired()]) 
+    qnumber = IntegerField('Qnumber', validators=[DataRequired()])
+
+class RegisterAlveografo(FlaskForm):
+    tenacidad = IntegerField('Tenacidad ', validators=[DataRequired()])
+    extensibilidad = IntegerField('Extensibilidad', validators=[DataRequired()])
+    fuerza_panadera = IntegerField('Fuerza Panadera', validators=[DataRequired()])
+    indice_elasticidad = IntegerField('Índice de Elasticidad', validators=[DataRequired()])
+    configuracion_curva = IntegerField('Configuración de la Curva', validators=[DataRequired()])
+    
 class RegisterCliente(FlaskForm):
     rfc = StringField('RFC', validators=[DataRequired()])
     nombre = StringField('Nombre', validators=[DataRequired()])
     apellido = StringField('Apellido', validators=[DataRequired()])
     domicilio = StringField('Domicilio', validators=[DataRequired()])
-    ncontacto = TelField('Numero de contacto', validators=[DataRequired()])
-    factor_analisis = DecimalField('Analisis')
-    lim_inferior = DecimalField('Limite Inferior')
-    lim_superior = DecimalField('Limite Superior')
-    clave_factor = DecimalField('Clave Factor')
-    medida = DecimalField('Medida')
+    ncontacto = TelField('Número de contacto', validators=[DataRequired()])
+    personalizado_far = BooleanField('Farinografo Personalizado', validators=[DataRequired()]) #! Boolean
+    personalizado_alv = BooleanField('Alveografo Personalizado', validators=[DataRequired()]) #! Boolean
     submit = SubmitField('Registrar')
 
 class RegisterOrden(FlaskForm):
