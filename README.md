@@ -30,6 +30,7 @@ Si clonaste este repositorio, no es necesario crear la base de datos, a menos qu
 python3 run.py
 ```
 
+## Screens del Proyecto
 
 ![alt text](https://i.postimg.cc/YCvZPcn9/Screen-Shot-2021-11-30-at-3-17-56-p-m.png)
 ![alt text](https://i.postimg.cc/LsCTFhJF/Screen-Shot-2021-11-30-at-3-26-00-p-m.png)
