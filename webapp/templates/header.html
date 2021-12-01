@@ -1,13 +1,16 @@
-<header class="sticky-top">
-    <div class="title-wrapper" >
-        <img src="{{ url_for('static', filename='img/logo_here.png') }} ">
+{% if request.path != url_for('login') %}
+    <header class="sticky-top">
+        <div class="title-wrapper" >
+            <a href="{{ url_for('menu') }}">
+                <img src="{{ url_for('static', filename='img/logo_here.png') }} ">
+            </a>
+            
 
-        {% if request.path != url_for('login') %}
-    
-        <div class="h-100 right-button d-flex align-items-center">
-            <a href="{{ url_for('logout') }}" class="btn btn-danger"> Logout</a>
-        </div>
         
-        {% endif %}
-    </div>
-</header>
+            <div class="h-100 right-button d-flex align-items-center">
+                <a href="{{ url_for('logout') }}" class="btn btn-danger"> Logout</a>
+            </div>
+            
+        </div>
+    </header>
+{% endif %}
