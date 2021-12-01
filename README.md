@@ -18,19 +18,18 @@ pip3 -r install requirements.txt
 Comentar del archivo ___init___.py la linea 26: # from webapp import routes
 
 Utilizando el env creado previamente, es necesario activarlo en terminal. Antes de realizar los siguientes pasos.
-```
-source venv_proyecto_sw/bin/activate
 ```sh
-```
 source venv_proyecto_sw/bin/activate
-```sh
+```
+
+Con la terminal con en venv, en el directorio del proyecto, ingresar los siguientes comandos
 ```sh
 python3
 >>> from webapp import db
 >>> from webapp.models import Laboratorista, EquipoLab, Farinografo, Alveografo, Cliente, Orden, Lote, Inspeccion, Certificado
 >>> db.create_all()
-
 ```
+
 Si clonaste este repositorio, no es necesario crear la base de datos, a menos que hayas modificado alguna tabla de la dbs (class del documento models.py)
 
 ## Puedes correr el proyecto con el comando
