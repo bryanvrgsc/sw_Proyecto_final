@@ -14,7 +14,7 @@ import pdfkit, os, uuid
 
 def TableValues(elemento):
 
-    if elemento == "laboratorista" and current_user.role == 'admin':
+    if elemento == "laboratorista":
         return {'uncalled': Laboratorista,'model' : Laboratorista(), 'search_item' : 'username', 'table_header' : Laboratorista.__table__.columns.keys(), 'breakpoint': None}
     elif elemento == "clientes":
         return {'uncalled': Cliente,'model' : Cliente(), 'search_item' : 'rfc', 'table_header' : Cliente.__table__.columns.keys() , 'breakpoint': 'factor_analisis'}
@@ -87,7 +87,7 @@ def buscador(elemento):
     form=search_form)
 
 @app.route("/register/<elemento>", methods=["GET", "POST"])
-# @login_required
+@login_required
 def formulario(elemento):
     elemento = elemento.lower()
     modalForm = {
@@ -106,9 +106,14 @@ def formulario(elemento):
 
         for field in modalForm[elemento]:
             if field.widget.input_type != 'hidden' and field.widget.input_type != 'submit':
-                
-                object_items[field.name] =  field.data
-
+                if field.name != 'comfirm_password':
+                    if elemento == 'laboratorista' and field.name =="password":
+                        hashed_password = bcrypt.generate_password_hash(field.data).decode('utf-8')
+                        object_items[field.name] = hashed_password
+                    else:
+                        object_items[field.name] =  field.data
+                    
+        print(object_items)
         doc = table['uncalled'](**object_items)
         db.session.add(doc)
         db.session.commit()
