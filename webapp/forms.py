@@ -2,10 +2,9 @@ from flask_wtf import FlaskForm
 from sqlalchemy.orm import defaultload
 from wtforms import StringField, PasswordField, BooleanField, IntegerField, DecimalField
 from datetime import datetime
-from wtforms.fields.core import DateField, DecimalField
 from wtforms.fields.simple import SubmitField
 from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError
-from wtforms.fields.html5 import  TelField
+from wtforms.fields.html5 import  TelField, DateField
 from wtforms.widgets.html5 import NumberInput
 
 class Login(FlaskForm):
@@ -28,7 +27,7 @@ class RegiseterLab(FlaskForm):
     submit = SubmitField('Registrar')
 
 class RegisterEquipo(FlaskForm):
-    clave = IntegerField('Clave', validators=[DataRequired()])
+    
     marca = StringField('Marca', validators=[DataRequired()])
     modelo = StringField('Modelo', validators=[DataRequired()]) #! Boolean
     DescripcionL = StringField('Descripcion Larga', validators=[DataRequired()])
@@ -61,6 +60,10 @@ class RegisterCliente(FlaskForm):
     submit = SubmitField('Registrar')
 
 class RegisterOrden(FlaskForm):
+<<<<<<< HEAD
+=======
+    
+>>>>>>> refs/remotes/origin/main
     cantidad_solicitada = DecimalField('Cantidad Solicitada', validators=[DataRequired()])
     fecha_creada = DateField("Fecha Creada", validators=[DataRequired()], default=datetime.now())
     precio = DecimalField(' Precio', validators=[DataRequired()])
@@ -68,10 +71,18 @@ class RegisterOrden(FlaskForm):
     # certificados = FORANEA
 
 class RegisterLote(FlaskForm):
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/main
     cantidad = DecimalField('Cantidad', validators=[DataRequired()])
     # inspecciones = FORANEA
 
 class RegisterInspeccion(FlaskForm):
+<<<<<<< HEAD
+=======
+   
+>>>>>>> refs/remotes/origin/main
     absorcion = DecimalField('Absorción', validators=[DataRequired()])
     tiempo_desarrollo = DecimalField('Tiempo Desarrollo', validators=[DataRequired()])
     estabilidad = DecimalField('Estabilidad', validators=[DataRequired()])
