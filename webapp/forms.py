@@ -81,9 +81,8 @@ class RegisterCliente(FlaskForm):
     apellido = StringField('Apellido', validators=[DataRequired()])
     domicilio = StringField('Domicilio', validators=[DataRequired()])
     ncontacto = TelField('Número de contacto', validators=[DataRequired()])
-    n_orden = SelectField("Número de Orden", validators=[DataRequired()], choices=[table.norden for table in Orden.query.all()])
-    personalizado_far = BooleanField('Farinografo Personalizado', validators=[DataRequired()]) #! Boolean
-    personalizado_alv = BooleanField('Alveografo Personalizado', validators=[DataRequired()]) #! Booleanls
+    personalizado_far = BooleanField('Farinografo Personalizado') #! Boolean
+    personalizado_alv = BooleanField('Alveografo Personalizado') #! Booleanls
 
     alveografo = FormField(RegisterAlveografo)
     farinografo = FormField(RegisterFarinografo)

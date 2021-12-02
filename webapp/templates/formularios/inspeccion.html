@@ -5,7 +5,7 @@
 <div class="w-100 d-flex justify-content-center mb-5">
   <form method="POST" class="w-50">
         {{ form.hidden_tag() }}
-
+        {{render_field(form.lote, "form-group", "col-form-label", "form-select" )}}
         {{render_field(form.id_inspeccion, "form-group", "col-form-label", "form-control" )}}
         {{render_field(form.absorcion, "form-group", "col-form-label", "form-control" )}}
         {{render_field(form.tiempo_desarrollo, "form-group", "col-form-label", "form-control" )}}
@@ -17,7 +17,7 @@
         {{render_field(form.configuracion_curva, "form-group", "col-form-label", "form-control" )}}
         {{render_field(form.indice_elasticidad, "form-group", "col-form-label", "form-control" )}}
         {{render_field(form.fuerza_panadera, "form-group", "col-form-label", "form-control" )}}
-        {{render_field(form.lote, "form-group", "col-form-label", "form-select" )}}
+        
         
 
         <div class="mt-5 alveografo">

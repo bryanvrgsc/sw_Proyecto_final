@@ -2,14 +2,20 @@
 
 <div class="{{ div_class }}">
     {{ field.label(class="required " + label_class) }}
-    {{ field(class="" + input_class, onchange=""+function)|safe }}
 
+    {%if field.errors %}
+    
     <!-- Errores -->
     <div class="invalid-feedback">
-    {% for error in field.errors %}
-        <span>{{ error }}</span>
-    {% endfor %}
+      {% for error in field.errors %}
+          <span>{{ error }}</span>
+      {% endfor %}
     </div>
+
+    {% else %}
+      {{ field(class="" + input_class, onchange=""+function)|safe }}
+    {% endif %}
+    
 
   </div>
 
