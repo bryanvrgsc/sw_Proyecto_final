@@ -42,7 +42,10 @@ def regEquipo(form):
 def regCliente(form):
     cliente = Cliente(rfc=form.rfc.data, nombre=form.nombre.data, apellido=form.apellido.data, domicilio=form.domicilio.data, ncontacto=form.ncontacto.data, personalizado_far=form.personalizado_far.data, personalizado_alv=form.personalizado_alv.data)
 
-    print(cliente)
+    
+
+    print(cliente.personalizado_alv)
+    print(cliente.personalizado_far)
 
     # db.session.add(cliente)
     # db.session.commit()

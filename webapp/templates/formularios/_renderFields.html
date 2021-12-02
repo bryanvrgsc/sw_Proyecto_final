@@ -2,9 +2,10 @@
 
 <div class="{{ div_class }}">
     {{ field.label(class="required " + label_class) }}
+    
 
     {%if field.errors %}
-    
+    {{ field(class="is-invalid " + input_class, onchange=""+function)|safe }}
     <!-- Errores -->
     <div class="invalid-feedback">
       {% for error in field.errors %}

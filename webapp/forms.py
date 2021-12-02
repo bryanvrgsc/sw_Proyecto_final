@@ -1,14 +1,32 @@
+from typing_extensions import Required
 from flask_wtf import FlaskForm
 from sqlalchemy.orm import defaultload
-from wtforms import StringField, PasswordField, BooleanField, IntegerField, DecimalField, TextAreaField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, IntegerField, DecimalField, TextAreaField, SelectField, FormField, FieldList
 from datetime import datetime
-from wtforms.fields.core import FormField
 from wtforms.fields.simple import SubmitField
 from wtforms.form import Form
 from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError
 from wtforms.fields.html5 import  TelField, DateField
 from wtforms.widgets.html5 import NumberInput
 from webapp.models import *
+
+
+# class RequiredIf(Required):
+#     # a validator which makes a field required if
+#     # another field is set and has a truthy value
+
+#     def __init__(self, other_field_name, *args, **kwargs):
+#         self.other_field_name = other_field_name
+#         super(RequiredIf, self).__init__(*args, **kwargs)
+
+#     def __call__(self, form, field):
+#         other_field = form._fields.get(self.other_field_name)
+#         if other_field is None:
+#             raise Exception('no field named "%s" in form' % self.other_field_name)
+#         if bool(other_field.data):
+#             super(RequiredIf, self).__call__(form, field)
+
+
 
 class Login(FlaskForm):
     username = StringField('Usuario', validators=[DataRequired()])
@@ -20,32 +38,30 @@ class Buscar(FlaskForm):
     value = StringField('value')
     search = SubmitField('Buscar')
 
-# [(table.id, table.name) for table in table.query.filter_by(filtro).all()]
-
 
 class RegisterFarinografo(Form):
-    absorcion_agua = IntegerField('Absorcion de Agua', validators=[])
-    tolerancia_ub = IntegerField('Tolerancia', validators=[])
-    elasticidad = IntegerField('Elasticidad', validators=[])
-    viscodidad = IntegerField('Viscodidad', validators=[])
-    act_enzimatica = IntegerField('Enzimatica', validators=[])
-    trigo_germinado = IntegerField('Trigo Germinado', validators=[])
-    tiempo_amasado = IntegerField('Tiempo de Amasado', validators=[])
-    cantidad_gluten = IntegerField('Cantidad del Gluten', validators=[])
-    calidad_gluten = IntegerField('Calidad del Gluten', validators=[])
-    indoneidad = IntegerField('Indoneidad', validators=[])
-    dureza = IntegerField('Dureza', validators=[])
-    reblandecimiento = IntegerField('Reblancedimiento', validators=[]) 
-    estabilidad = IntegerField('Estabilidad', validators=[])
-    tiempo_desarrollo = IntegerField('Tiempo de desarrollo', validators=[]) 
-    qnumber = IntegerField('Qnumber', validators=[])
+    absorcion_agua = StringField('Absorcion de Agua')
+    tolerancia_ub = StringField('Tolerancia')
+    elasticidad = StringField('Elasticidad')
+    viscodidad = StringField('Viscodidad')
+    act_enzimatica = StringField('Enzimatica')
+    trigo_germinado = StringField('Trigo Germinado')
+    tiempo_amasado = StringField('Tiempo de Amasado')
+    cantidad_gluten = StringField('Cantidad del Gluten')
+    calidad_gluten = StringField('Calidad del Gluten')
+    indoneidad = StringField('Indoneidad')
+    dureza = StringField('Dureza')
+    reblandecimiento = StringField('Reblancedimiento') 
+    estabilidad = StringField('Estabilidad')
+    tiempo_desarrollo = StringField('Tiempo de desarrollo') 
+    qnumber = StringField('Qnumber')
 
 class RegisterAlveografo(Form):
-    tenacidad = IntegerField('Tenacidad ', validators=[])
-    extensibilidad = IntegerField('Extensibilidad', validators=[])
-    fuerza_panadera = IntegerField('Fuerza Panadera', validators=[])
-    indice_elasticidad = IntegerField('Índice de Elasticidad', validators=[])
-    configuracion_curva = IntegerField('Configuración de la Curva', validators=[])
+    tenacidad = StringField('Tenacidad ')
+    extensibilidad = StringField('Extensibilidad')
+    fuerza_panadera = StringField('Fuerza Panadera')
+    indice_elasticidad = StringField('Índice de Elasticidad')
+    configuracion_curva = StringField('Configuración de la Curva')
 
 class RegiseterLab(FlaskForm):
     username = StringField('Usuario', validators=[DataRequired()])
