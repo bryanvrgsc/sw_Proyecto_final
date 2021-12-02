@@ -222,3 +222,12 @@ input:focus::placeholder {
     content:"" !important ;
     color:#ff000000 !important;
 }
+
+
+.formField{
+    margin-top: 15px;
+    border-radius: 25px;
+    border: 1px solid #ccc !important;
+    padding: 20px;
+
+}
