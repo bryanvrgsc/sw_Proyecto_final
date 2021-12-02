@@ -13,7 +13,7 @@
     {{ render_field(form.domicilio, "form-group", "col-form-label", "form-control") }}
     {{ render_field(form.ncontacto, "form-group", "col-form-label", "form-control") }}
     {{ render_field(form.personalizado_far, "form-check mt-3", "form-check-label", "form-check-input","doStuffF()") }}
-    <div id="farinografo formField">
+    <div id="farinografo" class="formField">
         <h3>Farinografo</h3>
         {% for field in form.farinografo if field.widget.input_type != 'hidden' %}
             {{ render_field(field, "form-group", "col-form-label", "form-control") }}
@@ -21,7 +21,7 @@
     </div>
     
     {{ render_field(form.personalizado_alv, "form-check mt-3", "form-check-label", "form-check-input","doStuffA()") }}
-    <div id="alveografo formField">
+    <div id="alveografo" class="formField">
         <h3>Alveografo</h3>
         {% for field in form.alveografo if field.widget.input_type != 'hidden' %}
             {{ render_field(field, "form-group", "col-form-label", "form-control") }}

@@ -170,7 +170,7 @@ def buscador(elemento):
     # Formularios a usar
     form=search_form)
 
-@app.route("/register/<elemento>",methods=["GET", "POST"], defaults={'username': None} )
+@app.route("/register/<elemento>",methods=["GET", "POST"], defaults={'l_nuevo': None} )
 @app.route("/register/<elemento>/<l_nuevo>",methods=["GET", "POST"])
 # @login_required
 def formulario(elemento, l_nuevo):

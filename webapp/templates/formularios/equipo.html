@@ -24,14 +24,14 @@
       {% endfor %}
     </div>
 
-    <div id="alveografo formField" class="mt-5">
+    <div id="alveografo" class="formField mt-5">
         <h3>Alveografo</h3>
         {% for field in form.alveografo if field.widget.input_type != 'hidden' %}
             {{ render_field(field, "form-group", "col-form-label", "form-control") }}
         {% endfor %}    
 
     </div>
-    <div id="farinografo formField" class="mt-5">
+    <div id="farinografo" class="formField mt-5">
         <h3>Farinografo</h3>
         {% for field in form.farinografo if field.widget.input_type != 'hidden' %}
             {{ render_field(field, "form-group", "col-form-label", "form-control") }}
