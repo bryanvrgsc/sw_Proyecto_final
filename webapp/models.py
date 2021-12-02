@@ -58,41 +58,41 @@ class EquipoLab(db.Model):
 class Farinografo(db.Model):
     id_far = db.Column(db.Integer, primary_key=True, nullable=False)
     # Farinografo
-    absorcion_agua = db.Column(db.Integer(), nullable=False)
-    tolerancia_ub = db.Column(db.Integer(), nullable=False)
-    elasticidad = db.Column(db.Integer(), nullable=False)
-    viscodidad = db.Column(db.Integer(), nullable=False)
-    act_enzimatica = db.Column(db.Integer(), nullable=False)
-    trigo_germinado = db.Column(db.Integer(), nullable=False)
-    tiempo_amasado = db.Column(db.Integer(), nullable=False)
-    cantidad_gluten = db.Column(db.Integer(), nullable=False)
-    calidad_gluten = db.Column(db.Integer(), nullable=False)
-    indoneidad = db.Column(db.Integer(), nullable=False)
-    dureza = db.Column(db.Integer(), nullable=False)
-    reblandecimiento = db.Column(db.Integer(), nullable=False) 
-    estabilidad = db.Column(db.Integer(), nullable=False)
-    tiempo_desarrollo = db.Column(db.Integer(), nullable=False)  
-    qnumber = db.Column(db.Integer(), nullable=False)
+    absorcion_agua = db.Column(db.String(20), nullable=False)
+    tolerancia_ub = db.Column(db.String(20), nullable=False)
+    elasticidad = db.Column(db.String(20), nullable=False)
+    viscodidad = db.Column(db.String(20), nullable=False)
+    act_enzimatica = db.Column(db.String(20), nullable=False)
+    trigo_germinado = db.Column(db.String(20), nullable=False)
+    tiempo_amasado = db.Column(db.String(20), nullable=False)
+    cantidad_gluten = db.Column(db.String(20), nullable=False)
+    calidad_gluten = db.Column(db.String(20), nullable=False)
+    indoneidad = db.Column(db.String(20), nullable=False)
+    dureza = db.Column(db.String(20), nullable=False)
+    reblandecimiento = db.Column(db.String(20), nullable=False) 
+    estabilidad = db.Column(db.String(20), nullable=False)
+    tiempo_desarrollo = db.Column(db.String(20), nullable=False)  
+    qnumber = db.Column(db.String(20), nullable=False)
 
     #! Relationship
     inspeccion = db.relationship("Inspeccion", backref="farinografo")
     equipolab = db.relationship("EquipoLab", backref="farinografo")
-    
+    cliente = db.relationship("Cliente", backref="farinografo")
  
 
 class Alveografo(db.Model):
     id_alv = db.Column(db.Integer, primary_key=True, nullable=False)
     # Alveografo
-    tenacidad = db.Column(db.Integer(), nullable=False)
-    extensibilidad = db.Column(db.Integer(), nullable=False)
-    fuerza_panadera = db.Column(db.Integer(), nullable=False)
-    indice_elasticidad = db.Column(db.Integer(), nullable=False)
-    configuracion_curva = db.Column(db.Integer(), nullable=False)
+    tenacidad = db.Column(db.String(20), nullable=False)
+    extensibilidad = db.Column(db.String(20), nullable=False)
+    fuerza_panadera = db.Column(db.String(20), nullable=False)
+    indice_elasticidad = db.Column(db.String(20), nullable=False)
+    configuracion_curva = db.Column(db.String(20), nullable=False)
 
     #! Relationship
     equipolab = db.relationship("EquipoLab", backref="alveografo")
     inspeccion = db.relationship("Inspeccion", backref="alveografo")
- 
+    cliente = db.relationship("Cliente", backref="alveografo")
 
 class Cliente(db.Model):
     idc = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -104,6 +104,10 @@ class Cliente(db.Model):
     # Pesonalizado
     personalizado_far = db.Column(db.Boolean, nullable=False)
     personalizado_alv = db.Column(db.Boolean, nullable=False)
+
+    #!Foranea
+    id_far = db.Column(db.Integer, db.ForeignKey("farinografo.id_far"))
+    id_alv = db.Column(db.Integer, db.ForeignKey("alveografo.id_alv"))
 
     #! Relationship
     orden = db.relationship("Orden", backref="cliente")
