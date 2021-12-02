@@ -5,6 +5,95 @@
 {% endblock %}
 {% block content %}
 
-        {{ value}}
+<h2>Inspección Número {{value.id_inspeccion}} </h2>
+<div class="header-right">
+        <table class="table-header">
+                <tbody>
+                        <h3>Farinografo</h3>
+                        <tr>
+                                <th>Absorción de Agua: </th>
+                                <td>{{ value.absorcion_agua }}</td>
+                        </tr>
+                        <tr>
+                                <th>Tolerancia: </th>
+                                <td>{{ value.tolerancia_ub  }}</td>
+                        </tr>
+                        <tr>
+                                <th>Elasticidad: </th>
+                                <td>{{ value.elasticidad  }}</td>
+                        </tr>
+                        <tr>
+                                <th>Viscodidad: </th>
+                                <td>{{ value.viscodidad  }}</td>
+                        </tr>
+                        <tr>
+                                <th>Actividad Enzimática: </th>
+                                <td>{{ value.act_enzimatica  }}</td>
+                        </tr>
+                        <tr>
+                                <th>Trigo Germinado: </th>
+                                <td>{{ value.trigo_germinado }}</td>
+                        </tr>
+                        <tr>
+                                <th>Tiempo de Amasado: </th>
+                                <td>{{ value.tiempo_amasado }}</td>
+                        </tr>
+                        <tr>
+                                <th>Cantidad de Gluten: </th>
+                                <td>{{ value.cantidad_gluten }}</td>
+                        </tr>
+                        <tr>
+                                <th>Calidad de Gluten: </th>
+                                <td>{{ value.calidad_gluten }}</td>
+                        </tr>
+                        <tr>
+                                <th>Indoneidad: </th>
+                                <td>{{ value.indoneidad  }}</td>
+                        </tr>
+                        <tr>
+                                <th>Dureza: </th>
+                                <td>{{ value.dureza   }}</td>
+                        </tr>
+                        <tr>
+                                <th>Reblandecimiento: </th>
+                                <td>{{ value.reblandecimiento  }}</td>
+                        </tr>
+                        <tr>
+                                <th>Estabilidad: </th>
+                                <td>{{ value.estabilidad  }}</td>
+                        </tr>
+                        <tr>
+                                <th>Tiempo de Desarrollo: </th>
+                                <td>{{ value.tiempo_desarrollo   }}</td>
+                        </tr><tr>
+                                <th>Número de Calidad: </th>
+                                <td>{{ value.qnumber  }}</td>
+                        
+                </tbody>
+        </table>
+        <table class="table-header">
+                <tbody>
+                        <h3>Alveografo</h3>
+                        <tr>
+                                <th>Tenacidad: </th>
+                                <td>{{ value.tenacidad   }}</td>
+                        </tr><tr>
+                                <th>Extensibilidad: </th>
+                                <td>{{ value.extensibilidad   }}</td>
+                        </tr><tr>
+                                <th>Fuerza Panadera: </th>
+                                <td>{{ value.fuerza_panadera   }}</td>
+                        </tr><tr>
+                                <th>Elasticidad: </th>
+                                <td>{{ value.indice_elasticidad   }}</td>
+                        </tr>
+                        </tr><tr>
+                                <th>Configuración de la Curva: </th>
+                                <td>{{ value.configuracion_curva   }}</td>
+                        </tr>
+                </tbody>
+        </table>
+</div>
+
 
 {% endblock %}

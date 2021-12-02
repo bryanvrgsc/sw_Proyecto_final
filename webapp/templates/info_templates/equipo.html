@@ -1,3 +1,4 @@
+
 {% extends 'info_templates/layout.html' %}
 
 {% block style %}
@@ -5,14 +6,55 @@
 {% endblock %}
 {% block content %}
 
-<table class="">
-        <tbody>
-                <tr>
-                        <th>Factor de Analisis: </th>
-                        <td>{{ value.factor_analisis }}</td>
-                </tr>
-                <
-        </tbody>
-</table>
+<h2>Caracteristicas del Equipo de Laboratorio</h2>
+<div class="header-right">
+        <table class="table-header">
+                <tbody>
+                        <tr>
+                                <th>Marca: </th>
+                                <td>{{ value.marca }}</td>
+                        </tr>
+                        <tr>
+                                <th>Modelo: </th>
+                                <td>{{ value.modelo }}</td>
+                        </tr>
+                        <tr>
+                                <th>Serie: </th>
+                                <td>{{ value.serie }}</td>
+                        </tr>
+                        <tr>
+                                <th>Proveedor: </th>
+                                <td>{{ value.proveedor }}</td>
+                        </tr>
+                        <tr>
+                                <th>Fecha de Adquisición: </th>
+                                <td>{{ value.fecha_adquisicion }}</td>
+                        </tr>
+                        <tr>
+                                <th>Fecha de Vencimiento de Garantía: </th>
+                                <td>{{ value.garantia }}</td>
+                        </tr>
+                        <tr>
+                                <th>Ubicación: </th>
+                                <td>{{ value.ubicacion }}</td>
+                        </tr>
+                        <tr>
+                                <th>Mantenimiento: </th>
+                                <td>{{ value.mantenimiento }}</td>
+                        </tr>
+                        <tr>
+                                <th>Descripción Corta: </th>
+                                <td>{{ value.descripcionc }}</td>
+                        </tr>
+                        <tr>
+                                <th>Descripción Larga: </th>
+                                <td>{{ value.descripcionl }}</td>
+                        </tr>
+                        {{ value.id_far }}
+                        {% if value.id_far  %}
+                </tbody>
+        </table>
+
+</div>
 
 {% endblock %}

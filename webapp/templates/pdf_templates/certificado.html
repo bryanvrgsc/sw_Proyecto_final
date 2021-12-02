@@ -1,6 +1,6 @@
 
-  <div style="width:800px; height:600px; padding:20px; text-align:center; border: 10px solid #787878">
-    <div style="width:750px; height:550px; padding:20px; text-align:center; border: 5px solid #787878">
+  <div style="width:800px; height:1220px; padding:20px; text-align:center; border: 10px solid #787878">
+    <div style="width:750px; height:1170px; padding:20px; text-align:center; border: 5px solid #787878">
            <span style="font-size:50px; font-weight:bold">Certificado de Inspeccion</span>
            <br><br>
            <span style="font-size:25px"><i>Este Certifica a:</i></span>
@@ -9,10 +9,107 @@
            <span style="font-size:25px"><i>Con la inspeccion valida numero:</i></span> <br/><br/>
            <span style="font-size:30px">{{value.inspeccion.idi}}</span> <br/><br/><span style="font-size:25px"><i>Con numero de orden:</i></span> <br/><br/>
            <span style="font-size:30px">{{value.norden}}</span> <br/><br/>
-           <span style="font-size:20px">Otorgada por: <b>{{ value.laboratorista.username }}</b></span> <br/><br/><br/><br/>
+           <span style="font-size:20px">Otorgada por: <b>{{ value.laboratorista.username }}</b></span> <br/>
+           
+           <div class="header-right">
+            <table class="table-header">
+              <tbody>
+                <h3>RESULTADOS</h3>
+                <h4>Farinografo</h4>
+                <th></th>    <th> Resultado </th>   <th> Estandar </th>
+                <tr>
+                        <th>Absorción de Agua: </th>
+                        <td>{{ value.absorcion_agua }}</td>   <td>{{ value.absorcion_agua }}</td>
+                </tr>
+                <tr>
+                        <th>Tolerancia: </th>
+                        <td>{{ value.tolerancia_ub  }}</td>   <td>{{ value.tolerancia_ub  }}</td>
+                </tr>
+                <tr>
+                        <th>Elasticidad: </th>
+                        <td>{{ value.elasticidad  }}</td>   <td>{{ value.elasticidad  }}</td>
+                </tr>
+                <tr>
+                        <th>Viscodidad: </th>
+                        <td>{{ value.viscodidad  }}</td>    <td>{{ value.viscodidad  }}</td>
+                </tr>
+                <tr>
+                        <th>Actividad Enzimática: </th>
+                        <td>{{ value.act_enzimatica  }}</td>    <td>{{ value.act_enzimatica  }}</td>
+                </tr>
+                <tr>
+                        <th>Trigo Germinado: </th>
+                        <td>{{ value.trigo_germinado }}</td>    <td>{{ value.trigo_germinado }}</td>
+                </tr>
+                <tr>
+                        <th>Tiempo de Amasado: </th>
+                        <td>{{ value.tiempo_amasado }}</td>   <td>{{ value.tiempo_amasado }}</td>
+                </tr>
+                <tr>
+                        <th>Cantidad de Gluten: </th>
+                        <td>{{ value.cantidad_gluten }}</td>    <td>{{ value.cantidad_gluten }}</td>
+                </tr>
+                <tr>
+                        <th>Calidad de Gluten: </th>
+                        <td>{{ value.calidad_gluten }}</td>   <td>{{ value.calidad_gluten }}</td>
+                </tr>
+                <tr>
+                        <th>Indoneidad: </th>
+                        <td>{{ value.indoneidad  }}</td>    <td>{{ value.indoneidad  }}</td>
+                </tr>
+                <tr>
+                        <th>Dureza: </th>
+                        <td>{{ value.dureza   }}</td>   <td>{{ value.dureza   }}</td>
+                </tr>
+                <tr>
+                        <th>Reblandecimiento: </th>
+                        <td>{{ value.reblandecimiento  }}</td>    <td>{{ value.reblandecimiento  }}</td>
+                </tr>
+                <tr>
+                        <th>Estabilidad: </th>
+                        <td>{{ value.estabilidad  }}</td>   <td>{{ value.estabilidad  }}</td>
+                </tr>
+                <tr>
+                        <th>Tiempo de Desarrollo: </th>
+                        <td>{{ value.tiempo_desarrollo   }}</td>    <td>{{ value.tiempo_desarrollo   }}</td>
+                </tr><tr>
+                        <th>Número de Calidad: </th>
+                        <td>{{ value.qnumber  }}</td>   <td>{{ value.qnumber  }}</td>
+                
+              </tbody>
+            </table>
+            <table class="table-header">
+              <tbody>
+                <h4>Alveografo</h4>
+                <th></th>    <th> Resultado </th>   <th> Estandar </th>
+                <tr>
+                        <th>Tenacidad: </th>
+                        <td>{{ value.tenacidad  }}</td>  <td>{{ value.tenacidad }}</td>
+                </tr><tr>
+                        <th>Extensibilidad: </th>
+                        <td>{{ value.extensibilidad   }}</td>   <td>{{ value.extensibilidad   }}</td>
+                </tr><tr>
+                        <th>Fuerza Panadera: </th>
+                        <td>{{ value.fuerza_panadera   }}</td>    <td>{{ value.fuerza_panadera   }}</td>
+                </tr><tr>
+                        <th>Elasticidad: </th>
+                        <td>{{ value.indice_elasticidad   }}</td>   <td>{{ value.indice_elasticidad   }}</td>
+                </tr>
+                </tr><tr>
+                        <th>Configuración de la Curva: </th>
+                        <td>{{ value.configuracion_curva   }}</td>    <td>{{ value.configuracion_curva   }}</td>
+                </tr>
+              </tbody>
+          </table>
+          </div>
+          <br/><br/><br/>
            <span style="font-size:25px"><i>Con fecha de envio de: {{ value.fecha_envio.strftime('%Y/%m/%d') }}</i></span><br>
            <span style="font-size:25px"><i>Caducidad: {{ value.fecha_caducidad.strftime('%Y/%m/%d') }}</i></span><br>
-            
+
+          
+           
+
+
     </div>
     </div>
 
