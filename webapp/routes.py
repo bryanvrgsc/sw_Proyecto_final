@@ -12,6 +12,9 @@ from datetime import datetime
 from sqlalchemy.inspection import inspect
 import pdfkit, os, uuid
 
+def getLastID(tabla):
+    obj = session.query(tabla).order_by(tabla.id.desc()).first()
+
 def regOrden(form):
     orden = Orden(cantidad_solicitada=form.cantidad_solicitada.data, fecha_creada=form.fecha_creada.data, precio=form.precio.data)
     return orden
@@ -42,13 +45,25 @@ def regEquipo(form):
 def regCliente(form):
     cliente = Cliente(rfc=form.rfc.data, nombre=form.nombre.data, apellido=form.apellido.data, domicilio=form.domicilio.data, ncontacto=form.ncontacto.data, personalizado_far=form.personalizado_far.data, personalizado_alv=form.personalizado_alv.data)
 
-    
+    if cliente.personalizado_alv == True:
+        alveografo = regAlveografo(form.alveografo)
+        db.session.add(alveografo)
+        obj = Alveografo().query.all()
+        new_alv_id =  str(obj[-1].id_alv)
+        cliente.id_alv = new_alv_id
 
-    print(cliente.personalizado_alv)
-    print(cliente.personalizado_far)
 
-    # db.session.add(cliente)
-    # db.session.commit()
+    if cliente.personalizado_far == True:
+        farinografo = regFarinografo(form.farinografo)
+        db.session.add(farinografo)
+        obj = Farinografo().query.all()
+        new_far_id =  str(obj[-1].id_far)
+        cliente.id_far = new_far_id
+
+    db.session.add(cliente)
+    db.session.commit()
+
+
     return{"message": f"{cliente.nombre} ha sido registrado con exito" , "type": "success"}
 
 def regLote(form):
@@ -152,7 +167,7 @@ def formulario(elemento):
         'certificados': RegisterCertificado(),
         'inspeccion': RegisterInspeccion()
     }
-    print(modalForm[elemento].validate_on_submit())
+    
     if modalForm[elemento].validate_on_submit():
         
         table = TableValues(elemento)        
