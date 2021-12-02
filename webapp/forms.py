@@ -108,10 +108,6 @@ class RegisterLote(FlaskForm):
 class RegisterInspeccionNo(FlaskForm):
     lote = SelectField("Lote", choices=[(table.idlote,table.idlote) for table in Lote.query.all()])
     id_inspeccion = StringField("ID de Inspeccion", validators=[DataRequired()])
-<<<<<<< HEAD
-    
-=======
->>>>>>> refs/remotes/origin/main
     equipo_alv = SelectField("Equipo Utilizado", choices=[(table1.clave, table1.marca) for table1 in EquipoLab.query.filter(EquipoLab.id_alv!="Null").all()])
     equipo_far = SelectField("Equipo Utilizado", choices=[(table2.clave, table2.marca) for table2 in EquipoLab.query.filter(EquipoLab.id_far!= "Null").all()])
     alveografo = FormField(RegisterAlveografo)
@@ -122,11 +118,6 @@ class RegisterInspeccionNo(FlaskForm):
 class RegisterInspeccionSi(FlaskForm):
     lote = FormField(RegisterLote)
     id_inspeccion = StringField("ID de Inspeccion", validators=[DataRequired()])
-<<<<<<< HEAD
-    
-    
-=======
->>>>>>> refs/remotes/origin/main
     equipo_alv = SelectField("Equipo Utilizado", choices=[(table1.clave, table1.marca) for table1 in EquipoLab.query.filter(EquipoLab.id_alv!="Null").all()])
     equipo_far = SelectField("Equipo Utilizado", choices=[(table2.clave, table2.marca) for table2 in EquipoLab.query.filter(EquipoLab.id_far!= "Null").all()])
     alveografo = FormField(RegisterAlveografo)
