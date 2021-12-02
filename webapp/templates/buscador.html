@@ -24,9 +24,18 @@
         <div class="right-button">
           <a href="{{ url_for('menu') }}" class="btn btn-primary mx-5"> Regresar al Menu</a>
 
+          {% if elemento == "Inspeccion" %}
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+              Registro de {{ elemento }}
+            </button>
+                
+          {% else %}
             <a href="{{ url_for('formulario', elemento = elemento) }}" class="btn btn-success" >
               Registro de {{ elemento }}
             </a>
+          {% endif %}
+
 
         </div>
     </div>
@@ -98,6 +107,8 @@
     </div>
   </div>
 
+  
+
   <script>
     $('#DeleteModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
@@ -109,6 +120,25 @@
         modal.find('.btn-danger').attr("href", url.replace("recipient", recipient))
       })
   </script>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Quieres Crear un nuevo Lote?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-secondary" href="{{ url_for('formulario', elemento=elemento, l_nuevo='no') }}">No</a>
+        <a class="btn btn-primary" href="{{ url_for('formulario', elemento=elemento, l_nuevo='si') }}" >Si</a>
+      </div>
+    </div>
+  </div>
     
         
 {% endblock %}

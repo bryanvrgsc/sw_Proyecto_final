@@ -170,25 +170,27 @@ def buscador(elemento):
     # Formularios a usar
     form=search_form)
 
-@app.route("/register/<elemento>", methods=["GET", "POST"])
+@app.route("/register/<elemento>/<l_nuevo>", methods=["GET", "POST"])
 # @login_required
-def formulario(elemento):
+def formulario(elemento, l_nuevo = ""):
     elemento = elemento.lower()
     modalForm = {
         'laboratorista' : RegiseterLab(),
         'clientes' : RegisterCliente(),
         'equipo': RegisterEquipo(),
         'certificados': RegisterCertificado(),
-        'inspeccion': RegisterInspeccion()
+        'inspeccion': RegisterInspeccionNo()
     }
+    if l_nuevo == "si":
+        modalForm['inspeccion'] =RegisterInspeccionSi()
+
     
     if modalForm[elemento].validate_on_submit():
-        
         table = TableValues(elemento)        
         message = table['registro'](modalForm[elemento])
         flash(message['message'], message["type"])
 
-    return render_template(f"formularios/{elemento}.html", elemento=elemento, form=modalForm[elemento])
+    return render_template(f"formularios/{elemento}.html", elemento=elemento, form=modalForm[elemento], l_nuevo=l_nuevo)
 
 
 # Log Out

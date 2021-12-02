@@ -5,7 +5,20 @@
 <div class="w-100 d-flex justify-content-center mb-5">
   <form method="POST" class="w-50">
         {{ form.hidden_tag() }}
-        {{render_field(form.lote, "form-group", "col-form-label", "form-select" )}}
+
+        {% if l_nuevo == "si" %}
+            <div class="formField">
+                <h3>Lote</h3>
+                {% for field in form.lote if field.widget.input_type != 'hidden' %}
+                    {{ render_field(field, "form-group", "col-form-label", "form-control") }}
+                {% endfor %}    
+            </div>
+
+        {% else %}
+            {{render_field(form.lote, "form-group", "col-form-label", "form-select" )}}
+        {% endif %}
+
+        
         {{render_field(form.id_inspeccion, "form-group", "col-form-label", "form-control" )}}
         {{render_field(form.absorcion, "form-group", "col-form-label", "form-control" )}}
         {{render_field(form.tiempo_desarrollo, "form-group", "col-form-label", "form-control" )}}
@@ -20,7 +33,7 @@
         
         
 
-        <div class="mt-5 alveografo">
+        <div class="mt-5 alveografo formField">
             <h3>Alveografo</h3>
             {{render_field(form.equipo_alv, "form-group", "col-form-label", "form-select" )}}
             {% for field in form.alveografo if field.widget.input_type != 'hidden' %}
@@ -28,7 +41,7 @@
             {% endfor %}    
         </div>
         
-        <div class="mt-5 farinografo">
+        <div class="mt-5 farinografo formField">
             <h3>Farinografo</h3>
             {{render_field(form.equipo_far, "form-group", "col-form-label", "form-select" )}}
             {% for field in form.farinografo if field.widget.input_type != 'hidden' %}
