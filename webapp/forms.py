@@ -1,12 +1,10 @@
 from flask_wtf import FlaskForm
-from sqlalchemy.orm import defaultload
-from wtforms import StringField, PasswordField, BooleanField, IntegerField, DecimalField, TextAreaField, SelectField, FormField, FieldList, RadioField
+from wtforms import StringField, PasswordField, BooleanField, IntegerField, DecimalField, TextAreaField, SelectField, FormField, RadioField, FloatField
 from datetime import datetime
 from wtforms.fields.simple import SubmitField
 from wtforms.form import Form
 from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError
 from wtforms.fields.html5 import  TelField, DateField
-from wtforms.widgets.html5 import NumberInput
 from webapp.models import *
 
 
@@ -96,42 +94,31 @@ class RegisterCliente(FlaskForm):
 
 class RegisterOrden(FlaskForm):
 
-    cantidad_solicitada = DecimalField('Cantidad Solicitada', validators=[DataRequired()])
+    cantidad_solicitada = StringField('Cantidad Solicitada', validators=[DataRequired()])
     fecha_creada = DateField("Fecha Creada", validators=[DataRequired()], default=datetime.now())
-    precio = DecimalField(' Precio', validators=[DataRequired()])
+    precio = StringField(' Precio', validators=[DataRequired()])
     submit = SubmitField('Registrar')
 
 class RegisterLote(FlaskForm):
 
-    cantidad = DecimalField('Cantidad', validators=[DataRequired()])
+    cantidad = DecimalField('Cantidad', validators=[DataRequired()], number_format="#.##")
 
 class RegisterInspeccionNo(FlaskForm):
-    lote = SelectField("Lote", choices=[(table.idlote,table.idlote) for table in Lote.query.all()])
+    loteSelect = SelectField("Lote", choices=[(table.idlote) for table in Lote.query.all()])
     id_inspeccion = StringField("ID de Inspeccion", validators=[DataRequired()])
-<<<<<<< HEAD
-    
-=======
->>>>>>> refs/remotes/origin/main
     equipo_alv = SelectField("Equipo Utilizado", choices=[(table1.clave, table1.marca) for table1 in EquipoLab.query.filter(EquipoLab.id_alv!="Null").all()])
     equipo_far = SelectField("Equipo Utilizado", choices=[(table2.clave, table2.marca) for table2 in EquipoLab.query.filter(EquipoLab.id_far!= "Null").all()])
     alveografo = FormField(RegisterAlveografo)
     farinografo = FormField(RegisterFarinografo)
-    # certificados = FORANEA
     submit = SubmitField('Registrar')
 
 class RegisterInspeccionSi(FlaskForm):
-    lote = FormField(RegisterLote)
+    loteForm = FormField(RegisterLote)
     id_inspeccion = StringField("ID de Inspeccion", validators=[DataRequired()])
-<<<<<<< HEAD
-    
-    
-=======
->>>>>>> refs/remotes/origin/main
     equipo_alv = SelectField("Equipo Utilizado", choices=[(table1.clave, table1.marca) for table1 in EquipoLab.query.filter(EquipoLab.id_alv!="Null").all()])
     equipo_far = SelectField("Equipo Utilizado", choices=[(table2.clave, table2.marca) for table2 in EquipoLab.query.filter(EquipoLab.id_far!= "Null").all()])
     alveografo = FormField(RegisterAlveografo)
     farinografo = FormField(RegisterFarinografo)
-    # certificados = FORANEA
     submit = SubmitField('Registrar')
 
 class RegisterCertificado(FlaskForm):

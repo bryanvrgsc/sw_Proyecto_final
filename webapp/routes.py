@@ -61,7 +61,6 @@ def regEquipo(form):
 def regCliente(form):
     cliente = Cliente(rfc=form.rfc.data, nombre=form.nombre.data, apellido=form.apellido.data, domicilio=form.domicilio.data, ncontacto=form.ncontacto.data, personalizado_far=form.personalizado_far.data, personalizado_alv=form.personalizado_alv.data)
 
-
     if cliente.personalizado_alv == True:
         alveografo = regAlveografo(form.alveografo)
         db.session.add(alveografo)
@@ -85,8 +84,19 @@ def regLote(form):
     return lote
 
 def regInspeccion(form):
-    for value in form:
-        print(value)
+    inspeccion = Inspeccion(id_inspeccion=form.id_inspeccion.data)
+
+    if form.loteSelect:
+        # select
+        inspeccion.idlote = form.loteSelect.data
+    else:
+        print('Form')
+
+    
+
+
+    return{"message": f"{inspeccion.id_inspeccion} ha sido registrada con exito" , "type": "success"}
+
 
 def regCertificado(form):
     for value in form:
@@ -183,9 +193,9 @@ def formulario(elemento, l_nuevo):
         'inspeccion': RegisterInspeccionNo()
     }
     if l_nuevo == "si":
-        modalForm['inspeccion'] =RegisterInspeccionSi()
+        modalForm["inspeccion"] = RegisterInspeccionSi()
 
-    
+    print(modalForm[elemento].validate_on_submit())
     if modalForm[elemento].validate_on_submit():
         table = TableValues(elemento)        
         message = table['registro'](modalForm[elemento])

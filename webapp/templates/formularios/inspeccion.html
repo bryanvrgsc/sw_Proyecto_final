@@ -11,13 +11,13 @@
         {% if l_nuevo == "si" %}
             <div class="formField">
                 <h3>Lote</h3>
-                {% for field in form.lote if field.widget.input_type != 'hidden' %}
+                {% for field in form.loteForm if field.widget.input_type != 'hidden' %}
                     {{ render_field(field, "form-group", "col-form-label", "form-control") }}
                 {% endfor %}    
             </div>
 
         {% else %}
-            {{render_field(form.lote, "form-group", "col-form-label", "form-select" )}}
+            {{render_field(form.loteSelect, "form-group", "col-form-label", "form-select" )}}
         {% endif %}
         
         
