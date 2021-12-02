@@ -28,14 +28,19 @@ def regLaboratorista(form):
     if form.password.name =="password":
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
     user = Laboratorista(username=form.username.data, password=hashed_password, role=form.role.data, active=form.active.data)
-    return user
+
+    db.session.add(user)
+    db.session.commit()
+
+    return{"message": f"El usuario {user.username} ha sido registrado con exito" , "type": "success"}
+
 
 def regEquipo(form):
     equipo = EquipoLab(marca=form.marca.data, modelo=form.modelo.data, serie=form.serie.data, proveedor=form.proveedor.data, fecha_adquisicion=form.fecha_adquisicion.data, garantia=form.garantia.data, ubicacion=form.ubicacion.data, mantenimiento=form.mantenimiento.data, descripcionc=form.descripcionc.data, descripcionl=form.descripcionl.data)
     return equipo
 
 def regCliente(form):
-    cliente = Cliente(rfc=form.rfc.data, nombre=form.nombre.data, apellido=form.apellido.data, domicilio=form.domicilio.data, ncontacto=form.ncontacto.data, personalizada_far=form.personalizada_far.data, personalizada_alv=form.personalizada_alv.data) 
+    cliente = Cliente(rfc=form.rfc.data, nombre=form.nombre.data, apellido=form.apellido.data, domicilio=form.domicilio.data, ncontacto=form.ncontacto.data, personalizado_far=form.personalizado_far.data, personalizado_alv=form.personalizado_alv.data) 
     return cliente
 
 def regLote(form):
@@ -140,14 +145,10 @@ def formulario(elemento):
         'inspeccion': RegisterInspeccion()
     }
     if modalForm[elemento].validate_on_submit():
-        flash("Funciona", "info")
-
-        table = TableValues(elemento)
         
-        
-        doc = table['registro'](modalForm[elemento])
-
-        print(doc)
+        table = TableValues(elemento)        
+        message = table['registro'](modalForm[elemento])
+        flash(message['message'], message["type"])
 
 
         # for field in modalForm[elemento]:
@@ -160,8 +161,6 @@ def formulario(elemento):
         #                 object_items[field.name] =  field.data
                     
         # doc = table['uncalled'](**object_items)
-        db.session.add(doc)
-        db.session.commit()
 
     return render_template(f"formularios/{elemento}.html", elemento=elemento, form=modalForm[elemento])
 
