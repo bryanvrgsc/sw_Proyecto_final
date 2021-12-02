@@ -18,18 +18,11 @@
     {{render_field(form.descripcionc, "form-group", "col-form-label", "form-control" )}}
     {{render_field(form.descripcionl, "form-group", "col-form-label", "form-control" )}}
 
-    <div class="form-check mt-3">
-        <input class="form-check-input" onclick="doStuff()" value="arinografo" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-        <label class="form-check-label" for="flexRadioDefault1">
-          Arinografo
-        </label>
-      </div>
-      <div class="form-check">
-        <input class="form-check-input" onclick="doStuff()" value="farinografo" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-        <label class="form-check-label" for="flexRadioDefault2">
-          Farinografo
-        </label>
-      </div>
+    <div class="form-group mt-5">
+      {% for radio in form.tipo %}
+      {{render_field(radio, "form-check", "form-check-label", "form-check-input" , "doStuff()")}}
+      {% endfor %}
+    </div>
 
     <div id="alveografo" class="mt-5">
         <h3>Alveografo</h3>
@@ -55,13 +48,12 @@
 
 <script>
     function doStuff(){
-        var value = document.querySelector('input[name="flexRadioDefault"]:checked').value;
-        
-        if(value == "arinografo"){
+        var value = document.querySelector('input[name="tipo"]:checked').value;
+        if(value == "alv"){
             document.getElementById("alveografo").style.display = "block";
             document.getElementById("farinografo").style.display = "none";
         }
-        else if(value == "farinografo"){
+        else if(value == "far"){
             document.getElementById("farinografo").style.display = "block";
             document.getElementById("alveografo").style.display = "none";
         }

@@ -12,8 +12,10 @@ from datetime import datetime
 from sqlalchemy.inspection import inspect
 import pdfkit, os, uuid
 
-def getLastID(tabla):
-    obj = session.query(tabla).order_by(tabla.id.desc()).first()
+def getLastId(Table):
+    obj = Table().query.all()
+    return obj[-1]
+
 
 def regOrden(form):
     orden = Orden(cantidad_solicitada=form.cantidad_solicitada.data, fecha_creada=form.fecha_creada.data, precio=form.precio.data)
@@ -31,38 +33,50 @@ def regLaboratorista(form):
     if form.password.name =="password":
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
     user = Laboratorista(username=form.username.data, password=hashed_password, role=form.role.data, active=form.active.data)
-
     db.session.add(user)
     db.session.commit()
-
     return{"message": f"El usuario {user.username} ha sido registrado con exito" , "type": "success"}
 
 
 def regEquipo(form):
     equipo = EquipoLab(marca=form.marca.data, modelo=form.modelo.data, serie=form.serie.data, proveedor=form.proveedor.data, fecha_adquisicion=form.fecha_adquisicion.data, garantia=form.garantia.data, ubicacion=form.ubicacion.data, mantenimiento=form.mantenimiento.data, descripcionc=form.descripcionc.data, descripcionl=form.descripcionl.data)
-    return equipo
+
+
+    if form.tipo.data == "alv":
+        alveografo = regAlveografo(form.alveografo)
+        db.session.add(alveografo)
+        new_alv_id = str(getLastId(Alveografo).id_alv)
+        equipo.id_alv = new_alv_id
+    elif form.tipo.data == "far":
+        farinografo = regFarinografo(form.farinografo)
+        db.session.add(farinografo)
+        new_far_id =  str(getLastId(Farinografo).id_far)
+        equipo.id_far = new_far_id
+
+    db.session.add(equipo)
+    db.session.commit()
+    return{"message": f"El equipo {equipo.marca} ha sido registrado con exito" , "type": "success"}
+    
 
 def regCliente(form):
     cliente = Cliente(rfc=form.rfc.data, nombre=form.nombre.data, apellido=form.apellido.data, domicilio=form.domicilio.data, ncontacto=form.ncontacto.data, personalizado_far=form.personalizado_far.data, personalizado_alv=form.personalizado_alv.data)
 
+
     if cliente.personalizado_alv == True:
         alveografo = regAlveografo(form.alveografo)
         db.session.add(alveografo)
-        obj = Alveografo().query.all()
-        new_alv_id =  str(obj[-1].id_alv)
+        new_alv_id = str(getLastId(Alveografo).id_alv)
         cliente.id_alv = new_alv_id
 
 
     if cliente.personalizado_far == True:
         farinografo = regFarinografo(form.farinografo)
         db.session.add(farinografo)
-        obj = Farinografo().query.all()
-        new_far_id =  str(obj[-1].id_far)
+        new_far_id =  str(getLastId(Farinografo).id_far)
         cliente.id_far = new_far_id
 
     db.session.add(cliente)
     db.session.commit()
-
 
     return{"message": f"{cliente.nombre} ha sido registrado con exito" , "type": "success"}
 

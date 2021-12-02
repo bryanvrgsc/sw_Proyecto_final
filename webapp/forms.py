@@ -1,7 +1,6 @@
-from typing_extensions import Required
 from flask_wtf import FlaskForm
 from sqlalchemy.orm import defaultload
-from wtforms import StringField, PasswordField, BooleanField, IntegerField, DecimalField, TextAreaField, SelectField, FormField, FieldList
+from wtforms import StringField, PasswordField, BooleanField, IntegerField, DecimalField, TextAreaField, SelectField, FormField, FieldList, RadioField
 from datetime import datetime
 from wtforms.fields.simple import SubmitField
 from wtforms.form import Form
@@ -9,22 +8,6 @@ from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationE
 from wtforms.fields.html5 import  TelField, DateField
 from wtforms.widgets.html5 import NumberInput
 from webapp.models import *
-
-
-# class RequiredIf(Required):
-#     # a validator which makes a field required if
-#     # another field is set and has a truthy value
-
-#     def __init__(self, other_field_name, *args, **kwargs):
-#         self.other_field_name = other_field_name
-#         super(RequiredIf, self).__init__(*args, **kwargs)
-
-#     def __call__(self, form, field):
-#         other_field = form._fields.get(self.other_field_name)
-#         if other_field is None:
-#             raise Exception('no field named "%s" in form' % self.other_field_name)
-#         if bool(other_field.data):
-#             super(RequiredIf, self).__call__(form, field)
 
 
 
@@ -66,16 +49,21 @@ class RegisterAlveografo(Form):
 class RegiseterLab(FlaskForm):
     username = StringField('Usuario', validators=[DataRequired()])
     password = PasswordField('Contraseña', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirmar Contraseña', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirmar Contraseña', validators=[DataRequired(), EqualTo('password')])
     role = SelectField('Rol', validators=[DataRequired()],choices=[('user', 'Usuario'),('admin', 'Administrador')], default=('user', 'Usuario'))
     active = BooleanField('Usuario activo', validators=[DataRequired()]) #! Boolean
     submit = SubmitField('Registrar')
+
+    def validate_username(self,username):
+        user = Laboratorista.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError("Ese Usuario ya existe. Por Favor Selecciona otro")
 
 
 class RegisterEquipo(FlaskForm):
     marca = StringField('Marca', validators=[DataRequired()])
     modelo = StringField('Modelo', validators=[DataRequired()])
-    serie = IntegerField('Serie', validators=[DataRequired()])
+    serie = StringField('Serie', validators=[DataRequired()])
     proveedor = StringField('Proveedor', validators=[DataRequired()])
     fecha_adquisicion = DateField("Fecha de Adquisición", validators=[DataRequired()], default=datetime.now())
     garantia = DateField("Fecha de Adquisición", validators=[DataRequired()], default=datetime.now())
@@ -83,6 +71,7 @@ class RegisterEquipo(FlaskForm):
     mantenimiento = DateField("Mantenimiento", validators=[DataRequired()], default=datetime.now())
     descripcionc = StringField('Descripcion Corta', validators=[DataRequired()])
     descripcionl = TextAreaField('Descripcion Larga', validators=[DataRequired(),Length(max=100)])
+    tipo = RadioField('Label', choices=[('alv','Alvegrafo'),('far','Farnografo')], validators=[DataRequired()])
 
     alveografo = FormField(RegisterAlveografo)
     farinografo = FormField(RegisterFarinografo)

@@ -215,5 +215,10 @@ input:focus::placeholder {
 
 .required::after{
     content:"*";
-    color:#ff0000
+    color:#ff0000;
+}
+
+.nr::after{
+    content:"" !important ;
+    color:#ff000000 !important;
 }
