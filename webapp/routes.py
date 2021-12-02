@@ -11,8 +11,45 @@ from PIL import Image
 from datetime import datetime
 from sqlalchemy.inspection import inspect
 import pdfkit, os, uuid
-from webapp.registros import *
-from webapp.dicionary import *
+
+def regOrden(form):
+    orden = Orden(cantidad_solicitada=form.username.data,fecha_creada=form.username.data,precio=form.username.data)
+
+def regFarinografo(form):
+    farinografo = Farinografo(absorcion_agua=form.username.data,tolerancia_ub=form.username.data,elasticidad=form.username.data,viscodidad=form.username.data,act_enzimatica=form.username.data,trigo_germinado=form.username.data,tiempo_amasado=form.username.data,cantidad_gluten=form.username.data,calidad_gluten=form.username.data,indoneidad=form.username.data,dureza=form.username.data,reblandecimiento=form.username.data,estabilidad=form.username.data,tiempo_desarrollo=form.username.data,qnumber=form.username.data)
+
+def regAlveografo(form):
+    alveografo = Alveografo(tenacidad=form.username.data,extensibilidad=form.username.data,fuerza_panadera=form.username.data,indice_elasticidad=form.username.data,configuracion_curva=form.username.data)
+
+
+def regLaboratorista(form):
+    if form.field.name =="password":
+        hashed_password = bcrypt.generate_password_hash(form.field.data).decode('utf-8')
+    user = Laboratorista(username=form.username.data, password=hashed_password, role=form.username.data, active=form.username.data)
+
+def regEquipo(form):
+    equipo = EquipoLab(marca=form.username.data, modelo=form.username.data, serie=form.username.data, proveedor=form.username.data, fecha_adquisicion=form.username.data, garantia=form.username.data, ubicacion=form.username.data, mantenimiento=form.username.data, descripcionc=form.username.data, descripcionl=form.username.data)
+
+def regCliente(form):
+    cliente = Cliente(rfc=form.username.data,nombre=form.username.data,apellido=form.username.data,domicilio=form.username.data,ncontacto=form.username.data,personalizada_far=form.username.data,personalizada_alv=form.username.data)
+
+def regLote(form):
+    lote = Lote(cantidad=form.username.data)
+
+def TableValues(elemento):
+
+    if elemento == "laboratorista":
+        return {'uncalled': Laboratorista,'model' : Laboratorista(), 'search_item' : 'username', 'table_header' : Laboratorista.__table__.columns.keys(), 'breakpoint': None}
+    elif elemento == "clientes":
+        return {'uncalled': Cliente,'model' : Cliente(), 'search_item' : 'rfc', 'table_header' : Cliente.__table__.columns.keys() , 'breakpoint': 'personalizado_far'}
+    elif elemento == "equipo":
+        return {'uncalled': EquipoLab,'model' : EquipoLab(),'search_item' : 'clave', 'table_header' : EquipoLab.__table__.columns.keys() , 'breakpoint': 'descripcionl'}
+    elif elemento == "certificados":
+        return {'uncalled': Certificado,'model' : Certificado(), 'search_item' : 'ncertificado', 'table_header' : Certificado.__table__.columns.keys() , 'breakpoint': 'ncertificado'}
+    elif elemento == "inspeccion":
+        return {'uncalled': Inspeccion,'model' : Inspeccion(),'search_item' : 'idi', 'table_header' : Inspeccion.__table__.columns.keys() , 'breakpoint': None}
+    else:
+        return {'error message' : 'Query Invalido', 'type':'alert'}
 
 
 @app.route("/", methods=["GET","POST"])
@@ -80,7 +117,13 @@ def buscador(elemento):
 # @login_required
 def formulario(elemento):
     elemento = elemento.lower()
-    
+    modalForm = {
+        'laboratorista' : RegiseterLab(),
+        'clientes' : RegisterCliente(),
+        'equipo': RegisterEquipo(),
+        'certificados': RegisterCertificado(),
+        'inspeccion': RegisterInspeccion()
+    }
     if modalForm[elemento].validate_on_submit():
         flash("Funciona", "info")
 
@@ -107,6 +150,7 @@ def formulario(elemento):
 
     return render_template(f"formularios/{elemento}.html", elemento=elemento, form=modalForm[elemento])
 
+
 # Log Out
 @app.route("/logout")
 @login_required
@@ -117,6 +161,7 @@ def logout():
 
 
 # Acciones de tabla
+
 # ELIMINAR REGISTRO
 @app.route("/eliminar/<elemento>/<value_id>")
 @login_required
