@@ -40,8 +40,13 @@ def regEquipo(form):
     return equipo
 
 def regCliente(form):
-    cliente = Cliente(rfc=form.rfc.data, nombre=form.nombre.data, apellido=form.apellido.data, domicilio=form.domicilio.data, ncontacto=form.ncontacto.data, personalizado_far=form.personalizado_far.data, personalizado_alv=form.personalizado_alv.data) 
-    return cliente
+    cliente = Cliente(rfc=form.rfc.data, nombre=form.nombre.data, apellido=form.apellido.data, domicilio=form.domicilio.data, ncontacto=form.ncontacto.data, personalizado_far=form.personalizado_far.data, personalizado_alv=form.personalizado_alv.data)
+
+    print(cliente)
+
+    # db.session.add(cliente)
+    # db.session.commit()
+    return{"message": f"{cliente.nombre} ha sido registrado con exito" , "type": "success"}
 
 def regLote(form):
     lote = Lote(cantidad=form.cantidad.data) 
@@ -144,23 +149,12 @@ def formulario(elemento):
         'certificados': RegisterCertificado(),
         'inspeccion': RegisterInspeccion()
     }
+    print(modalForm[elemento].validate_on_submit())
     if modalForm[elemento].validate_on_submit():
         
         table = TableValues(elemento)        
         message = table['registro'](modalForm[elemento])
         flash(message['message'], message["type"])
-
-
-        # for field in modalForm[elemento]:
-        #     if field.widget.input_type != 'hidden' and field.widget.input_type != 'submit':
-        #         if field.name != 'comfirm_password':
-        #             if elemento == 'laboratorista' and field.name =="password":
-        #                 hashed_password = bcrypt.generate_password_hash(field.data).decode('utf-8')
-        #                 object_items[field.name] = hashed_password
-        #             else:
-        #                 object_items[field.name] =  field.data
-                    
-        # doc = table['uncalled'](**object_items)
 
     return render_template(f"formularios/{elemento}.html", elemento=elemento, form=modalForm[elemento])
 
