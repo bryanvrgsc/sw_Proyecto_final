@@ -102,7 +102,7 @@ def TableValues(elemento):
     elif elemento == "equipo":
         return {'uncalled': EquipoLab,'model' : EquipoLab(),'search_item' : 'clave', 'table_header' : EquipoLab.__table__.columns.keys() , 'breakpoint': 'descripcionl', 'registro': regEquipo}
     elif elemento == "certificados":
-        return {'uncalled': Certificado,'model' : Certificado(), 'search_item' : 'ncertificado', 'table_header' : Certificado.__table__.columns.keys() , 'breakpoint': 'ncertificado', 'registro': regCertificado}
+        return {'uncalled': Certificado,'model' : Certificado(), 'search_item' : 'ncertificado', 'table_header' : Certificado.__table__.columns.keys() , 'breakpoint': 'idl', 'registro': regCertificado}
     elif elemento == "inspeccion":
         return {'uncalled': Inspeccion,'model' : Inspeccion(),'search_item' : 'idi', 'table_header' : Inspeccion.__table__.columns.keys() , 'breakpoint': None, 'registro': regInspeccion}
     else:
