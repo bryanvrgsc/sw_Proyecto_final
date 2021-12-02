@@ -13,33 +13,33 @@ from sqlalchemy.inspection import inspect
 import pdfkit, os, uuid
 
 def regOrden(form):
-    orden = Orden(cantidad_solicitada=form.username.data,fecha_creada=form.username.data,precio=form.username.data)
+    orden = Orden(cantidad_solicitada=form.cantidad_solicitada.data, fecha_creada=form.fecha_creada.data, precio=form.precio.data)
     return orden
 
 def regFarinografo(form):
-    farinografo = Farinografo(absorcion_agua=form.username.data,tolerancia_ub=form.username.data,elasticidad=form.username.data,viscodidad=form.username.data,act_enzimatica=form.username.data,trigo_germinado=form.username.data,tiempo_amasado=form.username.data,cantidad_gluten=form.username.data,calidad_gluten=form.username.data,indoneidad=form.username.data,dureza=form.username.data,reblandecimiento=form.username.data,estabilidad=form.username.data,tiempo_desarrollo=form.username.data,qnumber=form.username.data)
+    farinografo = Farinografo(absorcion_agua=form.absorcion_agua.data, tolerancia_ub=form.tolerancia_ub.data, elasticidad=form.elasticidad.data, viscodidad=form.viscodidad.data, act_enzimatica=form.act_enzimatica.data, trigo_germinado=form.trigo_germinado.data, tiempo_amasado=form.tiempo_amasado.data, cantidad_gluten=form.cantidad_gluten.data, calidad_gluten=form.calidad_gluten.data, indoneidad=form.indoneidad.data, dureza=form.dureza.data, reblandecimiento=form.reblandecimiento.data, estabilidad=form.estabilidad.data, tiempo_desarrollo=form.tiempo_desarrollo.data,qnumber=form.qnumber.data)
     return farinografo
 
 def regAlveografo(form):
-    alveografo = Alveografo(tenacidad=form.username.data,extensibilidad=form.username.data,fuerza_panadera=form.username.data,indice_elasticidad=form.username.data,configuracion_curva=form.username.data)
+    alveografo = Alveografo(tenacidad=form.tenacidad.data, extensibilidad=form.extensibilidad.data, fuerza_panadera=form.fuerza_panadera.data, indice_elasticidad=form.indice_elasticidad.data, configuracion_curva=form.configuracion_curva.data) 
     return alveografo
 
 def regLaboratorista(form):
     if form.password.name =="password":
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-    user = Laboratorista(username=form.username.data, password=hashed_password, role=form.username.data, active=form.username.data)
+    user = Laboratorista(username=form.username.data, password=hashed_password, role=form.role.data, active=form.active.data)
     return user
 
 def regEquipo(form):
-    equipo = EquipoLab(marca=form.username.data, modelo=form.username.data, serie=form.username.data, proveedor=form.username.data, fecha_adquisicion=form.username.data, garantia=form.username.data, ubicacion=form.username.data, mantenimiento=form.username.data, descripcionc=form.username.data, descripcionl=form.username.data)
+    equipo = EquipoLab(marca=form.marca.data, modelo=form.modelo.data, serie=form.serie.data, proveedor=form.proveedor.data, fecha_adquisicion=form.fecha_adquisicion.data, garantia=form.garantia.data, ubicacion=form.ubicacion.data, mantenimiento=form.mantenimiento.data, descripcionc=form.descripcionc.data, descripcionl=form.descripcionl.data)
     return equipo
 
 def regCliente(form):
-    cliente = Cliente(rfc=form.username.data,nombre=form.username.data,apellido=form.username.data,domicilio=form.username.data,ncontacto=form.username.data,personalizada_far=form.username.data,personalizada_alv=form.username.data)
+    cliente = Cliente(rfc=form.rfc.data, nombre=form.nombre.data, apellido=form.apellido.data, domicilio=form.domicilio.data, ncontacto=form.ncontacto.data, personalizada_far=form.personalizada_far.data, personalizada_alv=form.personalizada_alv.data) 
     return cliente
 
 def regLote(form):
-    lote = Lote(cantidad=form.username.data)
+    lote = Lote(cantidad=form.cantidad.data) 
     return lote
 
 def TableValues(elemento):
@@ -170,7 +170,7 @@ def logout():
 
 # ELIMINAR REGISTRO
 @app.route("/eliminar/<elemento>/<value_id>")
-@login_required
+# @login_required
 def eliminar(elemento,value_id):
     
     elemento = str(elemento).lower()
@@ -184,7 +184,7 @@ def eliminar(elemento,value_id):
     return redirect(url_for('buscador', elemento=elemento))
 
 @app.route("/seleccionar/<elemento>/<value_id>")
-@login_required
+# @login_required 
 def seleccionar(elemento,value_id):
     elemento = str(elemento).lower()
     tabla = TableValues(elemento)
