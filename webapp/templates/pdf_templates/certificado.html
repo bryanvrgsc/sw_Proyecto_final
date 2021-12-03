@@ -1,115 +1,155 @@
 <HEAD>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <style>
+                table {
+                  font-family: arial, sans-serif;
+                  border-collapse: collapse;
+                  width: 100%;
+                }
+                
+                td, th {
+                  border: 1px solid #dddddd;
+                  text-align: left;
+                  padding: 8px;
+                }
+                
+                tr:nth-child(even) {
+                  background-color: #dddddd;
+                }
+        </style>
       </HEAD>
-        <div style="width:800px; height:1220px; padding:20px; text-align:center; border: 10px solid #787878">
-          <div style="width:750px; height:1170px; padding:20px; text-align:center; border: 5px solid #787878">
+        <div style="width:1025px; height:1520px; padding:20px; text-align:center; border: 10px solid #787878">
+          <br style="width:975px; height:1470px; padding:20px; text-align:center; border: 5px solid #787878">
                  <span style="font-size:50px; font-weight:bold">Certificado de Inspeccion</span>
                  <br><br>
                  <span style="font-size:25px"><i>Este Certifica a:</i></span>
                  <br><br>
                  <span style="font-size:30px"><b>{{ value.orden.cliente.nombre }} {{ value.orden.cliente.apellido }}</b></span><br/><br/>
-                 <span style="font-size:25px"><i>Con la inspeccion valida numero:</i></span> <br/><br/>
+                 <span style="font-size:25px"><i>Con la inspección valida número:</i></span> <br/><br/>
                  <span style="font-size:30px">{{value.inspeccion.idi}}</span> <br/>
-                 <br/><span style="font-size:25px"><i>Con numero de orden:</i></span> <br/><br/>
+                 <br/><span style="font-size:25px"><i>Con número de orden:</i></span> <br/><br/>
                  <span style="font-size:30px">{{value.norden}}</span> <br/><br/>
-                 <span style="font-size:20px">Otorgada por: <b>{{ value.laboratorista.username }}</b></span> <br/>
+                 <span style="font-size:25px">Otorgada por: <b>{{ value.laboratorista.username }}</b></span> 
                  
-                 <div class="header-right">
-                  <table class="table-header">
-                    <tbody>
-                      <h3>RESULTADOS</h3>
-                      <h4>Farinografo</h4>
-                      <th></th>    <th> Resultado </th>   <th> Estandar </th>
-                      <tr>
-                              <th>Absorción de Agua: </th>
-                              <td>{{ value.inspeccion.farinografo.absorcion_agua }}</td>   {# <td>{{ value.absorcion_agua }}</td> #}
-                      </tr>
-                      <tr>
-                              <th>Tolerancia: </th>
-                              <td>{{ value.inspeccion.farinografo.tolerancia_ub  }}</td>   {#<td>{{ value.tolerancia_ub  }}</td>#}
-                      </tr>
-                      <tr>
-                              <th>Elasticidad: </th>
-                              <td>{{ value.inspeccion.farinografo.elasticidad  }}</td>   {#<td>{{ value.elasticidad  }}</td>#}
-                      </tr>
-                      <tr>
-                              <th>Viscodidad: </th>
-                              <td>{{ value.inspeccion.farinografo.viscodidad  }}</td>    {#<td>{{ value.viscodidad  }}</td>#}
-                      </tr>
-                      <tr>
-                              <th>Actividad Enzimática: </th>
-                              <td>{{ value.inspeccion.farinografo.act_enzimatica  }}</td>    {#<td>{{ value.act_enzimatica  }}</td>#}
-                      </tr>
-                      <tr>
-                              <th>Trigo Germinado: </th>
-                              <td>{{ value.inspeccion.farinografo.trigo_germinado }}</td>    {#<td>{{ value.trigo_germinado }}</td>#}
-                      </tr>
-                      <tr>
-                              <th>Tiempo de Amasado: </th>
-                              <td>{{ value.inspeccion.farinografo.tiempo_amasado }}</td>   {#<td>{{ value.tiempo_amasado }}</td>#}
-                      </tr>
-                      <tr>
-                              <th>Cantidad de Gluten: </th>
-                              <td>{{ value.inspeccion.farinografo.cantidad_gluten }}</td>    {#<td>{{ value.cantidad_gluten }}</td>#}
-                      </tr>
-                      <tr>
-                              <th>Calidad de Gluten: </th>
-                              <td>{{ value.inspeccion.farinografo.calidad_gluten }}</td>   {#<td>{{ value.calidad_gluten }}</td>#}
-                      </tr>
-                      <tr>
-                              <th>Indoneidad: </th>
-                              <td>{{ value.inspeccion.farinografo.indoneidad  }}</td>    {#<td>{{ value.indoneidad  }}</td>#}
-                      </tr>
-                      <tr>
-                              <th>Dureza: </th>
-                              <td>{{ value.inspeccion.farinografo.dureza   }}</td>   {#<td>{{ value.dureza   }}</td>#}
-                      </tr>
-                      <tr>
-                              <th>Reblandecimiento: </th>
-                              <td>{{ value.inspeccion.farinografo.reblandecimiento  }}</td>    {#<td>{{ value.reblandecimiento  }}</td>#}
-                      </tr>
-                      <tr>
-                              <th>Estabilidad: </th>
-                              <td>{{ value.inspeccion.farinografo.estabilidad  }}</td>   {#<td>{{ value.estabilidad  }}</td>#}
-                      </tr>
-                      <tr>
-                              <th>Tiempo de Desarrollo: </th>
-                              <td>{{ value.inspeccion.farinografo.tiempo_desarrollo   }}</td>    {#<td>{{ value.tiempo_desarrollo   }}</td>#}
-                      </tr><tr>
-                              <th>Número de Calidad: </th>
-                              <td>{{ value.inspeccion.farinografo.qnumber  }}</td>   {#<td>{{ value.qnumber  }}</td>#}
-                      
-                    </tbody>
-                  </table>
-                  <table class="table-header">
-                    <tbody>
-                      <h4>Alveografo</h4>
-                      <th></th>    <th> Resultado </th>   <th> Estandar </th>
-                      <tr>
-                              <th>Tenacidad: </th>
-                              <td>{{ value.inspeccion.alveografo.tenacidad  }}</td>  {#<td>{{ value.tenacidad }}</td>#}
-                      </tr><tr>
-                              <th>Extensibilidad: </th>
-                              <td>{{ value.inspeccion.alveografo.extensibilidad   }}</td>   {#<td>{{ value.extensibilidad   }}</td>#}
-                      </tr><tr>
-                              <th>Fuerza Panadera: </th>
-                              <td>{{ value.inspeccion.alveografo.fuerza_panadera   }}</td>    {#<td>{{ value.fuerza_panadera   }}</td>#}
-                      </tr><tr>
-                              <th>Elasticidad: </th>
-                              <td>{{ value.inspeccion.alveografo.indice_elasticidad   }}</td>   {#<td>{{ value.indice_elasticidad   }}</td>#}
-                      </tr>
-                      </tr><tr>
-                              <th>Configuración de la Curva: </th>
-                              <td>{{ value.inspeccion.alveografo.configuracion_curva   }}</td>    {#<td>{{ value.configuracion_curva   }}</td>#}
-                      </tr>
-                    </tbody>
-                </table>
-                </div>
-                <br/><br/><br/>
-                 <span style="font-size:25px"><i>Con fecha de envio de: {{ value.fecha_envio.strftime('%Y/%m/%d') }}</i></span><br>
-                 <span style="font-size:25px"><i>Caducidad: {{ value.fecha_caducidad.strftime('%Y/%m/%d') }}</i></span><br>
-      
                 
+                 <h2>Resultados</h2>
+                 <h3>Farinografo</h3>
+                 <table>
+                   <tr>
+                     <th>Concepto</th>
+                     <th>Resultado</th>
+                     <th>Estandar</th>
+                   </tr>
+                   <tr>
+                     <td>Absorción de Agua:</td>
+                     <td>{{ value.inspeccion.farinografo.absorcion_agua }}</td>
+                     <td>Germany</td>
+                   </tr>
+                   <tr>
+                     <td>Tolerancia:</td>
+                     <td>{{ value.inspeccion.farinografo.tolerancia_ub  }}</td>
+                     <td>Mexico</td>
+                   </tr>
+                   <tr>
+                     <td>Elasticidad:</td>
+                     <td>{{ value.inspeccion.farinografo.elasticidad  }}</td>
+                     <td>Austria</td>
+                   </tr>
+                   <tr>
+                     <td>Viscodidad:</td>
+                     <td>{{ value.inspeccion.farinografo.viscodidad  }}</td>
+                     <td>UK</td>
+                   </tr>
+                   <tr>
+                     <td>Actividad Enzimática:</td>
+                     <td>{{ value.inspeccion.farinografo.act_enzimatica  }}</td>
+                     <td>Canada</td>
+                   </tr>
+                   <tr>
+                     <td>Trigo Germinado:</td>
+                     <td>{{ value.inspeccion.farinografo.trigo_germinado }}</td>
+                     <td>Italy</td>
+                   </tr>
+                   <tr>
+                     <td>Cantidad de Gluten:</td>
+                     <td>{{ value.inspeccion.farinografo.trigo_germinado }}</td>
+                     <td>Italy</td>
+                   </tr>
+                   <tr>
+                     <td>Calidad de Gluten:</td>
+                     <td>{{ value.inspeccion.farinografo.calidad_gluten }}</td>
+                     <td>Italy</td>
+                   </tr>
+                   <tr>
+                     <td>Indoneidad:</td>
+                     <td>{{ value.inspeccion.farinografo.indoneidad  }}</td>
+                     <td>Italy</td>
+                   </tr>
+                   <tr>
+                     <td>Dureza:</td>
+                     <td>{{ value.inspeccion.farinografo.dureza  }}</td>
+                     <td>Italy</td>
+                   </tr>
+                   <tr>
+                     <td>Reblandecimiento:</td>
+                     <td>{{ value.inspeccion.farinografo.reblandecimiento  }}</td>
+                     <td>Italy</td>
+                   </tr>
+                   <tr>
+                     <td>Estabilidad:</td>
+                     <td>{{ value.inspeccion.farinografo.estabilidad  }}</td>
+                     <td>Italy</td>
+                   </tr>
+                   <tr>
+                     <td>Tiempo de Desarrollo:</td>
+                     <td>{{ value.inspeccion.farinografo.tiempo_desarrollo  }}</td>
+                     <td>Italy</td>
+                   </tr>
+                   <tr>
+                     <td>Número de Calidad:</td>
+                     <td>{{ value.inspeccion.farinografo.qnumber  }}</td>
+                     <td>Italy</td>
+                   </tr>
+                 </table>
+                 <h3>Alveografo</h3>
+                 <table>
+                   <tr>
+                     <th>Concepto</th>
+                     <th>Resultado</th>
+                     <th>Estandar</th>
+                   </tr>
+                   <tr>
+                     <td>Tenacidad:</td>
+                     <td>{{ value.inspeccion.alveografo.tenacidad  }}</td>
+                     <td>Germany</td>
+                   </tr>
+                   <tr>
+                     <td>Extensibilidad:</td>
+                     <td>{{ value.inspeccion.alveografo.extensibilidad   }}</td>
+                     <td>Germany</td>
+                   </tr>
+                   <tr>
+                     <td>Fuerza Panadera:</td>
+                     <td>{{ value.inspeccion.alveografo.fuerza_panadera  }}</td>
+                     <td>Germany</td>
+                   </tr>
+                   <tr>
+                     <td>Elasticidad:</td>
+                     <td>{{ value.inspeccion.alveografo.indice_elasticidad   }}</td>
+                     <td>Germany</td>
+                   </tr>
+                   <tr>
+                     <td>Configuración de la Curva:</td>
+                     <td>{{ value.inspeccion.alveografo.configuracion_curva   }}</td>
+                     <td>Germany</td>
+                   </tr>
+                 </table>
+                </br></br>
+                 <span style="font-size:25px"><i>Con fecha de envio de: {{ value.fecha_envio.strftime('%Y/%m/%d') }}</i></span><br></br>
+                 <span style="font-size:25px"><i>Caducidad: {{ value.fecha_caducidad.strftime('%Y/%m/%d') }}</i></span><br></br></br>
+                 <span style="font-size:25px"><i>Firma del responsable:__________________________ </i></span><br>
+
+                </div>
           </div>
           </div>
       
