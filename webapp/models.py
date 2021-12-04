@@ -42,13 +42,12 @@ class EquipoLab(db.Model):
     descripcionc = db.Column(db.String(20), nullable=False)
     descripcionl = db.Column(db.String(100), nullable=False)
 
-    #! Relationship
-    inspeccion = db.relationship("Inspeccion", backref="equipolab")
-
+    
     #!Foranea
     idl = db.Column(db.Integer, db.ForeignKey("laboratorista.idl"))
     id_far = db.Column(db.Integer, db.ForeignKey("farinografo.id_far"))
     id_alv = db.Column(db.Integer, db.ForeignKey("alveografo.id_alv"))
+    idi = db.Column(db.Integer, db.ForeignKey("inspeccion.idi"))
 
 
 
@@ -149,16 +148,17 @@ class Inspeccion(db.Model):
     
     #! Relationship
     certificado = db.relationship("Certificado", backref="inspeccion")
+    equipos = db.relationship("EquipoLab", backref="inspeccion")
+
 
     #!Foranea
-    clave = db.Column(db.Integer, db.ForeignKey("equipo_lab.clave"))
     id_far = db.Column(db.Integer, db.ForeignKey("farinografo.id_far"))
     id_alv = db.Column(db.Integer, db.ForeignKey("alveografo.id_alv"))
     idlote = db.Column(db.Integer, db.ForeignKey("lote.idlote"))
 
 
     def __repr__(self):
-        return f"Inspeccion('{self.idi}','{self.absorcion}','{self.estabilidad}','{self.qnumber}')"
+        return f"Inspeccion('{self.idi}','{self.id_inspeccion}')"
 
 class Certificado(db.Model):
     ncertificado = db.Column(db.Integer, primary_key=True, nullable=False)
