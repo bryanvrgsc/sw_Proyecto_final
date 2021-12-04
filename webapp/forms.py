@@ -3,7 +3,7 @@ from wtforms import StringField, PasswordField, BooleanField, IntegerField, Deci
 from datetime import datetime
 from wtforms.fields.simple import SubmitField
 from wtforms.form import Form
-from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError
+from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError, NumberRange
 from wtforms.fields.html5 import  TelField, DateField
 from webapp.models import *
 
@@ -100,9 +100,8 @@ class RegisterOrden(FlaskForm):
     precio = StringField(' Precio', validators=[DataRequired()])
     submit = SubmitField('Registrar')
 
-class RegisterLote(FlaskForm):
-
-    cantidad = DecimalField('Cantidad', validators=[DataRequired()], number_format="#.##")
+class RegisterLote(Form):
+    cantidad = StringField('Cantidad', validators=[DataRequired()])
 
 class RegisterInspeccionNo(FlaskForm):
     loteSelect = SelectField("Lote", choices=[(table.idlote) for table in Lote.query.all()])
@@ -116,8 +115,8 @@ class RegisterInspeccionNo(FlaskForm):
 
 
 class RegisterInspeccionSi(FlaskForm):
-    loteForm = FormField(RegisterLote)
     id_inspeccion = StringField("ID de Inspeccion", validators=[DataRequired()])
+    loteForm = FormField(RegisterLote)
     equipo_alv = SelectField("Equipo Utilizado", choices=[(table1.clave, table1.marca) for table1 in EquipoLab.query.filter(EquipoLab.id_alv!="Null").all()])
     equipo_far = SelectField("Equipo Utilizado", choices=[(table2.clave, table2.marca) for table2 in EquipoLab.query.filter(EquipoLab.id_far!= "Null").all()])
     alveografo = FormField(RegisterAlveografo)

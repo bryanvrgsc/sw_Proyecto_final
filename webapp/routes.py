@@ -81,7 +81,7 @@ def regLote(form):
     lote = Lote(cantidad=form.cantidad.data) 
     return lote
 
-def regInspeccion(form):
+def regInspeccion(form, l_nuevo = "no"):
     # Registro de campos basicos en inspeccion
     inspeccion = Inspeccion(id_inspeccion=form.id_inspeccion.data, clave_alv=form.equipo_alv.data, clave_far=form.equipo_far.data)
 
@@ -97,12 +97,17 @@ def regInspeccion(form):
 
     
     # asignacion del campo lote
-    if form.loteSelect:
+    if l_nuevo == "no":
         # select:  Se selecciona el campo de select en el formulario y se guarda en la base
         inspeccion.idlote = form.loteSelect.data
     else:
         # Formulario: Se crea un nuevo lote y se adquire su id para agregarlo a la base
-        flash(f"La creacion del lote se creo con exito" , "info")
+        lote = regLote(form.loteForm)
+        db.session.add(lote)
+        new_lote_id = str(getLastId(Lote).idlote)
+        inspeccion.idlote = new_lote_id
+
+        flash(f"La creacion del lote se realizo con exito desde fucion" , "info")
 
     db.session.add(inspeccion)
     db.session.commit()
@@ -209,8 +214,11 @@ def formulario(elemento, l_nuevo):
         modalForm["inspeccion"] = RegisterInspeccionSi()
 
     if modalForm[elemento].validate_on_submit():
-        table = TableValues(elemento)        
-        message = table['registro'](modalForm[elemento])
+        table = TableValues(elemento)
+        if l_nuevo == "si":
+            message = table['registro'](modalForm[elemento], l_nuevo)
+        else:    
+            message = table['registro'](modalForm[elemento])
         flash(message['message'], message["type"])
 
     return render_template(f"formularios/{elemento}.html", elemento=elemento, form=modalForm[elemento], l_nuevo=l_nuevo)

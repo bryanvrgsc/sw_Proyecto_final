@@ -1,0 +1,25 @@
+{% from "formularios/_renderFields.html" import render_field%}
+{% extends 'layout.html'%}
+
+{% block content %}
+<div class="w-100 d-flex justify-content-center mb-5">
+  <form method="POST" class="w-50">
+        {{ form.hidden_tag() }}
+
+
+        <div class="formField">
+            <h3>Lote</h3>
+            {% for field in form if field.widget.input_type != 'hidden' %}
+                {{ render_field(field, "form-group", "col-form-label", "form-control") }}
+            {% endfor %}    
+        </div>
+
+        <div class="right-button d-flex align-items-center mt-5">
+            <input type="submit">
+        </div>
+        
+
+  </form>
+</div>
+
+{% endblock %}
