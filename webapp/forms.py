@@ -52,6 +52,7 @@ class RegiseterLab(FlaskForm):
     active = BooleanField('Usuario activo', validators=[DataRequired()]) #! Boolean
     submit = SubmitField('Registrar')
 
+
     def validate_username(self,username):
         user = Laboratorista.query.filter_by(username=username.data).first()
         if user:
@@ -111,6 +112,8 @@ class RegisterInspeccionNo(FlaskForm):
     alveografo = FormField(RegisterAlveografo)
     farinografo = FormField(RegisterFarinografo)
     submit = SubmitField('Registrar')
+
+
 
 class RegisterInspeccionSi(FlaskForm):
     loteForm = FormField(RegisterLote)

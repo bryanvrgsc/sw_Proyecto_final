@@ -42,12 +42,16 @@ class EquipoLab(db.Model):
     descripcionc = db.Column(db.String(20), nullable=False)
     descripcionl = db.Column(db.String(100), nullable=False)
 
+
+    # Relationships
+    inspecciones_alv = db.relationship("Inspeccion", backref="equipo_alv", foreign_keys="Inspeccion.clave_alv")
+    inspecciones_far = db.relationship("Inspeccion", backref="equipo_far", foreign_keys="Inspeccion.clave_far")
+
     
     #!Foranea
     idl = db.Column(db.Integer, db.ForeignKey("laboratorista.idl"))
     id_far = db.Column(db.Integer, db.ForeignKey("farinografo.id_far"))
     id_alv = db.Column(db.Integer, db.ForeignKey("alveografo.id_alv"))
-    idi = db.Column(db.Integer, db.ForeignKey("inspeccion.idi"))
 
 
 
@@ -148,10 +152,10 @@ class Inspeccion(db.Model):
     
     #! Relationship
     certificado = db.relationship("Certificado", backref="inspeccion")
-    equipos = db.relationship("EquipoLab", backref="inspeccion")
-
-
+    
     #!Foranea
+    clave_alv = db.Column(db.Integer, db.ForeignKey("equipo_lab.clave"))
+    clave_far = db.Column(db.Integer, db.ForeignKey("equipo_lab.clave"))
     id_far = db.Column(db.Integer, db.ForeignKey("farinografo.id_far"))
     id_alv = db.Column(db.Integer, db.ForeignKey("alveografo.id_alv"))
     idlote = db.Column(db.Integer, db.ForeignKey("lote.idlote"))

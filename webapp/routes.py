@@ -37,7 +37,6 @@ def regLaboratorista(form):
     db.session.commit()
     return{"message": f"El usuario {user.username} ha sido registrado con exito" , "type": "success"}
 
-
 def regEquipo(form):
     equipo = EquipoLab(marca=form.marca.data, modelo=form.modelo.data, serie=form.serie.data, proveedor=form.proveedor.data, fecha_adquisicion=form.fecha_adquisicion.data, garantia=form.garantia.data, ubicacion=form.ubicacion.data, mantenimiento=form.mantenimiento.data, descripcionc=form.descripcionc.data, descripcionl=form.descripcionl.data)
 
@@ -57,7 +56,6 @@ def regEquipo(form):
     db.session.commit()
     return{"message": f"El equipo {equipo.marca} ha sido registrado con exito" , "type": "success"}
     
-
 def regCliente(form):
     cliente = Cliente(rfc=form.rfc.data, nombre=form.nombre.data, apellido=form.apellido.data, domicilio=form.domicilio.data, ncontacto=form.ncontacto.data, personalizado_far=form.personalizado_far.data, personalizado_alv=form.personalizado_alv.data)
 
@@ -84,15 +82,30 @@ def regLote(form):
     return lote
 
 def regInspeccion(form):
-    inspeccion = Inspeccion(id_inspeccion=form.id_inspeccion.data)
+    # Registro de campos basicos en inspeccion
+    inspeccion = Inspeccion(id_inspeccion=form.id_inspeccion.data, clave_alv=form.equipo_alv.data, clave_far=form.equipo_far.data)
 
-    if form.loteSelect:
-        # select
-        inspeccion.idlote = form.loteSelect.data
-    else:
-        print('Form')
+    # creacion de alveofrafo y farinografo nuevo
+    alveografo = regAlveografo(form.alveografo)
+    db.session.add(alveografo)
+    new_alv_id = str(getLastId(Alveografo).id_alv)
+    inspeccion.id_alv = new_alv_id
+    farinografo = regFarinografo(form.farinografo)
+    db.session.add(farinografo)
+    new_far_id =  str(getLastId(Farinografo).id_far)
+    inspeccion.id_far = new_far_id
 
     
+    # asignacion del campo lote
+    if form.loteSelect:
+        # select:  Se selecciona el campo de select en el formulario y se guarda en la base
+        inspeccion.idlote = form.loteSelect.data
+    else:
+        # Formulario: Se crea un nuevo lote y se adquire su id para agregarlo a la base
+        flash(f"La creacion del lote se creo con exito" , "info")
+
+    db.session.add(inspeccion)
+    db.session.commit()
 
 
     return{"message": f"{inspeccion.id_inspeccion} ha sido registrada con exito" , "type": "success"}
@@ -195,7 +208,6 @@ def formulario(elemento, l_nuevo):
     if l_nuevo == "si":
         modalForm["inspeccion"] = RegisterInspeccionSi()
 
-    print(modalForm[elemento].validate_on_submit())
     if modalForm[elemento].validate_on_submit():
         table = TableValues(elemento)        
         message = table['registro'](modalForm[elemento])
