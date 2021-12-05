@@ -1,17 +1,17 @@
 {% from "formularios/_renderFields.html" import render_field%}
+{% from "formularios/_noValueField.html" import render_Novfield%}
 {% extends 'layout.html'%}
 
 {% block content %}
 <div class="w-100 d-flex justify-content-center mb-5">
   <form method="POST" class="w-50">
-              {{ form.hidden_tag() }}
+            {{ form.hidden_tag() }}
               
-            {{ render_field(form.username, "form-group", "col-form-label", "form-control", value=object.username) }}
-            {{ render_field(form.password, "form-group", "col-form-label", "form-control" ) }}
-            {{ render_field(form.confirm_password, "form-group", "col-form-label", "form-control" ) }}
-            {{ render_field(form.role, "form-group", "col-form-label", "form-select" ) }}
-            {{ render_field(form.active, "form-check mt-3", "form-check-label", "form-check-input", value=object.active) }}
-
+              {{ render_field(form.username, "form-group", "col-form-label", "form-control", value=object.username) }}
+              {{ render_field(form.password, "form-group", "col-form-label", "form-control" ) }}
+              {{ render_field(form.confirm_password, "form-group", "col-form-label", "form-control" ) }}
+              {{ render_field(form.role, "form-group", "col-form-label", "form-select" ) }}
+              {{ render_field(form.active, "form-check mt-3", "form-check-label", "form-check-input", value=object.active) }}
            
 
 

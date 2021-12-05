@@ -24,24 +24,28 @@
     {% block style %}{% endblock %}
 </head>
 <body>
+
+    <!-- Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        {% for category, message in messages %}
+        <div id="floatting-alert" class="alert alert-{{ category }} alert-dismissible fade show floatting-message" role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+            </button>
+          </div>
+        {% endfor %}
+
+    {% endif %}
+    {% endwith %}
+
+    
     {% include 'header.html' %}
 
     {% block content %}{% endblock %}
 
-     <!-- Messages -->
-     {% with messages = get_flashed_messages(with_categories=true) %}
-
-     {% if messages %}
-
-         {% for category, message in messages %}
-         <div id="floatting-alert" class="alert alert-{{ category }} alert-dismissible fade show floatting-message" role="alert">
-             {{message}}
-             <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
-             </button>
-           </div>
-         {% endfor %}
-
-     {% endif %}
-     {% endwith %}
+     
 </body>
 </html>

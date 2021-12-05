@@ -50,14 +50,12 @@ def menu():
     user_type = current_user.role
     return render_template("menu.html", user_type=user_type, menu_items=menu)
 
-@app.route("/buscador/<elemento>/<message>", methods=["GET", "POST"])
-@app.route("/buscador/<elemento>", defaults={'message':dict()} ,methods=["GET", "POST"])
-@login_required
-def buscador(elemento, message):
-    search_form = Buscar()
 
-    if message != "":
-        flash(message['message'], message['type'])
+
+@app.route("/buscador/<elemento>" ,methods=["GET", "POST"])
+@login_required
+def buscador(elemento):
+    search_form = Buscar()
 
     # Largo de Table Header
     table = TableValues(elemento)
@@ -110,9 +108,11 @@ def formulario(elemento, l_nuevo):
         else:    
             message = table['registro'](modalForm[elemento])
 
-        return redirect(url_for("buscador", elemento=elemento, message=message))
+        flash(message['message'], message['type'])
 
-    return render_template(f"formularios/{elemento}.html", elemento=elemento, form=modalForm[elemento], l_nuevo=l_nuevo)
+        return redirect(url_for("buscador", elemento=elemento))
+
+    return render_template(f"formularios/{elemento}.html", elemento=elemento, form=modalForm[elemento], l_nuevo=l_nuevo, object=None)
 
 
 @app.route("/editar/<elemento>/<id>")
@@ -158,8 +158,7 @@ def eliminar(elemento,value_id):
     result = table.query.get(value_id)
     db.session.delete(result)
     db.session.commit()
-    # flash(f'{elemento, value_id}','info')
-    flash(f"El coneptxo con ID: {value_id} fue eliminado ", 'warning')
+    flash(f"El concepto con ID: {value_id} fue eliminado ", 'warning')
 
     return redirect(url_for('buscador', elemento=elemento))
 

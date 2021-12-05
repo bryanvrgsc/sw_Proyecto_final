@@ -1,4 +1,5 @@
 {% from "formularios/_renderFields.html" import render_field%}
+{% from "formularios/_noValueField.html" import render_Novfield%}
 {% extends 'layout.html'%}
 
 {% block content %}
@@ -21,7 +22,7 @@
 
     <div class="form-group mt-5">
       {% for radio in form.tipo %}
-      {{render_field(radio, "form-check", "form-check-label", "form-check-input" , function="doStuff()")}}
+      {{render_Novfield(radio, "form-check", "form-check-label", "form-check-input" , function="doStuff()")}}
       {% endfor %}
     </div>
 

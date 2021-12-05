@@ -1,4 +1,4 @@
-{% macro render_field(field, div_class,label_class, input_class, function = "", value = "")%}
+{% macro render_Novfield(field, div_class,label_class, input_class, function = "")%}
 
 <div class="{{ div_class }}">
     {{ field.label(class="required " + label_class) }}
@@ -6,7 +6,7 @@
       {% if value == True %}
         {{ field(class="is-invalid " + input_class, onchange=""+function, checked="true")|safe }}
       {% else %}
-        {{ field(class="is-invalid " + input_class, onchange=""+function, value=value)|safe }}
+        {{ field(class="is-invalid " + input_class, onchange=""+function)|safe }}
       {% endif %}
     
     <!-- Errores -->
@@ -20,7 +20,7 @@
       {% if value == True %}
         {{ field(class="" + input_class, onchange=""+function,checked="true")|safe }}
       {% else %}
-        {{ field(class="" + input_class, onchange=""+function, value=value)|safe }}
+        {{ field(class="" + input_class, onchange=""+function)|safe }}
       {% endif %}
     {% endif %}
     

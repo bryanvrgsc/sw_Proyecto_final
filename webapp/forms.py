@@ -48,7 +48,7 @@ class RegiseterLab(FlaskForm):
     password = PasswordField('Contraseña', validators=[DataRequired()])
     confirm_password = PasswordField('Confirmar Contraseña', validators=[DataRequired(), EqualTo('password')])
     role = SelectField('Rol', validators=[DataRequired()],choices=[('user', 'Usuario'),('admin', 'Administrador')])
-    active = BooleanField('Usuario activo', validators=[DataRequired()]) #! Boolean
+    active = BooleanField('Usuario activo') #! Boolean
     submit = SubmitField('Registrar')
 
 
