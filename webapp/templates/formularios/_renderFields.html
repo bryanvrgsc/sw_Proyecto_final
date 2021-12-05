@@ -20,9 +20,7 @@
       {% if value == True %}
         {{ field(class="" + input_class, onchange=""+function, checked="true")|safe }}
       {% else %}
-        {{ field(class="" + input_class, onchange=""+function, value=""+value, list="users", autocomplete="off",  onmouseover="focus();old = value;", 
-        onmousedown = "value = '';", 
-        onmouseup="value = old;")|safe }}
+        {{ field(class="" + input_class, onchange=""+function,value=""+value)|safe }}
       {% endif %}
     {% endif %}
     

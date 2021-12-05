@@ -1,15 +1,9 @@
-from re import search
-import re
-from flask import render_template, request, redirect, session, url_for, flash, Markup, Response
-from webapp import app, db, bcrypt, APP_ROOT, Download_PATH, Download_FOLDER
+from flask import render_template, request, redirect, url_for, flash, Response
+from webapp import app, db, bcrypt, Download_FOLDER
 from webapp.forms import  *
 from webapp.models import *
 from flask_login import login_user, current_user, logout_user, login_required
-import secrets
 import os
-from PIL import Image
-from datetime import datetime
-from sqlalchemy.inspection import inspect
 import pdfkit, os, uuid
 
 def getLastId(Table):
@@ -236,23 +230,26 @@ def formulario(elemento, l_nuevo):
 @app.route("/editar/<elemento>/<id>")
 def editar(elemento, id):
     elemento = elemento.lower()
-    modalForm = {
-        'laboratorista' : RegiseterLab(username="Cesar"),
-        'clientes' : RegisterCliente(),
-        'equipo': RegisterEquipo(),
-        'certificados': RegisterCertificado(),
-        'inspeccion': RegisterInspeccionNo()
-    }
     table = TableValues(elemento)
     table_header = table['table_header']
     filter = {table_header[0] : id}
     object = table['model'].query.filter_by(**filter).first()
 
-    # modalForm[elemento].username.value = "admin"
-    # modalForm[elemento].process()
+    role = object.role
+
+    modalForm = {
+        'laboratorista' : RegiseterLab(role=role),
+        'clientes' : RegisterCliente(),
+        'equipo': RegisterEquipo(),
+        'certificados': RegisterCertificado(),
+        'inspeccion': RegisterInspeccionNo()
+    }
 
 
-    return render_template(f"formularios/{elemento}.html", form= modalForm[elemento], object=object)
+    
+
+
+    return render_template(f"formularios/{elemento}.html", form=modalForm[elemento], object=object)
 
 
 

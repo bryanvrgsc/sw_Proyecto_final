@@ -8,7 +8,6 @@ from wtforms.fields.html5 import  TelField, DateField
 from webapp.models import *
 
 
-
 class Login(FlaskForm):
     username = StringField('Usuario', validators=[DataRequired()])
     password = PasswordField('Contraseña', validators=[DataRequired()])
@@ -128,6 +127,6 @@ class RegisterCertificado(FlaskForm):
     fecha_envio = DateField("Fecha de Envío", validators=[DataRequired()], default=datetime.now())
     fecha_caducidad = DateField("Fecha de Caducidad", validators=[DataRequired()], default=datetime.now())
     inspeccion = SelectField("Inspección", choices=[(table.clave, table.marca) for table in EquipoLab.query.filter(EquipoLab.id_far!= "Null").all()])
-    orden = SelectField("Numero de Orden", choices=[(table.norden, table.norden) for table in Orden.query.filter(EquipoLab.id_far!= "Null").all()])
+    orden = SelectField("Numero de Orden", choices=[(table.norden, table.norden) for table in Orden.query.all()])
     submit = SubmitField('Registrar')
 
