@@ -107,12 +107,8 @@ def regInspeccion(form, l_nuevo = "no"):
         new_lote_id = str(getLastId(Lote).idlote)
         inspeccion.idlote = new_lote_id
 
-        flash(f"La creacion del lote se realizo con exito desde fucion" , "info")
-
     db.session.add(inspeccion)
     db.session.commit()
-
-
     return{"message": f"{inspeccion.id_inspeccion} ha sido registrada con exito" , "type": "success"}
 
 def regCertificado(form):
@@ -131,7 +127,7 @@ def regCertificado(form):
     db.session.add(certificado)
     db.session.commit()
 
-    return {'message': 'se valido', 'type': 'info'}
+    return {'message': f'El certificado con factura: {certificado.factura} ha sido registrado', 'type': 'info'}
 
 def TableValues(elemento):
 
@@ -238,7 +234,6 @@ def formulario(elemento, l_nuevo):
 
 # Log Out
 @app.route("/logout")
-@login_required
 def logout():
     if current_user.is_authenticated:
         logout_user()
