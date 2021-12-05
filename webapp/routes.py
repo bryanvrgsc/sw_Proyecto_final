@@ -115,11 +115,23 @@ def regInspeccion(form, l_nuevo = "no"):
 
     return{"message": f"{inspeccion.id_inspeccion} ha sido registrada con exito" , "type": "success"}
 
-
 def regCertificado(form):
-    for value in form:
-        print(value)
 
+    certificado = Certificado(
+                                
+                                factura=form.factura.data,
+                                fecha_envio=form.fecha_envio.data,
+                                fecha_caducidad=form.fecha_caducidad.data,
+                                idi=form.inspeccion.data,
+                                idl=current_user.idl,
+                                norden=form.orden.data
+
+                                )
+
+    db.session.add(certificado)
+    db.session.commit()
+
+    return {'message': 'se valido', 'type': 'info'}
 
 def TableValues(elemento):
 
@@ -200,7 +212,7 @@ def buscador(elemento):
 
 @app.route("/register/<elemento>",methods=["GET", "POST"], defaults={'l_nuevo': None} )
 @app.route("/register/<elemento>/<l_nuevo>",methods=["GET", "POST"])
-# @login_required
+@login_required
 def formulario(elemento, l_nuevo):
     elemento = elemento.lower()
     modalForm = {
@@ -237,7 +249,7 @@ def logout():
 
 # ELIMINAR REGISTRO
 @app.route("/eliminar/<elemento>/<value_id>")
-# @login_required
+@login_required
 def eliminar(elemento,value_id):
     
     elemento = str(elemento).lower()
@@ -251,7 +263,7 @@ def eliminar(elemento,value_id):
     return redirect(url_for('buscador', elemento=elemento))
 
 @app.route("/seleccionar/<elemento>/<value_id>")
-# @login_required 
+@login_required 
 def seleccionar(elemento,value_id):
     elemento = str(elemento).lower()
     tabla = TableValues(elemento)

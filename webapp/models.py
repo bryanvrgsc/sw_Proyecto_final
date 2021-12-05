@@ -166,8 +166,6 @@ class Inspeccion(db.Model):
 
 class Certificado(db.Model):
     ncertificado = db.Column(db.Integer, primary_key=True, nullable=False)
-    cantidad_solicitada = db.Column(db.Float(), nullable=False)
-    cant_total = db.Column(db.Float(), nullable=False) 
     factura = db.Column(db.Integer, nullable=False)
     fecha_envio = db.Column(db.DateTime, nullable=False, default=datetime.now())
     fecha_caducidad = db.Column(db.DateTime, nullable=False, default=datetime.now())

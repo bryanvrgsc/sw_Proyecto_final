@@ -124,11 +124,10 @@ class RegisterInspeccionSi(FlaskForm):
     submit = SubmitField('Registrar')
 
 class RegisterCertificado(FlaskForm):
-    cantidad_solicitada = DecimalField('Cantidad Solicitada', validators=[DataRequired()])
-    cant_total = DecimalField('Cantidad Total', validators=[DataRequired()])
     factura = IntegerField('Factura', validators=[DataRequired()])
     fecha_envio = DateField("Fecha de Envío", validators=[DataRequired()], default=datetime.now())
     fecha_caducidad = DateField("Fecha de Caducidad", validators=[DataRequired()], default=datetime.now())
     inspeccion = SelectField("Inspección", choices=[(table.clave, table.marca) for table in EquipoLab.query.filter(EquipoLab.id_far!= "Null").all()])
+    orden = SelectField("Numero de Orden", choices=[(table.norden, table.norden) for table in Orden.query.filter(EquipoLab.id_far!= "Null").all()])
     submit = SubmitField('Registrar')
 
