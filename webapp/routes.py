@@ -7,6 +7,7 @@ import os
 import pdfkit, os, uuid
 from webapp.registros import *
 from webapp.utils import *
+from webapp.updates import *
 
 @app.route("/", methods=["GET","POST"])
 def login():
