@@ -6,7 +6,7 @@
       {% if value == True %}
         {{ field(class="is-invalid " + input_class, onchange=""+function, checked="true")|safe }}
       {% else %}
-        {{ field(class="is-invalid " + input_class, onchange=""+function, value=""+value)|safe }}
+        {{ field(class="is-invalid " + input_class, onchange=""+function)|safe }}
       {% endif %}
     
     <!-- Errores -->
@@ -20,7 +20,7 @@
       {% if value == True %}
         {{ field(class="" + input_class, onchange=""+function, checked="true")|safe }}
       {% else %}
-        {{ field(class="" + input_class, onchange=""+function,value=""+value)|safe }}
+        {{ field(class="" + input_class, onchange=""+function)|safe }}
       {% endif %}
     {% endif %}
     

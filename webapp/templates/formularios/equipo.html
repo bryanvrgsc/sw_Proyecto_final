@@ -21,7 +21,7 @@
 
     <div class="form-group mt-5">
       {% for radio in form.tipo %}
-      {{render_field(radio, "form-check", "form-check-label", "form-check-input" , "doStuff()")}}
+      {{render_field(radio, "form-check", "form-check-label", "form-check-input" , function="doStuff()")}}
       {% endfor %}
     </div>
 
