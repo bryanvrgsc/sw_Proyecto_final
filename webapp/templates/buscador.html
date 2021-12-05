@@ -67,7 +67,7 @@
                       <button type="button" class="icon_wrapper" data-toggle="modal" data-target="#DeleteModal" data-whatever="{{ item[table_header[0]] }}">
                         <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/remove.png' ) }}" >
                       </button>
-                      <a href="{{ url_for('formulario', elemento = elemento) }}" type="button" class="icon_wrapper"> 
+                      <a href="{{ url_for('editar', elemento = elemento, id=item[table_header[0]]) }}" type="button" class="icon_wrapper"> 
                         <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/editing.png' ) }}">
                       </a>
 

@@ -228,8 +228,32 @@ def formulario(elemento, l_nuevo):
         else:    
             message = table['registro'](modalForm[elemento])
         flash(message['message'], message["type"])
+        return redirect(url_for("buscador", elemento=elemento))
 
     return render_template(f"formularios/{elemento}.html", elemento=elemento, form=modalForm[elemento], l_nuevo=l_nuevo)
+
+
+@app.route("/editar/<elemento>/<id>")
+def editar(elemento, id):
+    elemento = elemento.lower()
+    modalForm = {
+        'laboratorista' : RegiseterLab(username="Cesar"),
+        'clientes' : RegisterCliente(),
+        'equipo': RegisterEquipo(),
+        'certificados': RegisterCertificado(),
+        'inspeccion': RegisterInspeccionNo()
+    }
+    table = TableValues(elemento)
+    table_header = table['table_header']
+    filter = {table_header[0] : id}
+    object = table['model'].query.filter_by(**filter).first()
+
+    # modalForm[elemento].username.value = "admin"
+    # modalForm[elemento].process()
+
+
+    return render_template(f"formularios/{elemento}.html", form= modalForm[elemento], object=object)
+
 
 
 # Log Out
@@ -267,7 +291,7 @@ def seleccionar(elemento,value_id):
     return render_template(f"info_templates/{elemento}.html",
      value=value,
      table_header=tabla["table_header"])
-    # render_template('pdf_templates/certificado.html', value=value)
+
 
 
 ''' -------------------------------------------------

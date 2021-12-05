@@ -1,11 +1,14 @@
-{% macro render_field(field, div_class,label_class, input_class, function = "")%}
+{% macro render_field(field, div_class,label_class, input_class, function = "", value = "")%}
 
 <div class="{{ div_class }}">
     {{ field.label(class="required " + label_class) }}
-    
-
     {%if field.errors %}
-    {{ field(class="is-invalid " + input_class, onchange=""+function)|safe }}
+      {% if value == True %}
+        {{ field(class="is-invalid " + input_class, onchange=""+function, checked="true")|safe }}
+      {% else %}
+        {{ field(class="is-invalid " + input_class, onchange=""+function, value=""+value)|safe }}
+      {% endif %}
+    
     <!-- Errores -->
     <div class="invalid-feedback">
       {% for error in field.errors %}
@@ -14,7 +17,13 @@
     </div>
 
     {% else %}
-      {{ field(class="" + input_class, onchange=""+function)|safe }}
+      {% if value == True %}
+        {{ field(class="" + input_class, onchange=""+function, checked="true")|safe }}
+      {% else %}
+        {{ field(class="" + input_class, onchange=""+function, value=""+value, list="users", autocomplete="off",  onmouseover="focus();old = value;", 
+        onmousedown = "value = '';", 
+        onmouseup="value = old;")|safe }}
+      {% endif %}
     {% endif %}
     
 
