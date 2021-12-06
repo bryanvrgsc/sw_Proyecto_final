@@ -5,7 +5,173 @@
 {% endblock %}
 {% block content %}
     <div class="p-3 d-flex justify-content-center">
-        {% include 'pdf_templates/certificado.html'%}
+       
+        <HEAD>
+            <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+            <style>
+                    table {
+                      font-family: arial, sans-serif;
+                      border-collapse: collapse;
+                      width: 100%;
+                    }
+                    
+                    td, th {
+                      border: 1px solid #dddddd;
+                      text-align: left;
+                      padding: 8px;
+                    }
+                    
+                    tr:nth-child(even) {
+                      background-color: #dddddd;
+                    }
+            </style>
+          </HEAD>
+            <div style="width:1025px; height:1520px; padding:20px; text-align:center; border: 10px solid #787878">
+              <br style="width:975px; height:1470px; padding:20px; text-align:center; border: 5px solid #787878">
+                     <span style="font-size:50px; font-weight:bold">Certificado de Inspeccion</span>
+                     <br><br>
+                     <span style="font-size:25px"><i>Este Certifica a:</i></span>
+                     <br><br>
+                     <span style="font-size:30px"><b>{{ value.orden.cliente.nombre }} {{ value.orden.cliente.apellido }}</b></span><br/><br/>
+                     <span style="font-size:25px"><i>Con la inspección valida número:</i></span> <br/><br/>
+                     <span style="font-size:30px">{{value.inspeccion.idi}}</span> <br/>
+                     <br/><span style="font-size:25px"><i>Con número de orden:</i></span> <br/><br/>
+                     <span style="font-size:30px">{{value.norden}}</span> <br/><br/>
+                     <span style="font-size:25px">Otorgada por: <b>{{ value.laboratorista.username }}</b></span> 
+                     
+          
+                     <h2>Resultados</h2>
+                     <h3>Farinografo</h3>
+                     <table>
+                       <tr>
+                         <th>Concepto</th>
+                         <th>Resultado</th>
+                         <th>Estandar {% if value_far.id_far | int != 0 %}
+                          Personalizado
+                         {% else %}
+                          Universal
+                         {% endif %}</th>
+                       </tr>
+                       <tr>
+                         <td>Absorción de Agua:</td>
+                         <td>{{ value.inspeccion.farinografo.absorcion_agua }}</td>
+                         <td>{{ value_far.absorcion_agua }}</td>
+                       </tr>
+                       <tr>
+                         <td>Tolerancia:</td>
+                         <td>{{ value.inspeccion.farinografo.tolerancia_ub  }}</td>
+                         <td>{{ value_far.tolerancia_ub }}</td>
+                       </tr>
+                       <tr>
+                         <td>Elasticidad:</td>
+                         <td>{{ value.inspeccion.farinografo.elasticidad  }}</td>
+                         <td>{{ value_far.elasticidad }}</td>
+                       </tr>
+                       <tr>
+                         <td>Viscodidad:</td>
+                         <td>{{ value.inspeccion.farinografo.viscodidad  }}</td>
+                         <td>{{ value_far.viscodidad }}</td>
+                       </tr>
+                       <tr>
+                         <td>Actividad Enzimática:</td>
+                         <td>{{ value.inspeccion.farinografo.act_enzimatica  }}</td>
+                         <td>{{ value_far.act_enzimatica }}</td>
+                       </tr>
+                       <tr>
+                         <td>Trigo Germinado:</td>
+                         <td>{{ value.inspeccion.farinografo.trigo_germinado }}</td>
+                         <td>{{ value_far.trigo_germinado }}</td>
+                       </tr>
+                       <tr>
+                         <td>Cantidad de Gluten:</td>
+                         <td>{{ value.inspeccion.farinografo.trigo_germinado }}</td>
+                         <td>{{ value_far.trigo_germinado }}</td>
+                       </tr>
+                       <tr>
+                         <td>Calidad de Gluten:</td>
+                         <td>{{ value.inspeccion.farinografo.calidad_gluten }}</td>
+                         <td>{{ value_far.calidad_gluten }}</td>
+                       </tr>
+                       <tr>
+                         <td>Indoneidad:</td>
+                         <td>{{ value.inspeccion.farinografo.indoneidad  }}</td>
+                         <td>{{ value_far.indoneidad }}</td>
+                       </tr>
+                       <tr>
+                         <td>Dureza:</td>
+                         <td>{{ value.inspeccion.farinografo.dureza  }}</td>
+                         <td>{{ value_far.dureza  }}</td>
+                       </tr>
+                       <tr>
+                         <td>Reblandecimiento:</td>
+                         <td>{{ value.inspeccion.farinografo.reblandecimiento  }}</td>
+                         <td>{{ value_far.reblandecimiento  }}</td>
+                       </tr>
+                       <tr>
+                         <td>Estabilidad:</td>
+                         <td>{{ value.inspeccion.farinografo.estabilidad  }}</td>
+                         <td>{{ value_far.estabilidad  }}</td>
+                       </tr>
+                       <tr>
+                         <td>Tiempo de Desarrollo:</td>
+                         <td>{{ value.inspeccion.farinografo.tiempo_desarrollo  }}</td>
+                         <td>{{ value_far.tiempo_desarrollo  }}</td>
+                       </tr>
+                       <tr>
+                         <td>Número de Calidad:</td>
+                         <td>{{ value.inspeccion.farinografo.qnumber  }}</td>
+                         <td>{{ value_far.qnumber  }}</td>
+                       </tr>
+                     </table>
+                     <h3>Alveografo</h3>
+                     <table>
+                       <tr>
+                        <th>Concepto</th>
+                        <th>Resultado</th>
+                        <th>Estandar {% if value_alv.id_alv | int != 0 %}
+                        Personalizado
+                        {% else %}
+                        Universal
+                        {% endif %}</th>
+                       </tr>
+                       <tr>
+                         <td>Tenacidad:</td>
+                         <td>{{ value.inspeccion.alveografo.tenacidad  }}</td>
+                         <td>{{ value_alv.tenacidad }}</td>
+                       </tr>
+                       <tr>
+                         <td>Extensibilidad:</td>
+                         <td>{{ value.inspeccion.alveografo.extensibilidad   }}</td>
+                         <td>{{ value_alv.extensibilidad }}</td>
+                       </tr>
+                       <tr>
+                         <td>Fuerza Panadera:</td>
+                         <td>{{ value.inspeccion.alveografo.fuerza_panadera  }}</td>
+                         <td>{{ value_alv.fuerza_panadera }}</td>
+                       </tr>
+                       <tr>
+                         <td>Elasticidad:</td>
+                         <td>{{ value.inspeccion.alveografo.indice_elasticidad   }}</td>
+                         <td>{{ value_alv.indice_elasticidad }}</td>
+                       </tr>
+                       <tr>
+                         <td>Configuración de la Curva:</td>
+                         <td>{{ value.inspeccion.alveografo.configuracion_curva   }}</td>
+                         <td>{{ value_alv.configuracion_curva }}</td>
+                       </tr>
+                     </table>
+                    </br></br>
+                     <span style="font-size:25px"><i>Con fecha de envio de: {{ value.fecha_envio.strftime('%Y/%m/%d') }}</i></span><br></br>
+                     <span style="font-size:25px"><i>Caducidad: {{ value.fecha_caducidad.strftime('%Y/%m/%d') }}</i></span><br></br></br>
+                     <span style="font-size:25px"><i>Firma del responsable:__________________________ </i></span><br>
+          
+                    </div>
+                    
+              </div>
+              </div>
+          
+          
+          
 
     </div>
 

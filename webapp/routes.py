@@ -180,9 +180,9 @@ def creacion_certificado(elemento,value_id):
     value = table['model'].query.filter_by(**kwargs).one()
     
 
-    if elemento == 'certificados':
-        unidadesFar = whichFar(value)
-        unidadesAlv = whichAlv(value)
+    # if elemento == 'Certificados':
+    unidadesFar = whichFar(value)
+    unidadesAlv = whichAlv(value)
 
     template = render_template('pdf_templates/certificado.html', value=value, value_alv = unidadesAlv, value_far=unidadesFar)
     
