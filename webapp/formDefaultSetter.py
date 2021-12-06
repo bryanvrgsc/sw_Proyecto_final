@@ -19,12 +19,14 @@ def setEquipo(id,elemento):
     form = RegisterEquipo(tipo=tipo, descripcionl=equipo.descripcionl)
     return form
 
-
-
-def setCertificado():
+def setInspeccion(id, elemento):
     pass
-def setInspeccion():
-    pass
+
+def setCertificado(id, elemento):
+    certificado = getObject(id, elemento)
+    form = RegisterCertificado(inspeccion=certificado.idi, orden=certificado.norden)
+    return form
+    
 
 def updateForms(elemento):
     if elemento == "laboratorista":

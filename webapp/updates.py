@@ -173,24 +173,17 @@ def upInspeccion(form, l_nuevo = "no"):
     # return{"message": f"{inspeccion.id_inspeccion} ha sido registrada con exito" , "type": "success"}
     pass
 
-def upCertificado(form):
-
-    # certificado = Certificado(
-                                
-    #                             factura=form.factura.data,
-    #                             fecha_envio=form.fecha_envio.data,
-    #                             fecha_caducidad=form.fecha_caducidad.data,
-    #                             idi=form.inspeccion.data,
-    #                             idl=current_user.idl,
-    #                             norden=form.orden.data
-
-    #                             )
-
-    # db.session.add(certificado)
-    # db.session.commit()
-
-    # return {'message': f'El certificado con factura: {certificado.factura} ha sido registrado', 'type': 'info'}
-    pass
+def upCertificado(form, id, elemento):
+    certificado = getObject(id, elemento)     
+    certificado.factura=form.factura.data
+    certificado.fecha_envio=form.fecha_envio.data
+    certificado.fecha_caducidad=form.fecha_caducidad.data
+    certificado.idi=form.inspeccion.data
+    # certificado.idl=current_user.idl
+    certificado.norden=form.orden.data
+    db.session.add(certificado)
+    db.session.commit()
+    return {'message': f'El certificado con factura: {certificado.factura} ha sido actualizado', 'type': 'info'}
 
 
 

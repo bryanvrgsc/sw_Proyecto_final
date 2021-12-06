@@ -125,7 +125,7 @@ def eliminar(elemento,value_id):
 
 # EDITAR REGISTRO
 @app.route("/editar/<elemento>/<id>", methods=["GET", "POST"])
-@login_required
+# @login_required
 def editar(elemento, id):
     elemento = elemento.lower()
     object = getObject(id, elemento)
@@ -144,7 +144,7 @@ def editar(elemento, id):
 
 # SELECCIONAR REGISTRO
 @app.route("/seleccionar/<elemento>/<value_id>")
-# @login_required 
+@login_required 
 def seleccionar(elemento,value_id):
     elemento = str(elemento).lower()
     tabla = TableValues(elemento)
