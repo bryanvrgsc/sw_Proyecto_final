@@ -162,9 +162,10 @@ def seleccionar(elemento,value_id):
 
 
 
+
     return render_template(f"info_templates/{elemento}.html",
      value=value,
-     table_header=tabla["table_header"], value_alv = unidadesAlv)
+     table_header=tabla["table_header"], value_alv = unidadesAlv, value_far=unidadesFar)
 
 
 ''' -------------------------------------------------
