@@ -125,7 +125,7 @@ def eliminar(elemento,value_id):
 
 # EDITAR REGISTRO
 @app.route("/editar/<elemento>/<id>", methods=["GET", "POST"], defaults={'l_nuevo':None})
-@app.route("/editar/<elemento>/<id><l_nuevo>", methods=["GET", "POST"])
+@app.route("/editar/<elemento>/<id>/<l_nuevo>", methods=["GET", "POST"])
 # @login_required
 def editar(elemento, id, l_nuevo):
     elemento = elemento.lower()

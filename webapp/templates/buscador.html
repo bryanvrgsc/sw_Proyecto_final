@@ -172,7 +172,7 @@
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
-        let urlNo = "{{ url_for('editar', elemento =elemento, id='recipient', l_nuevo='no') }}}}"
+        let urlNo = "{{ url_for('editar', elemento =elemento, id='recipient', l_nuevo='no') }}"
         let urlSi = "{{ url_for('editar', elemento=elemento, id='recipient', l_nuevo='si') }}"
         modal.find('.btn-secondary').attr("href", urlNo.replace("recipient", recipient))
         modal.find('.btn-primary').attr("href", urlSi.replace("recipient", recipient))
