@@ -124,13 +124,19 @@ def eliminar(elemento,value_id):
     return redirect(url_for('buscador', elemento=elemento))
 
 # EDITAR REGISTRO
-@app.route("/editar/<elemento>/<id>", methods=["GET", "POST"])
+@app.route("/editar/<elemento>/<id>", methods=["GET", "POST"], defaults={'l_nuevo':None})
+@app.route("/editar/<elemento>/<id><l_nuevo>", methods=["GET", "POST"])
 # @login_required
-def editar(elemento, id):
+def editar(elemento, id, l_nuevo):
     elemento = elemento.lower()
     object = getObject(id, elemento)
     formSelector = updateForms(elemento)
-    form = formSelector(id,elemento)
+    
+
+    if elemento == "inspeccion":
+        form = formSelector(id,elemento,l_nuevo)
+    else:
+        form = formSelector(id,elemento)
     
     if form.validate_on_submit():
         update = updateFunction(elemento)
@@ -154,14 +160,11 @@ def seleccionar(elemento,value_id):
         unidadesFar = whichFar(value)
         unidadesAlv = whichAlv(value)
 
-        print(unidadesFar)
-        print(unidadesAlv)
-
 
 
     return render_template(f"info_templates/{elemento}.html",
      value=value,
-     table_header=tabla["table_header"])
+     table_header=tabla["table_header"], value_alv = unidadesAlv)
 
 
 ''' -------------------------------------------------
