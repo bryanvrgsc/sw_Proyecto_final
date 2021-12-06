@@ -17,7 +17,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
-Download_PATH = 'wkhtmltopdf/bin/wkhtmltopdf'
+Download_PATH = 'wkhtmltopdf/bin/wkhtmltox_0.12.6-1.focal_amd64.deb' #cambio de wkhtmltopdf/bin/wkhtmltopdf
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 Download_FOLDER = os.path.join(APP_ROOT, Download_PATH)
 
