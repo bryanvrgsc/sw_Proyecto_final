@@ -3,6 +3,7 @@ from webapp import db, bcrypt
 from flask_login import current_user
 from webapp.utils import getObject
 from flask import flash
+from webapp.registros import regFarinografo, regAlveografo, regLote
 
 
 def upOrden(form):
@@ -10,19 +11,37 @@ def upOrden(form):
     # return orden
     pass
 
-def upFarinografo(form):
-    # farinografo = Farinografo(absorcion_agua=form.absorcion_agua.data, tolerancia_ub=form.tolerancia_ub.data, elasticidad=form.elasticidad.data, viscodidad=form.viscodidad.data, act_enzimatica=form.act_enzimatica.data, trigo_germinado=form.trigo_germinado.data, tiempo_amasado=form.tiempo_amasado.data, cantidad_gluten=form.cantidad_gluten.data, calidad_gluten=form.calidad_gluten.data, indoneidad=form.indoneidad.data, dureza=form.dureza.data, reblandecimiento=form.reblandecimiento.data, estabilidad=form.estabilidad.data, tiempo_desarrollo=form.tiempo_desarrollo.data,qnumber=form.qnumber.data)
-    # return farinografo
-    pass
+def upFarinografo(form, id, elemento):
+    far = getObject(id, elemento)
+    far.absorcion_agua=form.absorcion_agua.data
+    far.tolerancia_ub=form.tolerancia_ub.data
+    far.elasticidad=form.elasticidad.data
+    far.viscodidad=form.viscodidad.data
+    far.act_enzimatica=form.act_enzimatica.data
+    far.trigo_germinado=form.trigo_germinado.data
+    far.tiempo_amasado=form.tiempo_amasado.data
+    far.cantidad_gluten=form.cantidad_gluten.data
+    far.calidad_gluten=form.calidad_gluten.data
+    far.indoneidad=form.indoneidad.data
+    far.dureza=form.dureza.data
+    far.reblandecimiento=form.reblandecimiento.data
+    far.estabilidad=form.estabilidad.data
+    far.tiempo_desarrollo=form.tiempo_desarrollo.data
+    far.qnumber=form.qnumber.data
+    return far
 
-def upAlveografo(form):
-    # alveografo = Alveografo(tenacidad=form.tenacidad.data, extensibilidad=form.extensibilidad.data, fuerza_panadera=form.fuerza_panadera.data, indice_elasticidad=form.indice_elasticidad.data, configuracion_curva=form.configuracion_curva.data) 
-    # return alveografo
-    pass
+
+def upAlveografo(form, id, elemento):
+    alv = getObject(id, elemento)
+    
+    alv.tenacidad=form.tenacidad.data
+    alv.extensibilidad=form.extensibilidad.data
+    alv.fuerza_panadera=form.fuerza_panadera.data
+    alv.indice_elasticidad=form.indice_elasticidad.data
+    alv.configuracion_curva=form.configuracion_curva.data
+    return alv
 
 def upLaboratorista(form, id, elemento):
-    
-
     if form.password.name =="password":
         lab = getObject(id, elemento)
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -59,27 +78,44 @@ def upEquipo(form):
     # return{"message": f"El equipo {equipo.marca} ha sido registrado con exito" , "type": "success"}
     pass
 
-def upCliente(form):
-    # cliente = Cliente(rfc=form.rfc.data, nombre=form.nombre.data, apellido=form.apellido.data, domicilio=form.domicilio.data, ncontacto=form.ncontacto.data, personalizado_far=form.personalizado_far.data, personalizado_alv=form.personalizado_alv.data)
+def upCliente(form, id, elemento):
+    cliente = getObject(id, elemento)
+    cliente.rfc=form.rfc.data
+    cliente.nombre=form.nombre.data
+    cliente.apellido=form.apellido.data
+    cliente.domicilio=form.domicilio.data
+    cliente.ncontacto=form.ncontacto.data
 
-    # if cliente.personalizado_alv == True:
-    #     alveografo = regAlveografo(form.alveografo)
-    #     db.session.add(alveografo)
-    #     new_alv_id = str(getLastId(Alveografo).id_alv)
-    #     cliente.id_alv = new_alv_id
+    print(cliente.personalizado_far, form.personalizado_far.data)
+    print(cliente.personalizado_alv, form.personalizado_alv.data)
 
 
-    # if cliente.personalizado_far == True:
-    #     farinografo = regFarinografo(form.farinografo)
-    #     db.session.add(farinografo)
-    #     new_far_id =  str(getLastId(Farinografo).id_far)
-    #     cliente.id_far = new_far_id
 
-    # db.session.add(cliente)
-    # db.session.commit()
+    if cliente.personalizado_alv == True and form.personalizado_alv.data == True:
+        alveografo = upAlveografo(form.alveografo)
+        db.session.add(alveografo)
+    elif cliente.personalizado_alv == False and form.personalizado_alv.data == True:
+        alveografo = regAlveografo(form.alveografo)
+        db.session.add(alveografo)
+        new_alv_id = str(getLastId(Alveografo).id_alv)
+        cliente.id_alv = new_alv_id
 
-    # return{"message": f"{cliente.nombre} ha sido registrado con exito" , "type": "success"}
-    pass
+
+    if cliente.personalizado_far == True and form.personalizado_far.data == True:
+        farinografo = upFarinografo(form.farinografo)
+        db.session.add(farinografo)
+    elif cliente.personalizado_far == False and form.personalizado_far.data == True:
+        farinografo = regFarinografo(form.farinografo)
+        db.session.add(farinografo)
+        new_far_id =  str(getLastId(Farinografo).id_far)
+        cliente.id_far = new_far_id
+
+    cliente.personalizado_far=form.personalizado_far.data
+    cliente.personalizado_alv=form.personalizado_alv.data
+    db.session.add(cliente)
+    db.session.commit()
+
+    return{"message": f"{cliente.nombre} ha sido actualizado con exito" , "type": "success"}
 
 def upLote(form):
     # lote = Lote(cantidad=form.cantidad.data) 

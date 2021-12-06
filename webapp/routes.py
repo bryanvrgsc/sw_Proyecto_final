@@ -131,8 +131,9 @@ def editar(elemento, id):
     elemento = elemento.lower()
     object = getObject(id, elemento)
     formSelector = updateForms(elemento)
-
     form = formSelector(id,elemento)
+
+    print(object.personalizado_far)
     
     if form.validate_on_submit():
         update = updateFunction(elemento)
@@ -151,7 +152,6 @@ def seleccionar(elemento,value_id):
     elemento = str(elemento).lower()
     tabla = TableValues(elemento)
     value = tabla['model'].query.get(value_id)
-    print(value)
     return render_template(f"info_templates/{elemento}.html",
      value=value,
      table_header=tabla["table_header"])

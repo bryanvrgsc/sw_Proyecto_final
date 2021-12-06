@@ -7,25 +7,36 @@
 
     {{ form.hidden_tag() }}
         
-    {{ render_field(form.rfc, "form-group", "col-form-label", "form-control") }}
-    {{ render_field(form.nombre, "form-group", "col-form-label", "form-control") }}
-    {{ render_field(form.apellido, "form-group", "col-form-label", "form-control") }}
-    {{ render_field(form.domicilio, "form-group", "col-form-label", "form-control") }}
-    {{ render_field(form.ncontacto, "form-group", "col-form-label", "form-control") }}
-    {{ render_field(form.personalizado_far, "form-check mt-3", "form-check-label", "form-check-input","doStuffF()") }}
+    {{ render_field(form.rfc, "form-group", "col-form-label", "form-control", value=object.rfc) }}
+    {{ render_field(form.nombre, "form-group", "col-form-label", "form-control", value=object.nombre) }}
+    {{ render_field(form.apellido, "form-group", "col-form-label", "form-control", value=object.apellido) }}
+    {{ render_field(form.domicilio, "form-group", "col-form-label", "form-control", value=object.domicilio) }}
+    {{ render_field(form.ncontacto, "form-group", "col-form-label", "form-control", value=object.ncontacto) }}
+    {{ render_field(form.personalizado_far, "form-check mt-3", "form-check-label", "form-check-input","doStuffF()", value=object.personalizado_far) }}
+    
     <div id="farinografo" class="formField">
         <h3>Farinografo</h3>
         {% for field in form.farinografo if field.widget.input_type != 'hidden' %}
-            {{ render_field(field, "form-group", "col-form-label", "form-control") }}
+          {% if object %}
+          {% set value= object.farinografo[field.id.split('-')[1]] %}
+          {% endif %}
+
+            {{ render_field(field, "form-group", "col-form-label", "form-control", value=value) }}
         {% endfor %}        
     </div>
     
-    {{ render_field(form.personalizado_alv, "form-check mt-3", "form-check-label", "form-check-input","doStuffA()") }}
+    {{ render_field(form.personalizado_alv, "form-check mt-3", "form-check-label", "form-check-input","doStuffA()", value=object.personalizado_alv) }}
     <div id="alveografo" class="formField">
         <h3>Alveografo</h3>
         {% for field in form.alveografo if field.widget.input_type != 'hidden' %}
-            {{ render_field(field, "form-group", "col-form-label", "form-control") }}
-        {% endfor %}    
+        
+          {% if object %}
+            {% set value= object.alveografo[field.id.split('-')[1]] %}
+          {% endif %}
+
+          {{ render_field(field, "form-group", "col-form-label", "form-control", value=value) }}
+        
+        {% endfor %}
 
     </div>
     

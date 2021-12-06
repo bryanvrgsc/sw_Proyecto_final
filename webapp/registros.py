@@ -1,11 +1,7 @@
 from webapp.forms import *
 from webapp import db, bcrypt
 from flask_login import current_user
-
-
-def getLastId(Table):
-    obj = Table().query.all()
-    return obj[-1]
+from webapp.utils import *
 
 def regOrden(form):
     orden = Orden(cantidad_solicitada=form.cantidad_solicitada.data, fecha_creada=form.fecha_creada.data, precio=form.precio.data)

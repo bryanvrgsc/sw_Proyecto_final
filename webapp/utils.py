@@ -15,4 +15,7 @@ def getFirstUrl():
     return url
 
 
+def getLastId(Table):
+    obj = Table().query.all()
+    return obj[-1]
     
