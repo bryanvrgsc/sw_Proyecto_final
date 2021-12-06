@@ -178,7 +178,13 @@ def creacion_certificado(elemento,value_id):
     table = TableValues(str(elemento).lower())
     kwargs = {table['table_header'][0]: value_id}
     value = table['model'].query.filter_by(**kwargs).one()
-    template = render_template('pdf_templates/certificado.html', value=value)
+    
+
+    if elemento == 'certificados':
+        unidadesFar = whichFar(value)
+        unidadesAlv = whichAlv(value)
+
+    template = render_template('pdf_templates/certificado.html', value=value, value_alv = unidadesAlv, value_far=unidadesFar)
     
     try:
         filename = str(uuid.uuid4()) + '.pdf'
