@@ -1,7 +1,7 @@
 from webapp.forms import *
 from webapp import db, bcrypt
 from flask_login import current_user
-from webapp.utils import *
+from webapp.utils import getLastId
 
 def regOrden(form):
     orden = Orden(cantidad_solicitada=form.cantidad_solicitada.data, fecha_creada=form.fecha_creada.data, precio=form.precio.data)
@@ -24,7 +24,7 @@ def regLaboratorista(form):
     return{"message": f"El usuario {user.username} ha sido registrado con exito" , "type": "success"}
 
 def regEquipo(form):
-    equipo = EquipoLab(marca=form.marca.data, modelo=form.modelo.data, serie=form.serie.data, proveedor=form.proveedor.data, fecha_adquisicion=form.fecha_adquisicion.data, garantia=form.garantia.data, ubicacion=form.ubicacion.data, mantenimiento=form.mantenimiento.data, descripcionc=form.descripcionc.data, descripcionl=form.descripcionl.data)
+    equipo = EquipoLab(marca=form.marca.data, modelo=form.modelo.data, serie=form.serie.data, proveedor=form.proveedor.data, fecha_adquisicion=form.fecha_adquisicion.data, garantia=form.garantia.data, ubicacion=form.ubicacion.data, mantenimiento=form.mantenimiento.data, descripcionc=form.descripcionc.data, descripcionl=form.descripcionl.data, idl=current_user.idl)
 
 
     if form.tipo.data == "alv":
@@ -114,3 +114,18 @@ def regCertificado(form):
     db.session.commit()
 
     return {'message': f'El certificado con factura: {certificado.factura} ha sido registrado', 'type': 'info'}
+
+
+def registerFunction(elemento):
+    if elemento == "laboratorista":
+        return regLaboratorista
+    elif elemento == "clientes":
+        return regCliente
+    elif elemento == "equipo":
+        return regEquipo
+    elif elemento == "certificados":
+        return regCertificado
+    elif elemento == "inspeccion":
+        return regInspeccion
+    else:
+        return {'error message' : 'Query Invalido', 'type':'alert'}

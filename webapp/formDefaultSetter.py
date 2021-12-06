@@ -10,8 +10,17 @@ def setCliente(id, elemento):
     form = RegisterCliente()
     return form
 
-def setEquipo():
-    pass
+def setEquipo(id,elemento):
+    equipo = getObject(id, elemento)
+    if equipo.id_far == None:
+        tipo = "alv"
+    else:
+        tipo = "far"
+    form = RegisterEquipo(tipo=tipo, descripcionl=equipo.descripcionl)
+    return form
+
+
+
 def setCertificado():
     pass
 def setInspeccion():

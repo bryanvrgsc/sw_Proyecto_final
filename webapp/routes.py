@@ -90,9 +90,9 @@ def formulario(elemento, l_nuevo):
     if modalForm[elemento].validate_on_submit():
         table = TableValues(elemento)
         if l_nuevo == "si":
-            message = table['registro'](modalForm[elemento], l_nuevo)
+            message = registerFunction(elemento)(modalForm[elemento], l_nuevo)
         else:    
-            message = table['registro'](modalForm[elemento])
+            message = registerFunction(elemento)(modalForm[elemento])
 
         flash(message['message'], message['type'])
 
@@ -127,13 +127,12 @@ def eliminar(elemento,value_id):
 
 # EDITAR REGISTRO
 @app.route("/editar/<elemento>/<id>", methods=["GET", "POST"])
+# @login_required
 def editar(elemento, id):
     elemento = elemento.lower()
     object = getObject(id, elemento)
     formSelector = updateForms(elemento)
     form = formSelector(id,elemento)
-
-    print(object.personalizado_far)
     
     if form.validate_on_submit():
         update = updateFunction(elemento)

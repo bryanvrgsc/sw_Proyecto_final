@@ -1,11 +1,10 @@
-from flask import request, url_for
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, IntegerField, DecimalField, TextAreaField, SelectField, FormField, RadioField, FloatField
+from wtforms import StringField, PasswordField, BooleanField, IntegerField, TextAreaField, SelectField, FormField, RadioField, DateField
 from datetime import datetime
 from wtforms.fields.simple import SubmitField
 from wtforms.form import Form
-from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError, NumberRange
-from wtforms.fields.html5 import  TelField, DateField
+from wtforms.validators import DataRequired, EqualTo, Length, ValidationError
+from wtforms.fields.html5 import  TelField
 from webapp.models import *
 from webapp.utils import *
 
@@ -39,7 +38,7 @@ class RegisterFarinografo(Form):
     qnumber = StringField('Qnumber')
 
 class RegisterAlveografo(Form):
-    tenacidad = StringField('Tenacidad ')
+    tenacidad = StringField('Tenacidad')
     extensibilidad = StringField('Extensibilidad')
     fuerza_panadera = StringField('Fuerza Panadera')
     indice_elasticidad = StringField('Índice de Elasticidad')
@@ -53,17 +52,12 @@ class RegiseterLab(FlaskForm):
     active = BooleanField('Usuario activo') #! Boolean
     submit = SubmitField('Registrar')
 
-    # if Request.path == url_for(''):
-
-    
-
-
-
     def validate_username(self,username):
         user = Laboratorista.query.filter_by(username=username.data).first()
         active_url = getFirstUrl()
         if user and active_url != "editar":
             raise ValidationError("Ese Usuario ya existe. Por Favor Selecciona otro")
+
 
 
 class RegisterEquipo(FlaskForm):
@@ -72,12 +66,12 @@ class RegisterEquipo(FlaskForm):
     serie = StringField('Serie', validators=[DataRequired()])
     proveedor = StringField('Proveedor', validators=[DataRequired()])
     fecha_adquisicion = DateField("Fecha de Adquisición", validators=[DataRequired()], default=datetime.now())
-    garantia = DateField("Fecha de Adquisición", validators=[DataRequired()], default=datetime.now())
+    garantia = DateField("Garantia", validators=[DataRequired()], default=datetime.today(), format='%Y-%m-%d')
     ubicacion = StringField('Ubicación', validators=[DataRequired()])
     mantenimiento = DateField("Mantenimiento", validators=[DataRequired()], default=datetime.now())
     descripcionc = StringField('Descripcion Corta', validators=[DataRequired()])
     descripcionl = TextAreaField('Descripcion Larga', validators=[DataRequired(),Length(max=100)])
-    tipo = RadioField('Label', choices=[('alv','Alvegrafo'),('far','Farnografo')], validators=[DataRequired()])
+    tipo = RadioField('Label', choices=[('alv','Alvegrafo'),('far','Farinografo')], validators=[DataRequired()])
 
     alveografo = FormField(RegisterAlveografo)
     farinografo = FormField(RegisterFarinografo)

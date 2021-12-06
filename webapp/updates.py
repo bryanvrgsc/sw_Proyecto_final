@@ -58,25 +58,52 @@ def upLaboratorista(form, id, elemento):
     except:
         return {"message": f"Hubo un error con su peticion, intentelo mas tarde" , "type": "danger"}
 
-def upEquipo(form):
-    # equipo = EquipoLab(marca=form.marca.data, modelo=form.modelo.data, serie=form.serie.data, proveedor=form.proveedor.data, fecha_adquisicion=form.fecha_adquisicion.data, garantia=form.garantia.data, ubicacion=form.ubicacion.data, mantenimiento=form.mantenimiento.data, descripcionc=form.descripcionc.data, descripcionl=form.descripcionl.data)
+def upEquipo(form, id, elemento):
+    equipo = getObject(id, elemento)
+    equipo.marca=form.marca.data
+    equipo.modelo=form.modelo.data
+    equipo.serie=form.serie.data
+    equipo.proveedor=form.proveedor.data
+    equipo.fecha_adquisicion=form.fecha_adquisicion.data
+    equipo.garantia=form.garantia.data
+    equipo.ubicacion=form.ubicacion.data
+    equipo.mantenimiento=form.mantenimiento.data
+    equipo.descripcionc=form.descripcionc.data
+    equipo.descripcionl=form.descripcionl.data
 
+    # revisar que tipo de equipo era antes del upadate
+    if equipo.id_far == None:
+        tipo = "alv"
+    else:
+        tipo = "far"
 
-    # if form.tipo.data == "alv":
-    #     alveografo = regAlveografo(form.alveografo)
-    #     db.session.add(alveografo)
-    #     new_alv_id = str(getLastId(Alveografo).id_alv)
-    #     equipo.id_alv = new_alv_id
-    # elif form.tipo.data == "far":
-    #     farinografo = regFarinografo(form.farinografo)
-    #     db.session.add(farinografo)
-    #     new_far_id =  str(getLastId(Farinografo).id_far)
-    #     equipo.id_far = new_far_id
+    if tipo == form.tipo.data:
+        if tipo == "alv" :
+            print("editar alv")
+            alveografo = upAlveografo(form.alveografo, id, elemento)
+            db.session.add(alveografo)
+        else:
+            print("editar far")
+            farinografo = upFarinografo(form.farinografo, id, elemento)
+            db.session.add(farinografo)
+    else:
+        if tipo == "alv" :
+            print("crear far")
+            farinografo = regFarinografo(form.farinografo)
+            db.session.add(farinografo)
+            new_far_id =  str(getLastId(Farinografo).id_far)
+            equipo.id_far = new_far_id
+        else:
+            print("crear var")
+            alveografo = regAlveografo(form.alveografo)
+            db.session.add(alveografo)
+            new_alv_id = str(getLastId(Alveografo).id_alv)
+            equipo.id_alv = new_alv_id
 
-    # db.session.add(equipo)
-    # db.session.commit()
-    # return{"message": f"El equipo {equipo.marca} ha sido registrado con exito" , "type": "success"}
-    pass
+    db.session.add(equipo)
+    db.session.commit()
+    return{"message": f"El equipo {equipo.marca} ha sido registrado con exito" , "type": "success"}
+
 
 def upCliente(form, id, elemento):
     cliente = getObject(id, elemento)
@@ -85,36 +112,26 @@ def upCliente(form, id, elemento):
     cliente.apellido=form.apellido.data
     cliente.domicilio=form.domicilio.data
     cliente.ncontacto=form.ncontacto.data
-
-    print(cliente.personalizado_far, form.personalizado_far.data)
-    print(cliente.personalizado_alv, form.personalizado_alv.data)
-
-
-
     if cliente.personalizado_alv == True and form.personalizado_alv.data == True:
-        alveografo = upAlveografo(form.alveografo)
+        alveografo = upAlveografo(form.alveografo, id, elemento)
         db.session.add(alveografo)
     elif cliente.personalizado_alv == False and form.personalizado_alv.data == True:
         alveografo = regAlveografo(form.alveografo)
         db.session.add(alveografo)
         new_alv_id = str(getLastId(Alveografo).id_alv)
         cliente.id_alv = new_alv_id
-
-
     if cliente.personalizado_far == True and form.personalizado_far.data == True:
-        farinografo = upFarinografo(form.farinografo)
+        farinografo = upFarinografo(form.farinografo, id, elemento)
         db.session.add(farinografo)
     elif cliente.personalizado_far == False and form.personalizado_far.data == True:
         farinografo = regFarinografo(form.farinografo)
         db.session.add(farinografo)
         new_far_id =  str(getLastId(Farinografo).id_far)
         cliente.id_far = new_far_id
-
     cliente.personalizado_far=form.personalizado_far.data
     cliente.personalizado_alv=form.personalizado_alv.data
     db.session.add(cliente)
     db.session.commit()
-
     return{"message": f"{cliente.nombre} ha sido actualizado con exito" , "type": "success"}
 
 def upLote(form):

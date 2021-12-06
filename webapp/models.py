@@ -42,7 +42,6 @@ class EquipoLab(db.Model):
     descripcionc = db.Column(db.String(20), nullable=False)
     descripcionl = db.Column(db.String(100), nullable=False)
 
-
     # Relationships
     inspecciones_alv = db.relationship("Inspeccion", backref="equipo_alv", foreign_keys="Inspeccion.clave_alv")
     inspecciones_far = db.relationship("Inspeccion", backref="equipo_far", foreign_keys="Inspeccion.clave_far")

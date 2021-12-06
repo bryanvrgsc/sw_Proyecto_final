@@ -7,16 +7,16 @@
   <form method="POST" class="w-50">
     {{ form.hidden_tag() }}
 
-    {{render_field(form.marca, "form-group", "col-form-label", "form-control" )}}
-    {{render_field(form.modelo, "form-group", "col-form-label", "form-control" )}}
-    {{render_field(form.serie, "form-group", "col-form-label", "form-control" )}}
-    {{render_field(form.proveedor, "form-group", "col-form-label", "form-control" )}}
-    {{render_field(form.fecha_adquisicion, "form-group", "col-form-label", "form-control" )}}
-    {{render_field(form.garantia, "form-group", "col-form-label", "form-control" )}}
-    {{render_field(form.ubicacion, "form-group", "col-form-label", "form-control" )}}
-    {{render_field(form.mantenimiento, "form-group", "col-form-label", "form-control" )}}
-    {{render_field(form.descripcionc, "form-group", "col-form-label", "form-control" )}}
-    {{render_field(form.descripcionl, "form-group", "col-form-label", "form-control" )}}
+    {{render_field(form.marca, "form-group", "col-form-label", "form-control", value= object.marca )}}
+    {{render_field(form.modelo, "form-group", "col-form-label", "form-control", value= object.modelo )}}
+    {{render_field(form.serie, "form-group", "col-form-label", "form-control", value= object.serie )}}
+    {{render_field(form.proveedor, "form-group", "col-form-label", "form-control", value= object.proveedor )}}
+    {{render_field(form.fecha_adquisicion, "form-group", "col-form-label", "form-control", value= object.fecha_adquisicion.strftime("%Y-%m-%d") )}}
+    {{render_field(form.garantia, "form-group", "col-form-label", "form-control", value= object.garantia.strftime("%Y-%m-%d") )}}
+    {{render_field(form.ubicacion, "form-group", "col-form-label", "form-control", value= object.ubicacion )}}
+    {{render_field(form.mantenimiento, "form-group", "col-form-label", "form-control", value= object.mantenimiento.strftime("%Y-%m-%d") )}}
+    {{render_field(form.descripcionc, "form-group", "col-form-label", "form-control", value= object.descripcionc )}}
+    {{render_field(form.descripcionl, "form-group", "col-form-label", "form-control")}}
   
 
     <div class="form-group mt-5">
@@ -28,14 +28,21 @@
     <div id="alveografo" class="formField mt-5">
         <h3>Alveografo</h3>
         {% for field in form.alveografo if field.widget.input_type != 'hidden' %}
-            {{ render_field(field, "form-group", "col-form-label", "form-control") }}
+            {% if object %}
+            {% set value= object.alveografo[field.id.split('-')[1]] %}
+            {% endif %}
+
+            {{ render_field(field, "form-group", "col-form-label", "form-control", value=value) }}
         {% endfor %}    
 
     </div>
     <div id="farinografo" class="formField mt-5">
         <h3>Farinografo</h3>
         {% for field in form.farinografo if field.widget.input_type != 'hidden' %}
-            {{ render_field(field, "form-group", "col-form-label", "form-control") }}
+            {% if object %}
+            {% set value= object.farinografo[field.id.split('-')[1]] %}
+            {% endif %}
+            {{ render_field(field, "form-group", "col-form-label", "form-control", value=value) }}
         {% endfor %}        
     </div>
 
