@@ -130,23 +130,19 @@ def eliminar(elemento,value_id):
 def editar(elemento, id):
     elemento = elemento.lower()
     object = getObject(id, elemento)
+    formSelector = updateForms(elemento)
 
-    form = {
-        'laboratorista' : setLaboratorista(id, elemento),
-        'clientes' : RegisterCliente(),
-        'equipo': RegisterEquipo(),
-        'certificados': RegisterCertificado(),
-        'inspeccion': RegisterInspeccionNo()
-    }
-    if form[elemento].validate_on_submit():
+    form = formSelector(id,elemento)
+    
+    if form.validate_on_submit():
         update = updateFunction(elemento)
-        message = update['update_function'](form[elemento], id, elemento)
+        message = update['update_function'](form, id, elemento)
 
         flash(message['message'], message['type'])
         return redirect(url_for('buscador', elemento=elemento))
 
 
-    return render_template(f"formularios/{elemento}.html", form=form[elemento], object=object)
+    return render_template(f"formularios/{elemento}.html", form=form, object=object)
 
 # SELECCIONAR REGISTRO
 @app.route("/seleccionar/<elemento>/<value_id>")
