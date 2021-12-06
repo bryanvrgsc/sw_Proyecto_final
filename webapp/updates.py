@@ -93,12 +93,15 @@ def upEquipo(form, id, elemento):
             db.session.add(farinografo)
             new_far_id =  str(getLastId(Farinografo).id_far)
             equipo.id_far = new_far_id
+            db.session.delete(equipo.alveografo)
         else:
             print("crear var")
             alveografo = regAlveografo(form.alveografo)
             db.session.add(alveografo)
             new_alv_id = str(getLastId(Alveografo).id_alv)
             equipo.id_alv = new_alv_id
+            db.session.delete(equipo.farinografo)
+            
 
     db.session.add(equipo)
     db.session.commit()
