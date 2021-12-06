@@ -1,4 +1,4 @@
-from webapp.dictionaries import TableValues
+from webapp.dictionaries import *
 from flask import request
 
 def getObject(id, elemento):
@@ -19,3 +19,17 @@ def getLastId(Table):
     obj = Table().query.all()
     return obj[-1]
     
+
+def whichFar(certificado):
+    values = dict()
+    if certificado.orden.cliente.personalizado_far == True:
+        return certificado.orden.cliente.farinografo
+    else:
+        return universal("farinografo")
+
+def whichAlv(certificado):
+    values = dict()
+    if certificado.orden.cliente.personalizado_alv == True:
+        return certificado.orden.cliente.alveografo
+    else:
+        return universal("alveografo")

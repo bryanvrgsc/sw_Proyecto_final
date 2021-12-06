@@ -39,7 +39,7 @@ def menu():
     return render_template("menu.html", user_type=user_type, menu_items=menu)
 
 @app.route("/buscador/<elemento>" ,methods=["GET", "POST"])
-@login_required
+# @login_required
 def buscador(elemento):
     search_form = Buscar()
 
@@ -108,8 +108,6 @@ def logout():
     return redirect(url_for('login'))
 
 
-
-
 # Acciones de tabla
 # ELIMINAR REGISTRO
 @app.route("/eliminar/<elemento>/<value_id>")
@@ -127,7 +125,7 @@ def eliminar(elemento,value_id):
 
 # EDITAR REGISTRO
 @app.route("/editar/<elemento>/<id>", methods=["GET", "POST"])
-# @login_required
+@login_required
 def editar(elemento, id):
     elemento = elemento.lower()
     object = getObject(id, elemento)
@@ -146,11 +144,21 @@ def editar(elemento, id):
 
 # SELECCIONAR REGISTRO
 @app.route("/seleccionar/<elemento>/<value_id>")
-@login_required 
+# @login_required 
 def seleccionar(elemento,value_id):
     elemento = str(elemento).lower()
     tabla = TableValues(elemento)
     value = tabla['model'].query.get(value_id)
+
+    if elemento == 'certificados':
+        unidadesFar = whichFar(value)
+        unidadesAlv = whichAlv(value)
+
+        print(unidadesFar)
+        print(unidadesAlv)
+
+
+
     return render_template(f"info_templates/{elemento}.html",
      value=value,
      table_header=tabla["table_header"])
