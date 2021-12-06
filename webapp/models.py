@@ -176,4 +176,4 @@ class Certificado(db.Model):
 
     
     def __repr__(self):
-        return f"Certificado('{self.ncertificado}','{self.norden}','{self.factura}','{self.cant_total}')"
+        return f"Certificado('{self.ncertificado}','{self.norden}','{self.factura}')"
