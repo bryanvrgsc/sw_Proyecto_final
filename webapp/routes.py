@@ -8,6 +8,9 @@ import pdfkit, os, uuid
 from webapp.registros import *
 from webapp.utils import *
 from webapp.updates import *
+from webapp.formDefaultSetter import *
+from webapp.dictionaries import *
+
 
 @app.route("/", methods=["GET","POST"])
 def login():
@@ -29,14 +32,11 @@ def login():
 
     return render_template("login.html", form=form)
 
-
 @app.route("/menu", methods=["GET","POST"])
 @login_required
 def menu():    
     user_type = current_user.role
     return render_template("menu.html", user_type=user_type, menu_items=menu)
-
-
 
 @app.route("/buscador/<elemento>" ,methods=["GET", "POST"])
 @login_required
@@ -100,30 +100,6 @@ def formulario(elemento, l_nuevo):
 
     return render_template(f"formularios/{elemento}.html", elemento=elemento, form=modalForm[elemento], l_nuevo=l_nuevo, object=None)
 
-
-@app.route("/editar/<elemento>/<id>")
-def editar(elemento, id):
-    elemento = elemento.lower()
-    table = TableValues(elemento)
-    table_header = table['table_header']
-    filter = {table_header[0] : id}
-    object = table['model'].query.filter_by(**filter).first()
-
-    role = object.role
-
-    modalForm = {
-        'laboratorista' : RegiseterLab(role=role),
-        'clientes' : RegisterCliente(),
-        'equipo': RegisterEquipo(),
-        'certificados': RegisterCertificado(),
-        'inspeccion': RegisterInspeccionNo()
-    }
-
-
-    return render_template(f"formularios/{elemento}.html", form=modalForm[elemento], object=object)
-
-
-
 # Log Out
 @app.route("/logout")
 def logout():
@@ -132,8 +108,9 @@ def logout():
     return redirect(url_for('login'))
 
 
-# Acciones de tabla
 
+
+# Acciones de tabla
 # ELIMINAR REGISTRO
 @app.route("/eliminar/<elemento>/<value_id>")
 @login_required
@@ -148,6 +125,30 @@ def eliminar(elemento,value_id):
 
     return redirect(url_for('buscador', elemento=elemento))
 
+# EDITAR REGISTRO
+@app.route("/editar/<elemento>/<id>", methods=["GET", "POST"])
+def editar(elemento, id):
+    elemento = elemento.lower()
+    object = getObject(id, elemento)
+
+    form = {
+        'laboratorista' : setLaboratorista(id, elemento),
+        'clientes' : RegisterCliente(),
+        'equipo': RegisterEquipo(),
+        'certificados': RegisterCertificado(),
+        'inspeccion': RegisterInspeccionNo()
+    }
+    if form[elemento].validate_on_submit():
+        update = updateFunction(elemento)
+        message = update['update_function'](form[elemento], id, elemento)
+
+        flash(message['message'], message['type'])
+        return redirect(url_for('buscador', elemento=elemento))
+
+
+    return render_template(f"formularios/{elemento}.html", form=form[elemento], object=object)
+
+# SELECCIONAR REGISTRO
 @app.route("/seleccionar/<elemento>/<value_id>")
 @login_required 
 def seleccionar(elemento,value_id):
@@ -158,7 +159,6 @@ def seleccionar(elemento,value_id):
     return render_template(f"info_templates/{elemento}.html",
      value=value,
      table_header=tabla["table_header"])
-
 
 
 ''' -------------------------------------------------

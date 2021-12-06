@@ -1,3 +1,4 @@
+from flask import request, url_for
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, IntegerField, DecimalField, TextAreaField, SelectField, FormField, RadioField, FloatField
 from datetime import datetime
@@ -6,6 +7,7 @@ from wtforms.form import Form
 from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError, NumberRange
 from wtforms.fields.html5 import  TelField, DateField
 from webapp.models import *
+from webapp.utils import *
 
 
 class Login(FlaskForm):
@@ -51,10 +53,16 @@ class RegiseterLab(FlaskForm):
     active = BooleanField('Usuario activo') #! Boolean
     submit = SubmitField('Registrar')
 
+    # if Request.path == url_for(''):
+
+    
+
+
 
     def validate_username(self,username):
         user = Laboratorista.query.filter_by(username=username.data).first()
-        if user:
+        active_url = getFirstUrl()
+        if user and active_url != "editar":
             raise ValidationError("Ese Usuario ya existe. Por Favor Selecciona otro")
 
 
