@@ -19,9 +19,14 @@ def setEquipo(id,elemento):
     form = RegisterEquipo(tipo=tipo, descripcionl=equipo.descripcionl)
     return form
 
-def setInspeccion(id, elemento):
+def setInspeccion(id, elemento, l_nuevo):
     certificado = getObject(id, elemento)
-    form = RegisterInspeccionNo(equipo_alv=certificado.clave_alv, equipo_far=certificado.clave_far, loteSelect=certificado.idlote)
+    if l_nuevo == 'no':
+        form = RegisterInspeccionNo(equipo_alv=certificado.clave_alv, equipo_far=certificado.clave_far, loteSelect=certificado.idlote)
+    else:
+        form = RegisterInspeccionSi(equipo_alv=certificado.clave_alv, equipo_far=certificado.clave_far)
+
+
     return form
 
 def setCertificado(id, elemento):

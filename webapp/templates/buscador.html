@@ -67,10 +67,15 @@
                       <button type="button" class="icon_wrapper" data-toggle="modal" data-target="#DeleteModal" data-whatever="{{ item[table_header[0]] }}">
                         <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/remove.png' ) }}" >
                       </button>
-                      <a href="{{ url_for('editar', elemento = elemento, id=item[table_header[0]]) }}" type="button" class="icon_wrapper"> 
+                      {% if elemento == 'inspeccion' |capitalize %}
+                      <button type="button" class="icon_wrapper" data-toggle="modal" data-target="#EditModal" data-whatever="{{ item[table_header[0]] }}">
                         <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/editing.png' ) }}">
-                      </a>
-
+                      </button>
+                      {% else %}
+                        <a href="{{ url_for('editar', elemento = elemento, id=item[table_header[0]]) }}" type="button" class="icon_wrapper"> 
+                          <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/editing.png' ) }}">
+                        </a>
+                      {% endif %}
                       <a class="icon_wrapper" target="_blank" href="{{ url_for('seleccionar', elemento=elemento, value_id=item[table_header[0]]) }}" >
                         <img class="table-icon" src="{{ url_for('static', filename='img/table_icons/select.png' ) }}">
                       </a>
@@ -123,22 +128,56 @@
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- ModalRegister -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Quieres Crear un nuevo Lote?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <a class="btn btn-secondary" href="{{ url_for('formulario', elemento=elemento, l_nuevo='no') }}">No</a>
+          <a class="btn btn-primary" href="{{ url_for('formulario', elemento=elemento, l_nuevo='si') }}" >Si</a>
+        </div>
+    </div>
+  </div>
+  </div>
+
+
+<!-- ModalEdit -->
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Quieres Crear un nuevo Lote?</h5>
+        <h5 class="modal-title" id="EditModalLabel">Quieres Crear un nuevo Lote para la edicion?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-footer">
-        <a class="btn btn-secondary" href="{{ url_for('formulario', elemento=elemento, l_nuevo='no') }}">No</a>
-        <a class="btn btn-primary" href="{{ url_for('formulario', elemento=elemento, l_nuevo='si') }}" >Si</a>
+        <a class="btn btn-secondary" href="">No</a>
+        <a class="btn btn-primary" href="">Si</a>
       </div>
     </div>
-  </div>
+</div>
+
+
+  <script>
+    $('#EditModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        let urlNo = "{{ url_for('editar', elemento =elemento, id='recipient', l_nuevo='no') }}}}"
+        let urlSi = "{{ url_for('editar', elemento=elemento, id='recipient', l_nuevo='si') }}"
+        modal.find('.btn-secondary').attr("href", urlNo.replace("recipient", recipient))
+        modal.find('.btn-primary').attr("href", urlSi.replace("recipient", recipient))
+      })
+  </script>
     
         
 {% endblock %}

@@ -8,7 +8,7 @@
 
         {{render_field(form.id_inspeccion, "form-group", "col-form-label", "form-control", value=object.id_inspeccion )}}
 
-
+        {# Revisar si se va a usar el select o el form #}
         {% if l_nuevo == "si" %}
             <div class="formField">
                 <h3>Lote</h3>
@@ -23,7 +23,7 @@
         {% endif %}
         
    
-
+        {# Inforacion de equipo de Alveografo #}
         <div class="mt-5 alveografo formField">
             <h3>Alveografo</h3>
             {{render_field(form.equipo_alv, "form-group", "col-form-label", "form-select" )}}
@@ -31,11 +31,12 @@
                 {% if object %}
                     {% set value= object.alveografo[field.id.split('-')[1]] %}
                 {% endif %}
-                
+
                 {{ render_field(field, "form-group", "col-form-label", "form-control", value=value) }}
             {% endfor %}    
         </div>
         
+        {# Inforacion de equipo de Farinografo #}
         <div class="mt-5 farinografo formField">
             <h3>Farinografo</h3>
             {{render_field(form.equipo_far, "form-group", "col-form-label", "form-select" )}}
@@ -50,7 +51,6 @@
         <div class="right-button d-flex align-items-center mt-5">
         {{ form.submit(class="btn btn-primary") }}
         </div>
-
 
   </form>
 </div>
