@@ -137,24 +137,30 @@ def upCliente(form, id, elemento):
     db.session.commit()
     return{"message": f"{cliente.nombre} ha sido actualizado con exito" , "type": "success"}
 
-def upLote(form):
-    # lote = Lote(cantidad=form.cantidad.data) 
-    # return lote
-    pass
+def upLote(form, id, elemento):
+    lote = getObject(id, elemento)
+    lote.cantidad=form.cantidad.data
+    return lote
 
-def upInspeccion(form, l_nuevo = "no"):
+
+def upInspeccion(form, id, elemento):
+    inspeccion = getObject(id,elemento)
+    
     # # Registro de campos basicos en inspeccion
-    # inspeccion = Inspeccion(id_inspeccion=form.id_inspeccion.data, clave_alv=form.equipo_alv.data, clave_far=form.equipo_far.data)
+    inspeccion.id_inspeccion=form.id_inspeccion.data
+    inspeccion.clave_alv=form.equipo_alv.data
+    inspeccion.clave_far=form.equipo_far.data
 
-    # # creacion de alveofrafo y farinografo nuevo
-    # alveografo = regAlveografo(form.alveografo)
-    # db.session.add(alveografo)
-    # new_alv_id = str(getLastId(Alveografo).id_alv)
-    # inspeccion.id_alv = new_alv_id
-    # farinografo = regFarinografo(form.farinografo)
-    # db.session.add(farinografo)
-    # new_far_id =  str(getLastId(Farinografo).id_far)
-    # inspeccion.id_far = new_far_id
+    # creacion de alveofrafo y farinografo nuevo
+    alveografo = upAlveografo(form.alveografo, id, elemento)
+    db.session.add(alveografo)
+    farinografo = upFarinografo(form.farinografo, id, elemento)
+    db.session.add(farinografo)
+
+    # Edicion de Lote
+    inspeccion.idlote = form.loteSelect.data
+
+    
 
     
     # # asignacion del campo lote
@@ -168,10 +174,9 @@ def upInspeccion(form, l_nuevo = "no"):
     #     new_lote_id = str(getLastId(Lote).idlote)
     #     inspeccion.idlote = new_lote_id
 
-    # db.session.add(inspeccion)
-    # db.session.commit()
-    # return{"message": f"{inspeccion.id_inspeccion} ha sido registrada con exito" , "type": "success"}
-    pass
+    db.session.add(inspeccion)
+    db.session.commit()
+    return{"message": f"{inspeccion.id_inspeccion} ha sido actualizada con exito" , "type": "success"}
 
 def upCertificado(form, id, elemento):
     certificado = getObject(id, elemento)     

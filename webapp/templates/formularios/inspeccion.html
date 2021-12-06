@@ -6,13 +6,14 @@
   <form method="POST" class="w-50">
         {{ form.hidden_tag() }}
 
-        {{render_field(form.id_inspeccion, "form-group", "col-form-label", "form-control" )}}
+        {{render_field(form.id_inspeccion, "form-group", "col-form-label", "form-control", value=object.id_inspeccion )}}
 
 
         {% if l_nuevo == "si" %}
             <div class="formField">
                 <h3>Lote</h3>
                 {% for field in form.loteForm if field.widget.input_type != 'hidden' %}
+                    
                     {{ render_field(field, "form-group", "col-form-label", "form-control") }}
                 {% endfor %}    
             </div>
@@ -27,7 +28,11 @@
             <h3>Alveografo</h3>
             {{render_field(form.equipo_alv, "form-group", "col-form-label", "form-select" )}}
             {% for field in form.alveografo if field.widget.input_type != 'hidden' %}
-                {{ render_field(field, "form-group", "col-form-label", "form-control") }}
+                {% if object %}
+                    {% set value= object.alveografo[field.id.split('-')[1]] %}
+                {% endif %}
+                
+                {{ render_field(field, "form-group", "col-form-label", "form-control", value=value) }}
             {% endfor %}    
         </div>
         
@@ -35,7 +40,10 @@
             <h3>Farinografo</h3>
             {{render_field(form.equipo_far, "form-group", "col-form-label", "form-select" )}}
             {% for field in form.farinografo if field.widget.input_type != 'hidden' %}
-                {{ render_field(field, "form-group", "col-form-label", "form-control") }}
+                {% if object %}
+                    {% set value= object.farinografo[field.id.split('-')[1]] %}
+                {% endif %}
+                {{ render_field(field, "form-group", "col-form-label", "form-control", value=value) }}
             {% endfor %}        
         </div>
 

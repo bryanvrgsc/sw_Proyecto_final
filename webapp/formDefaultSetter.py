@@ -20,7 +20,9 @@ def setEquipo(id,elemento):
     return form
 
 def setInspeccion(id, elemento):
-    pass
+    certificado = getObject(id, elemento)
+    form = RegisterInspeccionNo(equipo_alv=certificado.clave_alv, equipo_far=certificado.clave_far, loteSelect=certificado.idlote)
+    return form
 
 def setCertificado(id, elemento):
     certificado = getObject(id, elemento)
