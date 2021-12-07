@@ -42,6 +42,7 @@ def menu():
 @login_required
 def buscador(elemento):
     search_form = Buscar()
+    elemento = elemento.lower()
     try:
         if elemento == "laboratorista" and current_user.role != 'admin':
             abort(403)
@@ -82,28 +83,31 @@ def buscador(elemento):
 # @login_required
 def formulario(elemento, l_nuevo):
     elemento = elemento.lower()
-    modalForm = {
-        'laboratorista' : RegiseterLab(),
-        'clientes' : RegisterCliente(),
-        'equipo': RegisterEquipo(),
-        'certificados': RegisterCertificado(),
-        'inspeccion': RegisterInspeccionNo()
-    }
-    if l_nuevo == "si":
-        modalForm["inspeccion"] = RegisterInspeccionSi()
-
-    if modalForm[elemento].validate_on_submit():
-        table = TableValues(elemento)
+    if elemento == "laboratorista" and current_user.role != 'admin':
+            abort(403)
+    else:
+        modalForm = {
+            'laboratorista' : RegiseterLab(),
+            'clientes' : RegisterCliente(),
+            'equipo': RegisterEquipo(),
+            'certificados': RegisterCertificado(),
+            'inspeccion': RegisterInspeccionNo()
+        }
         if l_nuevo == "si":
-            message = registerFunction(elemento)(modalForm[elemento], l_nuevo)
-        else:    
-            message = registerFunction(elemento)(modalForm[elemento])
+            modalForm["inspeccion"] = RegisterInspeccionSi()
 
-        flash(message['message'], message['type'])
+        if modalForm[elemento].validate_on_submit():
+            table = TableValues(elemento)
+            if l_nuevo == "si":
+                message = registerFunction(elemento)(modalForm[elemento], l_nuevo)
+            else:    
+                message = registerFunction(elemento)(modalForm[elemento])
 
-        return redirect(url_for("buscador", elemento=elemento))
+            flash(message['message'], message['type'])
 
-    return render_template(f"formularios/{elemento}.html", elemento=elemento, form=modalForm[elemento], l_nuevo=l_nuevo, object=None)
+            return redirect(url_for("buscador", elemento=elemento))
+
+        return render_template(f"formularios/{elemento}.html", elemento=elemento, form=modalForm[elemento], l_nuevo=l_nuevo, object=None)
 
 # Log Out
 @app.route("/logout")
@@ -112,21 +116,22 @@ def logout():
         logout_user()
     return redirect(url_for('login'))
 
-
 # Acciones de tabla
 # ELIMINAR REGISTRO
 @app.route("/eliminar/<elemento>/<value_id>")
 @login_required
 def eliminar(elemento,value_id):
-    
-    elemento = str(elemento).lower()
-    table = TableValues(elemento)['model']
-    result = table.query.get(value_id)
-    db.session.delete(result)
-    db.session.commit()
-    flash(f"El concepto con ID: {value_id} fue eliminado ", 'warning')
 
-    return redirect(url_for('buscador', elemento=elemento))
+    if elemento == "laboratorista" and current_user.role != 'admin':
+            abort(403)
+    else:
+        elemento = str(elemento).lower()
+        table = TableValues(elemento)['model']
+        result = table.query.get(value_id)
+        db.session.delete(result)
+        db.session.commit()
+        flash(f"El concepto con ID: {value_id} fue eliminado ", 'warning')
+        return redirect(url_for('buscador', elemento=elemento))
 
 # EDITAR REGISTRO
 @app.route("/editar/<elemento>/<id>", methods=["GET", "POST"], defaults={'l_nuevo':None})
@@ -134,47 +139,51 @@ def eliminar(elemento,value_id):
 @login_required
 def editar(elemento, id, l_nuevo):
     elemento = elemento.lower()
-    object = getObject(id, elemento)
-    formSelector = updateForms(elemento)
-    
 
-    if elemento == "inspeccion":
-        form = formSelector(id,elemento,l_nuevo)
+    if elemento == "laboratorista" and current_user.role != 'admin':
+            abort(403)
     else:
-        form = formSelector(id,elemento)
-    
-    if form.validate_on_submit():
-        update = updateFunction(elemento)
+        object = getObject(id, elemento)
+        formSelector = updateForms(elemento)
+
         if elemento == "inspeccion":
-            message = update['update_function'](form, id, elemento, l_nuevo)
+            form = formSelector(id,elemento,l_nuevo)
         else:
-            message = update['update_function'](form, id, elemento)
+            form = formSelector(id,elemento)
+        
+        if form.validate_on_submit():
+            update = updateFunction(elemento)
+            if elemento == "inspeccion":
+                message = update['update_function'](form, id, elemento, l_nuevo)
+            else:
+                message = update['update_function'](form, id, elemento)
 
-        flash(message['message'], message['type'])
-        return redirect(url_for('buscador', elemento=elemento))
-
-
-    return render_template(f"formularios/{elemento}.html", form=form, object=object, l_nuevo=l_nuevo)
+            flash(message['message'], message['type'])
+            return redirect(url_for('buscador', elemento=elemento))
+        return render_template(f"formularios/{elemento}.html", form=form, object=object, l_nuevo=l_nuevo)
 
 # SELECCIONAR REGISTRO
 @app.route("/seleccionar/<elemento>/<value_id>")
 @login_required 
 def seleccionar(elemento,value_id):
     elemento = str(elemento).lower()
-    tabla = TableValues(elemento)
-    value = tabla['model'].query.get(value_id)
+    if elemento == "laboratorista" and current_user.role != 'admin':
+            abort(403)
+    else:
+        tabla = TableValues(elemento)
+        value = tabla['model'].query.get(value_id)
 
-    if elemento == 'certificados':
-        unidadesFar = whichFar(value)
-        unidadesAlv = whichAlv(value)
+        if elemento == 'certificados':
+            unidadesFar = whichFar(value)
+            unidadesAlv = whichAlv(value)
+            return render_template(f"info_templates/{elemento}.html",
+        value=value,
+        table_header=tabla["table_header"], value_alv = unidadesAlv, value_far=unidadesFar)
+
+
         return render_template(f"info_templates/{elemento}.html",
-     value=value,
-     table_header=tabla["table_header"], value_alv = unidadesAlv, value_far=unidadesFar)
-
-
-    return render_template(f"info_templates/{elemento}.html",
-     value=value,
-     table_header=tabla["table_header"])
+        value=value,
+        table_header=tabla["table_header"])
 
 ''' -------------------------------------------------
 wkhtmltopdf pdf creator
