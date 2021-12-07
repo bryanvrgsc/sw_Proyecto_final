@@ -39,7 +39,7 @@ def menu():
     return render_template("menu.html", user_type=user_type, menu_items=menu)
 
 @app.route("/buscador/<elemento>" ,methods=["GET", "POST"])
-# @login_required
+@login_required
 def buscador(elemento):
     search_form = Buscar()
 
@@ -74,7 +74,7 @@ def buscador(elemento):
 
 @app.route("/register/<elemento>",methods=["GET", "POST"], defaults={'l_nuevo': None} )
 @app.route("/register/<elemento>/<l_nuevo>",methods=["GET", "POST"])
-@login_required
+# @login_required
 def formulario(elemento, l_nuevo):
     elemento = elemento.lower()
     modalForm = {
@@ -126,7 +126,7 @@ def eliminar(elemento,value_id):
 # EDITAR REGISTRO
 @app.route("/editar/<elemento>/<id>", methods=["GET", "POST"], defaults={'l_nuevo':None})
 @app.route("/editar/<elemento>/<id>/<l_nuevo>", methods=["GET", "POST"])
-# @login_required
+@login_required
 def editar(elemento, id, l_nuevo):
     elemento = elemento.lower()
     object = getObject(id, elemento)
