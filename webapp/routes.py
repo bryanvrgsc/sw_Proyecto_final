@@ -140,13 +140,16 @@ def editar(elemento, id, l_nuevo):
     
     if form.validate_on_submit():
         update = updateFunction(elemento)
-        message = update['update_function'](form, id, elemento)
+        if elemento == "inspeccion":
+            message = update['update_function'](form, id, elemento, l_nuevo)
+        else:
+            message = update['update_function'](form, id, elemento)
 
         flash(message['message'], message['type'])
         return redirect(url_for('buscador', elemento=elemento))
 
 
-    return render_template(f"formularios/{elemento}.html", form=form, object=object)
+    return render_template(f"formularios/{elemento}.html", form=form, object=object, l_nuevo=l_nuevo)
 
 # SELECCIONAR REGISTRO
 @app.route("/seleccionar/<elemento>/<value_id>")

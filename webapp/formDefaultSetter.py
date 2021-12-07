@@ -25,8 +25,6 @@ def setInspeccion(id, elemento, l_nuevo):
         form = RegisterInspeccionNo(equipo_alv=certificado.clave_alv, equipo_far=certificado.clave_far, loteSelect=certificado.idlote)
     else:
         form = RegisterInspeccionSi(equipo_alv=certificado.clave_alv, equipo_far=certificado.clave_far)
-
-
     return form
 
 def setCertificado(id, elemento):
