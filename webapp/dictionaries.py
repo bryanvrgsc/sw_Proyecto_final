@@ -39,10 +39,10 @@ def universal(equipo):
     if equipo == "alveografo":
         class unidades():
             id_var = "Universal"
-            tenacidad= '45'
-            extensibilidad= '71.96'
-            fuerza_panadera= '60'
-            indice_elasticidad= '47'
-            configuracion_curva= '0.99'
+            tenacidad= '45 mm'
+            extensibilidad= '71.96 mm'
+            fuerza_panadera= '60 mm'
+            indice_elasticidad= '47 mm'
+            configuracion_curva= '0.99 mm'
     
     return unidades
