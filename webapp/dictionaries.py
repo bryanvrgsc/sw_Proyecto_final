@@ -38,7 +38,7 @@ def universal(equipo):
                 
     if equipo == "alveografo":
         class unidades():
-            id_var = "Universal"
+            id_alv = "Universal"
             tenacidad= '45 mm'
             extensibilidad= '71.96 mm'
             fuerza_panadera= '60 mm'

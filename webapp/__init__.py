@@ -10,9 +10,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 
 # Database
-
-db_url = f"postgres://zjwiypthloqmxj:bca6ff7ad9facce422063c90384881f4e89fba27ad30900d8e1ea7171f3bc6a3@ec2-3-95-130-249.compute-1.amazonaws.com:5432/d6s1rg4fa6mo7u"
-app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///site.db"
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
@@ -24,4 +22,4 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 Download_FOLDER = os.path.join(APP_ROOT, Download_PATH)
 
 
-# from webapp import routes
+from webapp import routes
