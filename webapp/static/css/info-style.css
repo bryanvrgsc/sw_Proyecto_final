@@ -4,7 +4,6 @@ html{
 
 body{
     height: 100%;
-    padding-top: 100px;
 }
 .content{
     padding: 100px;
@@ -13,6 +12,7 @@ body{
     background-color: white;
     padding-bottom: 100px;
     box-shadow: 10px 5px 5px black;
+    margin-top: 50px;
 }
 .header{
     width: 100%;
@@ -59,4 +59,14 @@ td{
 .pers_info{
     display: block;
     margin-bottom: 30px;
+}
+
+
+.car-izquierda{
+    width: 100%
+    
+}
+
+.equipo{
+    width: 100%;
 }
