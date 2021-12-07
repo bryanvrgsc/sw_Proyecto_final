@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash, Response
+from flask import render_template, request, redirect, url_for, flash, Response, abort
 from webapp import app, db, bcrypt, Download_FOLDER
 from webapp.forms import  *
 from webapp.models import *
@@ -42,35 +42,40 @@ def menu():
 @login_required
 def buscador(elemento):
     search_form = Buscar()
+    try:
+        if elemento == "laboratorista" and current_user.role != 'admin':
+            abort(403)
+        else:
+            # Largo de Table Header
+            table = TableValues(elemento)
 
-    # Largo de Table Header
-    table = TableValues(elemento)
+            table_header = table['table_header']
+            if table['breakpoint']:
+                index = table_header.index(table['breakpoint'])
+                table_header = table_header[0:index]
 
-    table_header = table['table_header']
-    if table['breakpoint']:
-        index = table_header.index(table['breakpoint'])
-        table_header = table_header[0:index]
+            # Filtar con busqueda
+        
+            if search_form.validate_on_submit():
+                kwargs = {table['search_item']: search_form.value.data}    
+                table_items = table['model'].query.filter_by(**kwargs)
+            else:
+                table_items = table['model'].query.all()
 
-    # Filtar con busqueda
-   
-    if search_form.validate_on_submit():
-        kwargs = {table['search_item']: search_form.value.data}    
-        table_items = table['model'].query.filter_by(**kwargs)
-    else:
-        table_items = table['model'].query.all()
-
-    
-    if 'error message' in table:
-        flash(table['error message'], table['type'])
-        return redirect(url_for('menu'))
-    
-    return render_template("buscador.html", 
-    elemento=str(elemento).capitalize(), 
-    table_items=table_items, 
-    table_header=table_header, 
-    search_item = table['search_item'].upper(),
-    # Formularios a usar
-    form=search_form)
+            
+            if 'error message' in table:
+                flash(table['error message'], table['type'])
+                return redirect(url_for('menu'))
+            
+            return render_template("buscador.html", 
+            elemento=str(elemento).capitalize(), 
+            table_items=table_items, 
+            table_header=table_header, 
+            search_item = table['search_item'].upper(),
+            # Formularios a usar
+            form=search_form)
+    except:
+        abort(404)
 
 @app.route("/register/<elemento>",methods=["GET", "POST"], defaults={'l_nuevo': None} )
 @app.route("/register/<elemento>/<l_nuevo>",methods=["GET", "POST"])
@@ -171,12 +176,6 @@ def seleccionar(elemento,value_id):
      value=value,
      table_header=tabla["table_header"])
 
-
-
-
-    
-
-
 ''' -------------------------------------------------
 wkhtmltopdf pdf creator
  -------------------------------------------------'''
@@ -221,3 +220,22 @@ def creacion_certificado(elemento,value_id):
 #     value = tabla['model'].query.get(value_id)
 
 #     return render_template('pdf_templates/certificado.html', value=value)
+
+
+
+# Error Handling Pages
+
+@app.errorhandler(404)
+def error_404(error):
+    return render_template("errors/404.html"), 404
+
+
+@app.errorhandler(403)
+def error_403(error):
+    return render_template("errors/403.html"), 403
+
+@app.errorhandler(500)
+def error_500(error):
+    return render_template("errors/500.html"), 500
+
+
