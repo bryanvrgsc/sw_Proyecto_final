@@ -1,10 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, IntegerField, TextAreaField, SelectField, FormField, RadioField, DateField
+from wtforms import StringField, PasswordField, BooleanField, IntegerField, TextAreaField, SelectField, FormField, RadioField
 from datetime import datetime
 from wtforms.fields.simple import SubmitField
 from wtforms.form import Form
 from wtforms.validators import DataRequired, EqualTo, Length, ValidationError
-from wtforms.fields.html5 import  TelField
+from wtforms.fields.html5 import TelField, DateField
 from webapp.models import *
 from webapp.utils import *
 
@@ -48,7 +48,7 @@ class RegiseterLab(FlaskForm):
     username = StringField('Usuario', validators=[DataRequired()])
     password = PasswordField('Contraseña', validators=[DataRequired()])
     confirm_password = PasswordField('Confirmar Contraseña', validators=[DataRequired(), EqualTo('password')])
-    role = SelectField('Rol', validators=[DataRequired()],choices=[('user', 'Usuario'),('admin', 'Administrador')])
+    role = SelectField('Rol', validators=[DataRequired()])
     active = BooleanField('Usuario activo') #! Boolean
     submit = SubmitField('Registrar')
 
@@ -57,6 +57,10 @@ class RegiseterLab(FlaskForm):
         active_url = getFirstUrl()
         if user and active_url != "editar":
             raise ValidationError("Ese Usuario ya existe. Por Favor Selecciona otro")
+
+    def __init__(self, * args, ** kwargs):
+        super(RegiseterLab, self).__init__( * args, ** kwargs)
+        self.role.choices = [('user', 'Usuario'),('admin', 'Administrador')]
 
 
 
@@ -94,6 +98,7 @@ class RegisterCliente(FlaskForm):
 
     submit = SubmitField('Registrar')
 
+
 class RegisterOrden(FlaskForm):
 
     cantidad_solicitada = StringField('Cantidad Solicitada', validators=[DataRequired()])
@@ -105,13 +110,19 @@ class RegisterLote(Form):
     cantidad = StringField('Cantidad', validators=[DataRequired()])
 
 class RegisterInspeccionNo(FlaskForm):
-    loteSelect = SelectField("Lote", choices=[(table.idlote) for table in Lote.query.all()])
+    loteSelect = SelectField("Lote")
     id_inspeccion = StringField("ID de Inspeccion", validators=[DataRequired()])
-    equipo_alv = SelectField("Equipo Utilizado", choices=[(table1.clave, table1.marca) for table1 in EquipoLab.query.filter(EquipoLab.id_alv!="Null").all()])
-    equipo_far = SelectField("Equipo Utilizado", choices=[(table2.clave, table2.marca) for table2 in EquipoLab.query.filter(EquipoLab.id_far!= "Null").all()])
+    equipo_alv = SelectField("Equipo Utilizado", validators=[DataRequired()])
+    equipo_far = SelectField("Equipo Utilizado", validators=[DataRequired()])
     alveografo = FormField(RegisterAlveografo)
     farinografo = FormField(RegisterFarinografo)
     submit = SubmitField('Registrar')
+
+    def __init__(self, * args, ** kwargs):
+        super(RegisterInspeccionNo, self).__init__( * args, ** kwargs)
+        self.equipo_alv.choices=[(table1.clave, table1.marca) for table1 in EquipoLab.query.filter(EquipoLab.id_alv!="Null").all()]
+        self.equipo_far.choices=[(table2.clave, table2.marca) for table2 in EquipoLab.query.filter(EquipoLab.id_far!= "Null").all()]
+        self.loteSelect.choices=[(table.idlote) for table in Lote.query.all()]
 
 
 
@@ -124,11 +135,21 @@ class RegisterInspeccionSi(FlaskForm):
     farinografo = FormField(RegisterFarinografo)
     submit = SubmitField('Registrar')
 
+    def __init__(self, * args, ** kwargs):
+        super(RegisterInspeccionSi, self).__init__( * args, ** kwargs)
+        self.equipo_alv.choices=[(table1.clave, table1.marca) for table1 in EquipoLab.query.filter(EquipoLab.id_alv!="Null").all()]
+        self.equipo_far.choices=[(table2.clave, table2.marca) for table2 in EquipoLab.query.filter(EquipoLab.id_far!= "Null").all()]
+
 class RegisterCertificado(FlaskForm):
     factura = IntegerField('Factura', validators=[DataRequired()])
     fecha_envio = DateField("Fecha de Envío", validators=[DataRequired()], default=datetime.now())
     fecha_caducidad = DateField("Fecha de Caducidad", validators=[DataRequired()], default=datetime.now())
-    inspeccion = SelectField("Inspección", choices=[(table.idi, table.id_inspeccion) for table in Inspeccion.query.all()])
-    orden = SelectField("Numero de Orden", choices=[(table.norden, table.norden) for table in Orden.query.all()])
+    inspeccion = SelectField("Inspección")
+    orden = SelectField("Numero de Orden")
     submit = SubmitField('Registrar')
+
+    def __init__(self, * args, ** kwargs):
+        super(RegisterCertificado, self).__init__( * args, ** kwargs)
+        self.inspeccion.choices=[(table.idi, table.id_inspeccion) for table in Inspeccion.query.all()]
+        self.orden.choices=[(table.norden, table.norden) for table in Orden.query.all()]
 

@@ -143,7 +143,7 @@ def upLote(form, id, elemento):
     return lote
 
 
-def upInspeccion(form, id, elemento):
+def upInspeccion(form, id, elemento, l_nuevo):
     inspeccion = getObject(id,elemento)
     
     # # Registro de campos basicos en inspeccion
@@ -157,22 +157,16 @@ def upInspeccion(form, id, elemento):
     farinografo = upFarinografo(form.farinografo, id, elemento)
     db.session.add(farinografo)
 
-    # Edicion de Lote
-    inspeccion.idlote = form.loteSelect.data
-
-    
-
-    
-    # # asignacion del campo lote
-    # if l_nuevo == "no":
-    #     # select:  Se selecciona el campo de select en el formulario y se guarda en la base
-    #     inspeccion.idlote = form.loteSelect.data
-    # else:
-    #     # Formulario: Se crea un nuevo lote y se adquire su id para agregarlo a la base
-    #     lote = regLote(form.loteForm)
-    #     db.session.add(lote)
-    #     new_lote_id = str(getLastId(Lote).idlote)
-    #     inspeccion.idlote = new_lote_id
+    if l_nuevo == "no":
+        # Edicion de Lote
+        inspeccion.idlote = form.loteSelect.data
+    else:
+        # Formulario: Se crea un nuevo lote y se adquire su id para agregarlo a la base
+        lote = regLote(form.loteForm)
+        db.session.add(lote)
+        new_lote_id = str(getLastId(Lote).idlote)
+        inspeccion.idlote = new_lote_id
+        
 
     db.session.add(inspeccion)
     db.session.commit()
