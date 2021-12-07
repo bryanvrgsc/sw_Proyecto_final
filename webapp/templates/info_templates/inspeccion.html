@@ -6,93 +6,236 @@
 {% block content %}
 
 <h2>Inspección Número {{value.id_inspeccion}} </h2>
-<div class="header-right">
-        <table class="table-header">
-                <tbody>
-                        <h3>Farinografo</h3>
-                        <tr>
-                                <th>Absorción de Agua: </th>
-                                <td>{{ value.farinografo.absorcion_agua }}</td>
-                        </tr>
-                        <tr>
-                                <th>Tolerancia: </th>
-                                <td>{{ value.farinografo.tolerancia_ub  }}</td>
-                        </tr>
-                        <tr>
-                                <th>Elasticidad: </th>
-                                <td>{{ value.farinografo.elasticidad  }}</td>
-                        </tr>
-                        <tr>
-                                <th>Viscodidad: </th>
-                                <td>{{ value.farinografo.viscodidad  }}</td>
-                        </tr>
-                        <tr>
-                                <th>Actividad Enzimática: </th>
-                                <td>{{ value.farinografo.act_enzimatica  }}</td>
-                        </tr>
-                        <tr>
-                                <th>Trigo Germinado: </th>
-                                <td>{{ value.farinografo.trigo_germinado }}</td>
-                        </tr>
-                        <tr>
-                                <th>Tiempo de Amasado: </th>
-                                <td>{{ value.farinografo.tiempo_amasado }}</td>
-                        </tr>
-                        <tr>
-                                <th>Cantidad de Gluten: </th>
-                                <td>{{ value.farinografo.cantidad_gluten }}</td>
-                        </tr>
-                        <tr>
-                                <th>Calidad de Gluten: </th>
-                                <td>{{ value.farinografo.calidad_gluten }}</td>
-                        </tr>
-                        <tr>
-                                <th>Indoneidad: </th>
-                                <td>{{ value.farinografo.indoneidad  }}</td>
-                        </tr>
-                        <tr>
-                                <th>Dureza: </th>
-                                <td>{{ value.farinografo.dureza   }}</td>
-                        </tr>
-                        <tr>
-                                <th>Reblandecimiento: </th>
-                                <td>{{ value.farinografo.reblandecimiento  }}</td>
-                        </tr>
-                        <tr>
-                                <th>Estabilidad: </th>
-                                <td>{{ value.farinografo.estabilidad  }}</td>
-                        </tr>
-                        <tr>
-                                <th>Tiempo de Desarrollo: </th>
-                                <td>{{ value.farinografo.tiempo_desarrollo   }}</td>
-                        </tr><tr>
-                                <th>Número de Calidad: </th>
-                                <td>{{ value.farinografo.qnumber  }}</td>
+<h5>Inspeccion del lote {{value.lote.idlote}} </h5>
+{% if value.certificado%}
+        <h5>Numero de Certificado: {{value.certificado[0].ncertificado}} </h5>
+{% endif %}
+
+<div class="tablas_inspeccion">
+                <table class="t_alv">
+                        <thead>
+                                <h3>Equipos Utilizados</h3>
                         
-                </tbody>
-        </table>
-        <table class="table-header">
-                <tbody>
-                        <h3>Alveografo</h3>
+
                         <tr>
-                                <th>Tenacidad: </th>
-                                <td>{{ value.alveografo.tenacidad   }}</td>
-                        </tr><tr>
-                                <th>Extensibilidad: </th>
-                                <td>{{ value.alveografo.extensibilidad   }}</td>
-                        </tr><tr>
-                                <th>Fuerza Panadera: </th>
-                                <td>{{ value.alveografo.fuerza_panadera   }}</td>
-                        </tr><tr>
-                                <th>Elasticidad: </th>
-                                <td>{{ value.alveografo.indice_elasticidad   }}</td>
+                                <th>Marca: </th>
+                                <td>{{ value.equipo_alv.marca }}</td>
                         </tr>
-                        </tr><tr>
-                                <th>Configuración de la Curva: </th>
-                                <td>{{ value.alveografo.configuracion_curva   }}</td>
+                        <tr>
+                                <th>Modelo: </th>
+                                <td>{{ value.equipo_alv.modelo }}</td>
                         </tr>
-                </tbody>
-        </table>
+                        <tr>
+                                <th>Serie: </th>
+                                <td>{{ value.equipo_alv.serie }}</td>
+                        </tr>
+                        <tr>
+                                <th>Proveedor: </th>
+                                <td>{{ value.equipo_alv.proveedor }}</td>
+                        </tr>
+                        <tr>
+                                <th>Fecha de Adquisición: </th>
+                                <td>{{ value.equipo_alv.fecha_adquisicion }}</td>
+                        </tr>
+                        <tr>
+                                <th>Fecha de Vencimiento de Garantía: </th>
+                                <td>{{ value.equipo_alv.garantia }}</td>
+                        </tr>
+                        <tr>
+                                <th>Ubicación: </th>
+                                <td>{{ value.equipo_alv.ubicacion }}</td>
+                        </tr>
+                        <tr>
+                                <th>Mantenimiento: </th>
+                                <td>{{ value.equipo_alv.mantenimiento }}</td>
+                        </tr>
+                        <tr>
+                                <th>Descripción Corta: </th>
+                                <td>{{ value.equipo_alv.descripcionc }}</td>
+                        </tr>
+                        <tr>
+                                <th>Descripción Larga: </th>
+                                <td>{{ value.equipo_alv.descripcionl }}</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                        <th>CONCEPTO</th>
+                                        <th>Resultados de la inspeccion</th>
+                                        <th>Caracteristicas del Equipo</th>
+                                </tr>
+                                <tr>
+                                        <tr>
+                                                <th>tenacidad</th>
+                                                <td>{{ value.alveografo.tenacidad }}</td>
+                                                <td>{{ value.equipo_alv.alveografo.tenacidad }}</td>
+                                        </tr>
+                                
+                                        <tr>
+                                                <th>extensibilidad</th>
+                                                <td>{{ value.alveografo.extensibilidad }}</td>
+                                                <td>{{ value.equipo_alv.alveografo.extensibilidad }}</td>
+                                        </tr>
+                                
+                                        <tr>
+                                                <th>fuerza_panadera</th>
+                                                <td>{{ value.alveografo.fuerza_panadera }}</td>
+                                                <td>{{ value.equipo_alv.alveografo.fuerza_panadera }}</td>
+                                        </tr>
+                                
+                                        <tr>
+                                                <th>indice_elasticidad</th>
+                                                <td>{{ value.alveografo.indice_elasticidad }}</td>
+                                                <td>{{ value.equipo_alv.alveografo.indice_elasticidad }}</td>
+                                        </tr>
+                                
+                                        <tr>
+                                                <th>configuracion_curva</th>
+                                                <td>{{ value.alveografo.configuracion_curva }}</td>
+                                                <td>{{ value.equipo_alv.alveografo.configuracion_curva }}</td>
+                                        </tr>
+                                                
+                                </tr>
+
+                        </tbody>
+
+                </table>
+
+                <table class="t_far">
+                        <thead>
+                                <h3>Equipos Utilizados</h3>
+                        
+
+                        <tr>
+                                <th>Marca: </th>
+                                <td>{{ value.equipo_far.marca }}</td>
+                        </tr>
+                        <tr>
+                                <th>Modelo: </th>
+                                <td>{{ value.equipo_far.modelo }}</td>
+                        </tr>
+                        <tr>
+                                <th>Serie: </th>
+                                <td>{{ value.equipo_far.serie }}</td>
+                        </tr>
+                        <tr>
+                                <th>Proveedor: </th>
+                                <td>{{ value.equipo_far.proveedor }}</td>
+                        </tr>
+                        <tr>
+                                <th>Fecha de Adquisición: </th>
+                                <td>{{ value.equipo_far.fecha_adquisicion }}</td>
+                        </tr>
+                        <tr>
+                                <th>Fecha de Vencimiento de Garantía: </th>
+                                <td>{{ value.equipo_far.garantia }}</td>
+                        </tr>
+                        <tr>
+                                <th>Ubicación: </th>
+                                <td>{{ value.equipo_far.ubicacion }}</td>
+                        </tr>
+                        <tr>
+                                <th>Mantenimiento: </th>
+                                <td>{{ value.equipo_far.mantenimiento }}</td>
+                        </tr>
+                        <tr>
+                                <th>Descripción Corta: </th>
+                                <td>{{ value.equipo_far.descripcionc }}</td>
+                        </tr>
+                        <tr>
+                                <th>Descripción Larga: </th>
+                                <td>{{ value.equipo_far.descripcionl }}</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                        <th>CONCEPTO</th>
+                                        <th>Resultados de la inspeccion</th>
+                                        <th>Caracteristicas del Equipo</th>
+                                </tr>
+                                <tr>
+                                        <th>absorcion agua</th>
+                                        <td>{{ value.farinografo.absorcion_agua}}</td>
+                                        <td>{{ value.equipo_far.farinografo.absorcion_agua}}</td>
+                                        
+                                </tr>
+                                <tr>
+                                        <th>tolerancia ub</th>
+                                        <td>{{ value.farinografo.tolerancia_ub}}</td>
+                                        <td>{{ value.equipo_far.farinografo.tolerancia_ub}}</td>
+
+                                </tr>
+                                <tr>
+                                        <th>elasticidad</th>
+                                        <td>{{ value.farinografo.elasticidad}}</td>
+                                        <td>{{ value.equipo_far.farinografo.elasticidad}}</td>
+                                <tr>
+                                        <th>viscodidad</th>
+                                        <td>{{ value.farinografo.viscodidad}}</td>
+                                        <td>{{ value.equipo_far.farinografo.viscodidad}}</td>
+                                <tr>
+                                        <th>act_enzimatica</th>
+                                        <td>{{ value.farinografo.act_enzimatica}}</td>
+                                        <td>{{ value.equipo_far.farinografo.act_enzimatica}}</td>
+
+                                </tr>
+                                <tr>
+                                        <th>trigo germinado</th>
+                                        <td>{{ value.farinografo.trigo_germinado}}</td>
+                                        <td>{{ value.equipo_far.farinografo.trigo_germinado}}</td>
+
+                                </tr>
+                                <tr>
+                                        <th>tiempo amasado</th>
+                                        <td>{{ value.farinografo.tiempo_amasado}}</td>
+                                        <td>{{ value.equipo_far.farinografo.tiempo_amasado}}</td>
+
+                                </tr>
+                                <tr>
+                                        <th>cantidad de gluten</th>
+                                        <td>{{ value.farinografo.cantidad_gluten}}</td>
+                                        <td>{{ value.equipo_far.farinografo.cantidad_gluten}}</td>
+
+                                </tr>
+                                <tr>
+                                        <th>calidad de gluten</th>
+                                        <td>{{ value.farinografo.calidad_gluten}}</td>
+                                        <td>{{ value.equipo_far.farinografo.calidad_gluten}}</td>
+
+                                </tr>
+                                <tr>
+                                        <th>indoneidad</th>
+                                        <td>{{ value.farinografo.indoneidad}}</td>
+                                        <td>{{ value.equipo_far.farinografo.indoneidad}}</td>
+                                <tr>
+                                        <th>dureza</th>
+                                        <td>{{ value.farinografo.dureza}}</td>
+                                        <td>{{ value.equipo_far.farinografo.dureza}}</td>
+                                </tr>
+                                <tr>
+                                        <th>reblandecimiento</th>
+                                        <td>{{ value.farinografo.reblandecimiento}}</td>
+                                        <td>{{ value.equipo_far.farinografo.reblandecimiento}}</td>
+                                </tr>
+                                <tr>
+                                        <th>estabilidad</th>
+                                        <td>{{ value.farinografo.estabilidad}}</td>
+                                        <td>{{ value.equipo_far.farinografo.estabilidad}}</td>
+                                </tr>
+                                <tr>
+                                        <th>tiempo_desarrollo</th>
+                                        <td>{{ value.farinografo.tiempo_desarrollo}}</td>
+                                        <td>{{ value.equipo_far.farinografo.tiempo_desarrollo}}</td>
+                                </tr>
+                                <tr>
+                                        <th>qnumber</th>
+                                        <td>{{ value.farinografo.qnumber}}</td>
+                                        <td>{{ value.equipo_far.farinografo.qnumber}}</td>
+                                </tr>
+
+                        </tbody>
+
+                </table>
 </div>
 
 

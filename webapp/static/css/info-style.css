@@ -4,16 +4,15 @@ html{
 
 body{
     height: 100%;
-    padding-top: 100px;
-    background-color: antiquewhite !important;
 }
 .content{
-    padding: 50px;
+    padding: 100px;
     width: 80%;
     margin-left: 10%;
     background-color: white;
     padding-bottom: 100px;
-    margin-bottom: 100px;
+    box-shadow: 10px 5px 5px black;
+    margin-top: 50px;
 }
 .header{
     width: 100%;
@@ -38,4 +37,70 @@ body{
 
 .ordenes{
     width: 100%;
+}
+
+.per_t{
+    width: 80%;
+}
+
+th, td{
+    text-transform: capitalize;
+}
+
+td{
+    text-align: left;
+}
+
+.per_far, .per_alv{
+    width: 48%;
+    display: inline-block;
+}
+
+.pers_info{
+    display: block;
+    margin-bottom: 30px;
+}
+
+
+.car-izquierda{
+    width: 100%
+    
+}
+
+.equipo{
+    width: 100%;
+}
+
+.t_alv, .t_far{
+    width:100%;
+}
+
+table.t_alv tbody{
+    border-radius: 25px;
+    border: 1px solid rgb(148, 148, 148);
+    text-align: center;
+}
+
+table.t_alv tbody th{
+   background-color: rgb(122, 122, 122);
+   color:rgb(255, 255, 255);
+}
+
+table.t_alv tbody td{
+    text-align: center;
+}
+
+table.t_far tbody{
+    border-radius: 25px;
+    border: 1px solid rgb(148, 148, 148);
+    text-align: center;
+}
+
+table.t_far tbody th{
+   background-color: rgb(122, 122, 122);
+   color:rgb(255, 255, 255);
+}
+
+table.t_far tbody td{
+    text-align: center;
 }

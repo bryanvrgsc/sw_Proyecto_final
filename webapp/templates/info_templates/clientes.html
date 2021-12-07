@@ -27,22 +27,114 @@
                 </div>
                 <hr>
         </div>
-        <h2>Características Especificas</h2>
-                <table class="">
-                        <tbody>
-                                <tr>
-                                        <th>Factor de Análisis: </th>
-                                        <td>{{ value.factor_analisis }}</td>
-                                </tr>
-                        </tbody>
-                </table>
 
-        <div>
+        <div class="pers_info">
+                {% if value.personalizado_far == True%}
+                        <div class="per_far">
+                                <h3>Caracteristicas  de Farinografo:</h3>
+                                <table class="per_t">
+                                        <tbody>
+                                                <tr>
+                                                        <th>absorcion agua</th>
+                                                        <td>{{ value.farinografo.absorcion_agua}}</td>
+                                                        
+                                                </tr>
+                                                <tr>
+                                                        <th>tolerancia ub</th>
+                                                        <td>{{ value.farinografo.tolerancia_ub}}</td>
 
+                                                </tr>
+                                                <tr>
+                                                        <th>elasticidad</th>
+                                                        <td>{{ value.farinografo.elasticidad}}</td>
+                                                <tr>
+                                                        <th>viscodidad</th>
+                                                        <td>{{ value.farinografo.viscodidad}}</td>
+                                                <tr>
+                                                        <th>act_enzimatica</th>
+                                                        <td>{{ value.farinografo.act_enzimatica}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                        <th>trigo germinado</th>
+                                                        <td>{{ value.farinografo.trigo_germinado}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                        <th>tiempo amasado</th>
+                                                        <td>{{ value.farinografo.tiempo_amasado}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                        <th>cantidad de gluten</th>
+                                                        <td>{{ value.farinografo.cantidad_gluten}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                        <th>calidad de gluten</th>
+                                                        <td>{{ value.farinografo.calidad_gluten}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                        <th>indoneidad</th>
+                                                        <td>{{ value.farinografo.indoneidad}}</td>
+                                                <tr>
+                                                        <th>dureza</th>
+                                                        <td>{{ value.farinografo.dureza}}</td>
+                                                </tr>
+                                                <tr>
+                                                        <th>reblandecimiento</th>
+                                                        <td>{{ value.farinografo.reblandecimiento}}</td>
+                                                </tr>
+                                                <tr>
+                                                        <th>estabilidad</th>
+                                                        <td>{{ value.farinografo.estabilidad}}</td>
+                                                </tr>
+                                                <tr>
+                                                        <th>tiempo_desarrollo</th>
+                                                        <td>{{ value.farinografo.tiempo_desarrollo}}</td>
+                                                </tr>
+                                                <tr>
+                                                        <th>qnumber</th>
+                                                        <td>{{ value.farinografo.qnumber}}</td>
+                                                </tr>
+                                        </tbody>
+                                </table>
+                        </div>
+                {% endif %}
+
+                {% if value.personalizado_alv == True%}
+                        <div class="per_alv">
+                                <h3>Caracteristicas de Alveografo </h3>
+                                <table class="per_t">
+                                        <tbody>
+                                                <tr>
+                                                        <th>tenacidad</th>
+                                                        <td>{{ value.alveografo.tenacidad }}</td>
+                                                </tr>
+                                                <tr>
+                                                        <th>extensibilidad</th>
+                                                        <td>{{ value.alveografo.extensibilidad }}</td>
+                                                </tr>
+                                                <tr>
+                                                        <th>fuerza_panadera</th>
+                                                        <td>{{ value.alveografo.fuerza_panadera }}</td>
+                                                </tr>
+                                                <tr>
+                                                        <th>indice_elasticidad</th>
+                                                        <td>{{ value.alveografo.indice_elasticidad }}</td>
+                                                </tr>
+                                                <tr>
+                                                        <th>configuracion_curva</th>
+                                                        <td>{{ value.alveografo.configuracion_curva }}</td>
+                                                </tr>
+                                        </tbody>
+                                </table>
+                        </div>
+                {% endif %}
         </div>
-        <hr>
         <div>
-                <h2>Ordenes de {{ value.nombre }} {{ value.apellido }}</h2>
+                <h2>Historial de Ordenes</h2>
                 <table class="ordenes">
                         <thead>
                                 <tr>
@@ -53,13 +145,12 @@
                                 </tr>
                         </thead>
                         <tbody>
-                                {% for orden in value.ordenes %}
+                                {% for orden in value.orden %}
                                 <tr>
                                         <td>{{orden.norden}}</td>
                                         <td>{{orden.cantidad_solicitada}}</td>
                                         <td>{{orden.fecha_creada}} </td>
                                         <td>{{orden.precio}}</td>
-                                </tr>
                                 {% endfor %}
                         </tbody>
                 </table>
@@ -72,21 +163,27 @@
                         <thead>
                                 <tr>
                                         <th>Numero de Certificado</th>
-                                        <th>Cantidad Solicitada</th>
                                         <th>Factura</th>
                                         <th>Fecha de Envio</th>
                                         <th>Fecha de Caducidad</th>
+                                        <th>Laboratorista</th>
+                                        <th>Numero de Orden</th>
                                 </tr>
                         </thead>
                         <tbody>
-                                {% for orden in value.certificados %}
+                                {% for orden in value.orden %}
+                                {% for certificado in orden.certificado %}
+
                                 <tr>
-                                        <td>{{orden.ncertificado}}</td>
-                                        <td>{{orden.cantidad_solicitada}}</td>
-                                        <td>{{orden.factura}}</td>
-                                        <td>{{orden.fecha_envio}} </td>
-                                        <td>{{orden.fecha_caducidad}}</td>
+                                        <td>{{ certificado.ncertificado }}</td>
+                                        <td>{{ certificado.factura }}</td>
+                                        <td>{{ certificado.fecha_envio }}</td>
+                                        <td>{{ certificado.fecha_caducidad }}</td>
+                                        <td>{{ certificado.laboratorista.username }}</td>
+                                        <td>{{ orden.norden }}</td>
+                                        
                                 </tr>
+                                {% endfor %}
                                 {% endfor %}
                         </tbody>
                 </table>
