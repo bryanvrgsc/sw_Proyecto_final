@@ -10,7 +10,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 
 # Database
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///site.db"
+
+db_url = f"postgres://zjwiypthloqmxj:bca6ff7ad9facce422063c90384881f4e89fba27ad30900d8e1ea7171f3bc6a3@ec2-3-95-130-249.compute-1.amazonaws.com:5432/d6s1rg4fa6mo7u"
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
