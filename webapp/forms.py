@@ -15,6 +15,12 @@ class Login(FlaskForm):
     remember = BooleanField('Recordarme')
     submit = SubmitField('Log in')
 
+    def validate_username(self,username):
+        user = Laboratorista.query.filter_by(username=username.data).first()
+        if user.active == False:
+            raise ValidationError("El usuario se encuentra inactivo")
+
+
 class Buscar(FlaskForm):
     value = StringField('value')
     search = SubmitField('Buscar')
