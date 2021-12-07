@@ -17,8 +17,9 @@ class Login(FlaskForm):
 
     def validate_username(self,username):
         user = Laboratorista.query.filter_by(username=username.data).first()
-        if user.active == False:
-            raise ValidationError("El usuario se encuentra inactivo")
+        if user:
+            if user.active == False:
+                raise ValidationError("El usuario se encuentra inactivo")
 
 
 class Buscar(FlaskForm):
