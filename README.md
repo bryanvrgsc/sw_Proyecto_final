@@ -1,4 +1,16 @@
 # Proyecto Final SW
+Sistema de Gestión de Laboratorio – Proyecto Final SW
+
+Este proyecto final implementa un sistema de gestión para un laboratorio, desarrollado en Python con un entorno virtual (venv) y una base de datos integrada. El sistema permite gestionar información crítica del laboratorio, incluyendo:
+
+* Laboratoristas y clientes
+* Equipos de laboratorio
+* Instrumentos específicos: farinógrafo, alveógrafo
+* Órdenes de laboratorio, lotes, inspecciones y certificados
+
+El proyecto incluye la creación de la base de datos a través de Python, así como la instalación de dependencias mediante requirements.txt y la ejecución del sistema con run.py. Está pensado para facilitar la administración de datos, automatizar procesos internos del laboratorio y mantener un registro detallado de todas las operaciones.
+
+Además, el repositorio incluye instrucciones para configurar el entorno virtual y la base de datos, así como capturas de pantalla que muestran la interfaz y funcionalidades del sistema.
 
 ## Instalación de Python VENV
 Crea una carpeta vacía en donde estará en VENV que vamos a crear, junto a la carpeta del proyecto
